@@ -31,6 +31,7 @@
                 {% endif %}
             </ul>
         </nav>
+
         <header>
             {% block header %}
             {% endblock %}
@@ -38,6 +39,7 @@
           {% for message in get_flashed_messages() %}
             <div class="flash"><b>{{ message }}</b></div>
           {% endfor %}
+
           {% block content %}
           {% endblock %}
 		</div>

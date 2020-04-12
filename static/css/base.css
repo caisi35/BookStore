@@ -1,0 +1,26 @@
+html { font-family: sans-serif; background: #eee; padding: 1rem; }
+body { margin: 200px auto; background: white; }
+.right{
+    float: right;
+}
+.left{
+    float: left;
+}
+.col-md-6{
+    margin: 150px auto;}
+h1 { font-family: serif; color: #377ba8; margin: 50px 100px;}
+a { color: #377ba8; }
+hr { border: none; border-top: 1px solid lightgray; }
+nav { background: lightgray; display: flex; align-items: center; padding: 0 0.5rem; }
+nav h1,header { flex: auto; margin: 20px auto;font-family: serif; color: #377ba8;
+    clear: both; }
+nav h1 a { text-decoration: none; padding: 0.25rem 0.5rem; }
+nav ul  { display: flex; list-style: none; margin: 2px 5px 5px 400px ; padding: 0; }
+nav ul li a, nav ul li span, header .action { display: block; padding: 0.5rem; }
+nav ul li{
+    margin: 0px;
+    padding: 0px;}
+.flash { margin: 1em 0; padding: 1em; background: #cae6f6;
+    color: red; border: 1px solid #377ba8; font-weight:bold; }
+input.danger { color: #cc2f2e; }
+input[type=submit] { align-self: start; min-width: 10em; }

@@ -1,0 +1,629 @@
+/*清空默认样式及初始化*/
+* {
+    margin: 0;
+    padding: 0;
+}
+
+ol, ul {
+    list-style-type: none;
+}
+
+a {
+    color: #666;
+    text-decoration: none;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+#top, #header, #nav, #banner, #book, #serve, #after_sale, #footer {
+    height: 100px;
+    width: 100%;
+    /*border: 1px solid #666;*/
+}
+
+.container {
+    width: 1280px;
+    /*border: 1px solid #f00;*/
+    margin: 0px auto;
+}
+
+/*设置页面顶部的样式*/
+#top {
+    height: 5px;
+    background-color: #c4e3f3;
+}
+
+/*设置头部样式*/
+#header {
+    height: 30px;
+    background-color: #2D2D2D;
+}
+
+#header .address {
+    color: #B2B2B2;
+}
+
+#header .header_left div a {
+    float: left;
+    line-height: 30px;
+    border-right: none;
+}
+
+#header ul {
+    margin-right: 23px;
+}
+
+#header ul li {
+    float: left;
+    line-height: 30px;
+}
+
+#header a {
+    color: #B2B2B2;
+    font-size: 14px;
+    border-right: 1px solid #B2B2B2;
+    padding: 0px 17px;
+}
+
+#header a:hover {
+    color: #00925F;
+}
+
+#header .customer_s a {
+    border: none;
+}
+
+/*设置导航栏的样式*/
+#nav {
+    height: 45px;
+    background-color: white;
+    border-bottom: 1px solid green;
+}
+
+#nav img {
+    height: 40px;
+    /*padding-top: 2px;*/
+    margin-left: 100px;
+}
+
+#nav .search_kw .search_form {: #2D2D2D;
+    margin-left: 200px;
+    line-height: 45px;
+}
+
+#nav .search_kw .search_form input {
+    font-size: 17px;
+}
+
+#nav li {
+    float: left;
+    margin-right: 40px;
+    /*border-right:  1px solid #4CAF50;*/
+    line-height: 45px;
+}
+
+#nav li a {
+    color: #666666;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#nav li a:hover {
+    color: blue;
+}
+
+/*轮播设置*/
+body {
+    background: #eee;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
+
+#banner {
+    height: 630px;
+}
+
+.swiper-container {
+    width: 100%;
+    height: 632px;
+}
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+
+    /* Center slide text vertically */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+/*// 设置网页主题部分*/
+#book {
+    /*margin-top: 40px;*/
+    clear: both;
+    height: 1120px;
+    /*border-bottom: 5px solid green;*/
+    /*background-color: #c4e3f3;*/
+}
+
+#book div .book_top {
+    text-align: center;
+    margin-top: 50px;
+    padding: 10px;
+    border-bottom: 2px solid green;
+    background-color: white;
+}
+
+#book .book_top img {
+    height: 70px;
+}
+
+#book .book_list {
+    height: 1000px;
+    background-color: white;
+}
+#book ul{
+    margin: 0px 30px 0px 30px;
+}
+#book ul li {
+
+    width: 220px;
+    /*border: 1px solid #000;*/
+    float: left;
+    margin: 20px 10px;
+    border-bottom: 4px solid #DFDFDF;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -ms-transition: all .3s;
+    -o-transition: all .3s;
+    transition: all .3s;
+}
+
+#book ul li:hover {
+    border-bottom: 4px solid #4FB59D;
+    -webkit-transform: translateY(-10px);
+    -moz-transform: translateY(-10px);
+    -ms-transform: translateY(-10px);
+    -o-transform: translateY(-10px);
+    transform: translateY(-10px);
+}
+
+#book ul li img {
+    width: 200px;
+}
+
+#book ul li p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 3px 15px;
+}
+
+#book ul li p a {
+    color: #000;
+}
+
+#book ul li a:hover {
+    color: #f4691c;
+    text-decoration: underline;
+}
+
+#book ul li .author {
+    color: #666666;
+}
+
+#book ul li p .rob {
+    color: red;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#book ul li p .price_r {
+    color: #666666;
+    text-decoration: line-through;
+    margin-left: 15px;
+}
+
+/*设置服务保障样式*/
+#serve {
+    clear: both;
+    height: 100px;
+    background-color: #fff;
+}
+
+#serve dl {
+    width: 200px;
+    height: 100px;
+    /*border: 1px solid #000;*/
+    position: relative;
+}
+
+#serve dt {
+    width: 41px;
+    height: 41px;
+    margin: 20px 10px;
+    float: left;
+}
+
+#serve dd {
+    margin: auto auto;
+    float: left;
+}
+
+#serve dl .dd1 {
+    position: absolute;
+    top: 30px;
+    left: 90px;
+    font-weight: bold;
+}
+
+#serve dl .dd2 {
+    position: absolute;
+    top: 50px;
+    left: 90px;
+    font-weight: bold;
+}
+
+#serve li {
+    float: left;
+    margin: 0px 10px;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -ms-transition: all .3s;
+    -o-transition: all .3s;
+    transition: all .3s;
+}
+
+#serve li:hover {
+    -webkit-transform: translateY(-10px);
+    -moz-transform: translateY(-10px);
+    -ms-transform: translateY(-10px);
+    -o-transform: translateY(-10px);
+    transform: translateY(-10px);
+}
+
+#serve ul {
+    width: 1100px;
+    margin: 0px 0px 0px 80px;
+    height: 100px;
+    border-bottom: 2px solid #666;
+    /*background-color: black;*/
+}
+
+/*售后服务样式*/
+#after_sale {
+    height: 150px;
+    background-color: #fff;
+}
+
+#after_sale ul {
+    padding-top: 14px;
+    margin-top: 1px;
+    margin-left: 50px;
+}
+
+#after_sale ul li {
+    width: 140px;
+    float: left;
+    text-align: center;
+    margin: 0px 20px;
+}
+
+#after_sale ol > li {
+    line-height: 30px;
+}
+
+#after_sale ol > li:first-child a {
+    font-weight: bold;
+}
+
+#after_sale .xl {
+    width: 20px;
+    height: 17px;
+    background: url("../img/icons.png") no-repeat -47px -95px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#after_sale .tx {
+    width: 20px;
+    height: 19px;
+    background: url("../img/icons.png") no-repeat -27px -92px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/*页脚样式*/
+#footer {
+    clear: both;
+    height: 40px;
+    background-color: #2D2D2D;
+}
+
+#footer li {
+    /*width: 1280px;*/
+    /*line-height: 40px;*/
+}
+
+#footer li img {
+    float: left;
+    height: 35px;
+    margin-top: 2px;
+    margin-left: 50px;
+}
+
+#footer li span {
+    float: left;
+    color: #828282;
+    margin-left: 30px;
+    margin-top: 12px;
+}
+
+#footer li a {
+    float: right;
+    color: #fff;
+    margin: 11px 20px;
+}
+
+#footer li .footer_last_li {
+    margin-right: 130px;
+}
+
+#footer li a:hover {
+    color: #00925F;
+}
+
+/*设置返回顶部样式*/
+#to_top a {
+    width: 75px;
+    height: 80px;
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    background: url("../images/totop1.png") no-repeat -3px 0px;
+}
+
+#to_top a:hover {
+    background: url("../images/totop1.png") no-repeat -88px 0px;
+}
+
+/*设置新书榜样式*/
+#book_new {
+    height: 700px;
+    clear: both;
+}
+
+#book_new .book_new_top {
+    text-align: center;
+    margin: 20px 0px;
+    border: 1px solid #00925F;
+    background-color: #fff0e6;
+
+}
+
+#book_new .book_new_top img {
+    margin: 10px auto;
+    height: 100px;
+}
+
+#book_new .new_book_main {
+    width: 1214px;
+    /*height: 850px;*/
+    margin: 10px auto;
+}
+
+#book_new .new_book_left {
+    width: 770px;
+    height: 754px;
+    border: 1px solid #00925F;
+    background-color: white;
+}
+
+#book_new .new_book_left ul li {
+    float: left;
+    width: 170px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
+
+#book_new ul li a img {
+    margin: 5px auto;
+    width: 150px;
+}
+
+#book_new .new_book_left li {
+    float: left;
+    margin: 20px 10px;
+    border-bottom: 3px solid #EAEAEA;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -ms-transition: all .3s;
+    -o-transition: all .3s;
+    transition: all .3s;
+}
+
+#book_new .new_book_left li:hover {
+    border-bottom: 3px solid #00925F;
+    -webkit-transform: translateY(-10px);
+    -moz-transform: translateY(-10px);
+    -ms-transform: translateY(-10px);
+    -o-transform: translateY(-10px);
+    transform: translateY(-10px);
+}
+
+#book_new .new_book_left li p .rob {
+    color: red;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#book_new .new_book_left li p .price_r {
+    color: #666666;
+    text-decoration: line-through;
+    margin-left: 15px;
+}
+
+#book_new .new_book_left ul li p a {
+    color: #000;
+}
+
+#book_new .new_book_left li a:hover {
+    color: #f4691c;
+    text-decoration: underline;
+}
+
+#book_new .new_book_right {
+    border: 1px solid #00925F;
+    width: 400px;
+    height: 754px;
+    background-color: white;
+}
+
+#book_new .new_book_right .new_book_title {
+    height: 50px;
+    background-color: #4CAF50;
+    font-size: 16px;
+}
+
+#book_new .new_book_right img {
+    height: 100px;
+}
+
+#book_new .new_book_right .new_book_title div {
+    width: 200px;
+    height: 50px;
+    background-color: #EAEAEA;
+    text-align: center;
+    line-height: 50px;
+    float: left;
+    border-top: 3px solid #EAEAEA;
+}
+
+#book_new .new_book_right .new_book_title div:hover {
+    border-top: 3px solid #00925F;
+    background-color: #fff;
+}
+
+#book_new .new_book_right ul li {
+    background-color: #EAEAEA;
+    margin: 20px 10px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #00925F;
+    background-color: white;
+}
+
+#book_new .new_book_right dl {
+    /*width: 180px;*/
+    height: 100px;
+    position: relative;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#book_new .new_book_right dl dt {
+    position: absolute;
+    /*top: 0px;*/
+    /*left: 0px;*/
+}
+
+#book_new .new_book_right dl dd {
+    position: absolute;
+    /*top: 0px;*/
+    left: 120px;
+}
+
+#book_new .new_book_right dl dd p {
+    padding-right: 3px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+}
+
+/*选项卡样式设置*/
+.tab ul{
+    list-style: none;
+}
+
+.tab li{
+ display: inline;
+ /*width: 24%;*/
+ text-decoration: none;
+ /*padding: 15px;*/
+ }
+
+.tab{
+    /*width: 498px;*/
+    /*height: 130px;*/
+    border: 1px solid #ddd;
+    box-shadow: 0 0 2px #ddd;
+    /*margin: 100px 0 0 100px;*/
+    /*处理超出的内容*/
+    overflow: hidden;
+}
+
+/*!*选项卡的头部*!*/
+#tab-header{
+    background-color: #F7F7F7;
+    height: 33px;
+    text-align: center;
+    position: relative;
+}
+#tab-header ul{
+    width: 500px;
+    position: absolute;
+    left: -1px;
+}
+
+#tab-header ul li.selected{
+    background-color: white;
+    font-weight: bolder;
+    border-bottom: 0;
+    border-left: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+    padding: 0;
+    color: red;
+
+}
+
+#tab-header ul li:hover{
+    color: orangered;
+}
+
+/*主要内容*/
+#tab-content .dom{
+    display: none;
+}
+
+#tab-content .dom ul li{
+    float: left;
+    /*background-color: red;*/
+    margin: 11px auto;
+    width: 400px;
+}
+
+#tab-content .dom ul li a:hover{
+    color: orange;
+}

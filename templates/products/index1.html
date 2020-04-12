@@ -1,0 +1,317 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Posts{% endblock %}</h1>
+  {% if g.user %}
+    <a class="action" href="{{ url_for('products.create') }}">New</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+{#  {% for post in posts %}#}
+{#    <article class="post">#}
+{#      <header>#}
+{#        <div>#}
+{#          <h1>{{ post['title'] }}</h1>#}
+{#          <div class="about">by {{ post['username'] }} on {{ post['created'].strftime('%Y-%m-%d') }}</div>#}
+{#        </div>#}
+{#        {% if g.user['id'] == post['author_id'] %}#}
+{#          <a class="action" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a>#}
+{#        {% endif %}#}
+{#      </header>#}
+{#      <p class="body">{{ post['body'] }}</p>#}
+{#    </article>#}
+{#    {% if not loop.last %}#}
+{#      <hr>#}
+{#    {% endif %}#}
+{#  {% endfor %}#}
+{% endblock %}
+
+
+<ul>
+                <li>
+                    <a href="#" title="Web前端设计img">
+                        <img src="{{ url_for('static', filename='images/book/1.jpg') }}">
+                    </a>
+                    <p><a href="#" title="Web前端设计p" class="name">Web前端设计</a></p>
+                    <p class="author">Caisi</p>
+                    <p class="price">
+                    <span class="rob">
+                        <span class="sign">&yen;</span>
+                        <span class="num">30</span>
+                        <span class="tail">.00</span>
+                    </span>
+                        <span class="price_r">
+                        <span class="sign">&yen;</span>
+                        <span class="num">50</span>
+                        <span class="tail">.00</span>
+                    </span>
+                    </p>
+                </li>
+                <li>
+                    <a href="#" title="Web前端设计img">
+                        <img src="../static/img/book/1.jpg">
+                    </a>
+                    <p><a href="#" title="Web前端设计p" class="name">Web前端设计</a></p>
+                    <p class="author">Caisi</p>
+                    <p class="price">
+                    <span class="rob">
+                        <span class="sign">&yen;</span>
+                        <span class="num">30</span>
+                        <span class="tail">.00</span>
+                    </span>
+                        <span class="price_r">
+                        <span class="sign">&yen;</span>
+                        <span class="num">50</span>
+                        <span class="tail">.00</span>
+                    </span>
+                    </p>
+                </li>
+                <li>
+                    <a href="#" title="Web前端设计img">
+                        <img src="../static/img/book/1.jpg">
+                    </a>
+                    <p><a href="#" title="Web前端设计p" class="name">Web前端设计</a></p>
+                    <p class="author">Caisi</p>
+                    <p class="price">
+                    <span class="rob">
+                        <span class="sign">&yen;</span>
+                        <span class="num">30</span>
+                        <span class="tail">.00</span>
+                    </span>
+                        <span class="price_r">
+                        <span class="sign">&yen;</span>
+                        <span class="num">50</span>
+                        <span class="tail">.00</span>
+                    </span>
+                    </p>
+                </li>
+                <li>
+                    <a href="#" title="Web前端设计img">
+                        <img src="../static/img/book/1.jpg">
+                    </a>
+                    <p><a href="#" title="Web前端设计p" class="name">Web前端设计</a></p>
+                    <p class="author">Caisi</p>
+                    <p class="price">
+                    <span class="rob">
+                        <span class="sign">&yen;</span>
+                        <span class="num">30</span>
+                        <span class="tail">.00</span>
+                    </span>
+                        <span class="price_r">
+                        <span class="sign">&yen;</span>
+                        <span class="num">50</span>
+                        <span class="tail">.00</span>
+                    </span>
+                    </p>
+                </li>
+                <li>
+                    <a href="#" title="Web前端设计img">
+                        <img src="../static/img/book/1.jpg">
+                    </a>
+                    <p><a href="#" title="Web前端设计p" class="name">Web前端设计</a></p>
+                    <p class="author">Caisi</p>
+                    <p class="price">
+                    <span class="rob">
+                        <span class="sign">&yen;</span>
+                        <span class="num">30</span>
+                        <span class="tail">.00</span>
+                    </span>
+                        <span class="price_r">
+                        <span class="sign">&yen;</span>
+                        <span class="num">50</span>
+                        <span class="tail">.00</span>
+                    </span>
+                    </p>
+                </li>
+                <li>
+                    <a href="#" title="Web前端设计img">
+                        <img src="../static/img/book/1.jpg">
+                    </a>
+                    <p><a href="#" title="Web前端设计p" class="name">Web前端设计</a></p>
+                    <p class="author">Caisi</p>
+                    <p class="price">
+                    <span class="rob">
+                        <span class="sign">&yen;</span>
+                        <span class="num">30</span>
+                        <span class="tail">.00</span>
+                    </span>
+                        <span class="price_r">
+                        <span class="sign">&yen;</span>
+                        <span class="num">50</span>
+                        <span class="tail">.00</span>
+                    </span>
+                    </p>
+                </li>
+                <li>
+                    <a href="#" title="Web前端设计img">
+                        <img src="../static/img/book/1.jpg">
+                    </a>
+                    <p><a href="#" title="Web前端设计p" class="name">Web前端设计</a></p>
+                    <p class="author">Caisi</p>
+                    <p class="price">
+                    <span class="rob">
+                        <span class="sign">&yen;</span>
+                        <span class="num">30</span>
+                        <span class="tail">.00</span>
+                    </span>
+                        <span class="price_r">
+                        <span class="sign">&yen;</span>
+                        <span class="num">50</span>
+                        <span class="tail">.00</span>
+                    </span>
+                    </p>
+                </li>
+                <li>
+                    <a href="#" title="Web前端设计img">
+                        <img src="../static/img/book/1.jpg">
+                    </a>
+                    <p><a href="#" title="Web前端设计p" class="name">Web前端设计</a></p>
+                    <p class="author">Caisi</p>
+                    <p class="price">
+                    <span class="rob">
+                        <span class="sign">&yen;</span>
+                        <span class="num">30</span>
+                        <span class="tail">.00</span>
+                    </span>
+                        <span class="price_r">
+                        <span class="sign">&yen;</span>
+                        <span class="num">50</span>
+                        <span class="tail">.00</span>
+                    </span>
+                    </p>
+                </li>
+                <li>
+                    <a href="#" title="Web前端设计img">
+                        <img src="../static/img/book/1.jpg">
+                    </a>
+                    <p><a href="#" title="Web前端设计p" class="name">Web前端设计</a></p>
+                    <p class="author">Caisi</p>
+                    <p class="price">
+                    <span class="rob">
+                        <span class="sign">&yen;</span>
+                        <span class="num">30</span>
+                        <span class="tail">.00</span>
+                    </span>
+                        <span class="price_r">
+                        <span class="sign">&yen;</span>
+                        <span class="num">50</span>
+                        <span class="tail">.00</span>
+                    </span>
+                    </p>
+                </li>
+                <li>
+                    <a href="#" title="Web前端设计img">
+                        <img src="../static/img/book/1.jpg">
+                    </a>
+                    <p><a href="#" title="Web前端设计p" class="name">Web前端设计</a></p>
+                    <p class="author">Caisi</p>
+                    <p class="price">
+                    <span class="rob">
+                        <span class="sign">&yen;</span>
+                        <span class="num">30</span>
+                        <span class="tail">.00</span>
+                    </span>
+                        <span class="price_r">
+                        <span class="sign">&yen;</span>
+                        <span class="num">50</span>
+                        <span class="tail">.00</span>
+                    </span>
+                    </p>
+                </li>
+                <li>
+                    <a href="#" title="Web前端设计img">
+                        <img src="../static/img/book/1.jpg">
+                    </a>
+                    <p><a href="#" title="Web前端设计p" class="name">Web前端设计</a></p>
+                    <p class="author">Caisi</p>
+                    <p class="price">
+                    <span class="rob">
+                        <span class="sign">&yen;</span>
+                        <span class="num">30</span>
+                        <span class="tail">.00</span>
+                    </span>
+                        <span class="price_r">
+                        <span class="sign">&yen;</span>
+                        <span class="num">50</span>
+                        <span class="tail">.00</span>
+                    </span>
+                    </p>
+                </li>
+                <li>
+                    <a href="#" title="Web前端设计img">
+                        <img src="../static/img/book/1.jpg">
+                    </a>
+                    <p><a href="#" title="Web前端设计p" class="name">Web前端设计</a></p>
+                    <p class="author">Caisi</p>
+                    <p class="price">
+                    <span class="rob">
+                        <span class="sign">&yen;</span>
+                        <span class="num">30</span>
+                        <span class="tail">.00</span>
+                    </span>
+                        <span class="price_r">
+                        <span class="sign">&yen;</span>
+                        <span class="num">50</span>
+                        <span class="tail">.00</span>
+                    </span>
+                    </p>
+                </li>
+                <li>
+                    <a href="#" title="Web前端设计img">
+                        <img src="../static/img/book/1.jpg">
+                    </a>
+                    <p><a href="#" title="Web前端设计p" class="name">Web前端设计</a></p>
+                    <p class="author">Caisi</p>
+                    <p class="price">
+                    <span class="rob">
+                        <span class="sign">&yen;</span>
+                        <span class="num">30</span>
+                        <span class="tail">.00</span>
+                    </span>
+                        <span class="price_r">
+                        <span class="sign">&yen;</span>
+                        <span class="num">50</span>
+                        <span class="tail">.00</span>
+                    </span>
+                    </p>
+                </li>
+                <li>
+                    <a href="#" title="Web前端设计img">
+                        <img src="../static/img/book/1.jpg">
+                    </a>
+                    <p><a href="#" title="Web前端设计p" class="name">Web前端设计</a></p>
+                    <p class="author">Caisi</p>
+                    <p class="price">
+                    <span class="rob">
+                        <span class="sign">&yen;</span>
+                        <span class="num">30</span>
+                        <span class="tail">.00</span>
+                    </span>
+                        <span class="price_r">
+                        <span class="sign">&yen;</span>
+                        <span class="num">50</span>
+                        <span class="tail">.00</span>
+                    </span>
+                    </p>
+                </li>
+                <li>
+                    <a href="#" title="Web前端设计img">
+                        <img src="../static/img/book/1.jpg">
+                    </a>
+                    <p><a href="#" title="Web前端设计p" class="name">Web前端设计</a></p>
+                    <p class="author">Caisi</p>
+                    <p class="price">
+                    <span class="rob">
+                        <span class="sign">&yen;</span>
+                        <span class="num">30</span>
+                        <span class="tail">.00</span>
+                    </span>
+                        <span class="price_r">
+                        <span class="sign">&yen;</span>
+                        <span class="num">50</span>
+                        <span class="tail">.00</span>
+                    </span>
+                    </p>
+                </li>
+            </ul>

@@ -10,7 +10,6 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
     )
 
-
     # 注册user蓝图，用于登录、注册、注销、账户管理等
     app.register_blueprint(user.bp)
 
