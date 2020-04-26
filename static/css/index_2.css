@@ -340,7 +340,7 @@ body {
 #after_sale .xl {
     width: 20px;
     height: 17px;
-    background: url("../img/icons.png") no-repeat -47px -95px;
+    background: url("../images/icons.png") no-repeat -47px -95px;
     display: inline-block;
     vertical-align: middle;
 }
@@ -348,7 +348,7 @@ body {
 #after_sale .tx {
     width: 20px;
     height: 19px;
-    background: url("../img/icons.png") no-repeat -27px -92px;
+    background: url("../images/icons.png") no-repeat -27px -92px;
     display: inline-block;
     vertical-align: middle;
 }
@@ -623,7 +623,13 @@ body {
     margin: 11px auto;
     width: 400px;
 }
-
+#tab-content .dom ul li dl dd {
+    margin-right: 6px;
+}
 #tab-content .dom ul li a:hover{
     color: orange;
+}
+
+#tab-content .dom ul li dl dt img{
+    width: 100px;
 }

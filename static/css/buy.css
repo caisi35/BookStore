@@ -1,0 +1,164 @@
+body {
+    background-color: white;
+}
+
+.con_info {
+    width: 250px;
+}
+
+.con_info {
+    border: 2px solid red;
+}
+
+.con_info th, td {
+    margin: 3px;
+}
+
+.book_img img {
+    clear: both;
+    width: 120px;
+    margin: 10px auto;
+}
+
+.book_name {
+    margin: 100px 30px;
+    /*padding-top: 60px;*/
+}
+
+.content {
+    text-align: center;
+}
+
+.right span {
+    margin: 10px;
+}
+
+.sum {
+    color: red;
+    font-size: 18px;
+    margin-right: 20px;
+}
+
+.info div {
+    margin-right: 30px;
+}
+
+.time {
+    clear: both;
+}
+
+.form {
+    clear: both;
+}
+
+.con_add {
+    margin: 30px;
+}
+
+.order_det {
+    background-color: #cae6f6;
+}
+
+.pay_btn a {
+    border-radius: 15px;
+    font-size: 16px;
+    clear: both;
+    color: white;
+    background-color: red;
+    padding: 10px 17px;
+
+}
+
+.num {
+    margin: 100px auto;
+}
+
+.to_pay {
+    clear: both;
+    margin: 10px;
+}
+
+a:hover {
+    color: #ff645d;
+}
+
+.title {
+    /*border: 2px solid #666666;*/
+    width: 555px;
+    color: #f4691c;
+    margin-left: 150px;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.u-icon-radioSB {
+    clear: both;
+    width: 22px;
+    height: 22px;
+    border-radius: 100%;
+    position: relative;
+    background: #f4691c;
+}
+
+.u-icon-radioSB::after {
+    position: absolute;
+    top: 2px;
+    left: 7px;
+    width: 6px;
+    height: 12px;
+    border-style: solid;
+    border-color: #fff;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotateZ(45deg);
+    content: "";
+}
+
+.to_cart {
+    text-align: center;
+    margin-top: 150px;
+}
+
+.to_cart a {
+    border-radius: 15px;
+    font-size: 16px;
+    color: white;
+    background-color: red;
+    padding: 10px 17px;
+}
+
+.book {
+    margin-left: 55px;
+    /*border: 2px solid #666666;*/
+}
+
+.btn_to_cart {
+    width: 400px;
+}
+
+.logo img {
+    width: 250px;
+    margin: 10px auto;
+}
+
+/*购物车为空*/
+.cart_em, .to_products {
+    /*border: 1px solid;*/
+    position: relative;
+    margin-left: 50px;
+    height:  200px;
+}
+
+.cart_em h3 {
+    color: red;
+}
+
+.to_products a {
+    position: absolute;
+    border-radius: 15px;
+    font-size: 16px;
+    color: white;
+    background-color: red;
+    padding: 10px 17px;
+    /*margin: 30px 22px 30px 22px;*/
+
+}

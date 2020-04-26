@@ -1,0 +1,93 @@
+{% extends 'block_buy_cart.html' %}
+
+{% block buy_cart %}
+
+    {% if books %}
+        <div class="row clearfix">
+            <div class="col-md-1 column">
+            </div>
+            <div class="col-md-10 column">
+                <div class="cart_title"><h3>购物车</h3></div>
+
+                <table class="table table-hover" id="table">
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" class="checkOnly" name="checkbox_v1" value="version1"
+                                   onclick="allSelect('checkbox_v1', 'checkbox1')"><span>全选</span></th>
+                        <th class="content">
+                            商品名称
+                        </th>
+                        <th class="content">
+                            单价
+                        </th>
+                        <th class="content">
+                            数量
+                        </th>
+                        <th class="content">
+                            总价
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for book in books %}
+                        <tr>
+                            <td><div><input class="dan_select check" type="checkbox" name="checkbox1" value="layer1"
+                                       onclick="my_func()"
+                                       onclick="singleSelect2parent('checkbox_v1', 'checkbox1')">
+                                <input type="hidden" name="book_id" value={{ book['_id'] }}></div>
+                            </td>
+                            <td>
+                                <div class="book_img left"><img src={{ book['img_url'] }}></div>
+                                <div class="title"><a
+                                        href="{{ url_for('products.product', id=book['_id']) }}">{{ book.title }}</a>
+                                </div>
+                            </td>
+                            <td class="price">
+                                {{ book.price }}
+                            </td>
+                            <td class="content book_num">
+                                 <span>
+                                     <input type="button" value="-" class="reduces">
+                                     <span class="span">{{ book.book_num }}</span>
+                                     <input type="button" value="+" class="adds">
+                                     <input type="hidden" name="book_id" value={{ book['_id'] }}>
+                                 </span>
+                            </td>
+                            <td>
+                                <span class="prices">{{ book['sum_price'] }}</span><span>￥</span>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-1 column">
+            </div>
+        </div>
+        <div class="to_pay right">
+
+            <div>
+                <span class="sum_books">共<span id="count">0</span>件商品</span>
+                <span>总金额：</span>
+                <span class="sum_mon">0</span>￥
+                {#                <span class="con_mon">0</span><span>（含运费元）</span>#}
+            </div>
+            <br>
+            <div class="btn pay_btn right"><a href="#" type="button" onclick="to_buy()">结算</a></div>
+        </div>
+    {% else %}
+        <tr>
+            <td>
+                <div class="cart_em left">
+                    <h3 class="left">您的购物车为空！</h3>
+                    <div class="to_products  btn">
+                        <a type="button" href="{{ url_for('products.index') }}">去添加购物</a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    {% endif %}
+    <script>
+
+    </script>
+{% endblock %}

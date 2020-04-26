@@ -1,0 +1,140 @@
+{% extends 'block_buy_cart.html' %}
+
+{% block buy_cart %}
+    <div class="row clearfix">
+        <div class="col-md-1 column">
+        </div>
+        <div class="col-md-10 column">
+            <h3>
+                收货人信息
+            </h3>
+            <table class="table table-hover con_info">
+                <thead>
+                <tr>
+                    <th>
+                        <span class="name ">黄彩思</span>
+                        <span class="tel right"> {{ user.tel }}</span>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="success">
+                    <td>
+                        <span class="address">中国 广西 贺州市 八步区 贺街镇 东球村</span>
+                    </td>
+                </tr>
+                <tr class="info">
+                    <td>
+                        <div>
+                            <a class="edit">编辑</a>
+                            <a class="default">设为默认地址</a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div>
+                <a type="button" href="#" class="btn btn-default left">新增收货地址 +</a>
+            </div>
+        </div>
+        <div class="col-md-1 column">
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-1 column">
+        </div>
+        <div class="col-md-10 column">
+            <h3>收货清单</h3>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th class="content">
+                        商品名称
+                    </th>
+                    <th class="content">
+                        单价
+                    </th>
+                    <th class="content">
+                        数量
+                    </th>
+                    <th class="content">
+                        总价
+                    </th>
+                </tr>
+                </thead>
+                <script type="text/javascript">
+                    var books_ = new Array();
+                    var i = 0;
+                </script>
+                <tbody>
+                {% for book in books %}
+                    <script type="text/javascript">books_[i] ='{{ book._id }}';i++</script>
+                    <tr>
+                        <td>
+                            <div class="book_img left"><img src={{ book['img_url'] }}></div>
+                            <div class="title"><a
+                                    href="{{ url_for('products.product', id=book['_id']) }}">{{ book.title }}</a></div>
+                        </td>
+                        <td class="content">
+                            {{ book.price }}
+                        </td>
+                        <td class="content">
+                            {{ book.book_num }}
+                        </td>
+                        <td class="content">
+                            {{ book['sum_price'] }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="4">
+                        <div class="right">
+                            <span>{{ books_price.package }}个包裹</span>
+                            <span>商品金额：{{ books_price.sum_price }}￥</span>
+                            <span>运费：{{ books_price.freight }}￥</span>
+                            <span>促销优惠：-  {{ books_price.discount }}￥</span>
+                        </div>
+                        <br><br>
+                        <div class="right"><span>合计：</span><span
+                                class="sum">{{ books_price.sum }}￥</span></div>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-1 column">
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-1 column">
+        </div>
+        <div class="col-md-10 column order_det">
+            <div class="con_add ">
+                <address class="right"><strong>寄送至：</strong><span>中国 广西 贺州市 八步区 贺街镇 东球村</span>
+                    <span>{{ user.name }}</span>
+                    <abbr title="Phone">{{ user.tel }}</abbr>
+                </address>
+                <br>
+                <p class="right time">预计{{ user['createtime'].strftime('%Y年%m月%d日') }}送达</p>
+            </div>
+            <div class="to_pay right">
+                <div>
+                    <span class="sum_books">共{{ pay.sum_book }}件商品</span>
+                    <span>应付金额：</span>
+                    <span class="sum_mon" id="amount_pay">{{ pay['amount_pay'] }}</span>
+                    <span class="con_mon">（含运费{{ pay.freight }}元）</span>
+                </div>
+                <br>
+                <div class="btn pay_btn right"><a href="#" type="button" onclick="to_pay()">去支付</a></div>
+
+            </div>
+        </div>
+        <div class="col-md-1 column">
+        </div>
+    </div>
+    <script type="text/javascript">
+        var books_ =
+        {{ books }}
+    </script>
+{% endblock %}

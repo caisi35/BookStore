@@ -1,0 +1,19 @@
+{% extends 'block_buy_cart.html' %}
+{% block link %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pay.css') }}">
+{% endblock %}
+{% block buy_cart %}
+    <div>
+        <div class="pay_method">
+            {% if pay_method == '支付宝支付' %}
+                <p>{{ pay_method }}</p>
+                <div>
+                    <img src="{{ url_for('static',filename='images/pay/zhifubao.jpg') }}">
+                </div>
+            {% elif pay_method == '微信支付' %}
+                <p>{{ pay_method }}</p>
+                <img src="{{ url_for('static',filename='images/weixin.png') }}">
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

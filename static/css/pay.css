@@ -1,0 +1,227 @@
+.order, .pay {
+    /*border: 1px solid;*/
+}
+
+.order {
+    height: 60px;
+
+}
+
+.order div {
+    margin: 20px auto;
+    margin-left: 30px;
+    font-size: 16px;
+}
+
+.order_no span {
+    margin-left: 30px;
+}
+
+.pay {
+    /*height: 240px;*/
+}
+
+.pay div {
+    margin: 10px 30px;
+
+}
+
+
+.pay button {
+    clear: both;
+    margin-left: 30px;
+    background-color: red;
+    color: white;
+    margin: 14px 30px;
+}
+
+.bank p {
+    clear: both;
+    margin-top: 50px;
+    /*border: 2px solid red;*/
+}
+
+.bank * {
+    clear: both;
+    margin: 20px auto;
+}
+
+.bank_link a {
+    margin: 10px 20px;
+    color: green;
+    border-right: 2px solid;
+    padding-right: 17px;
+
+}
+
+.bank_link a:hover {
+    color: blue;
+}
+
+.pay_method img {
+    height: 300px;
+}
+
+.pay_method {
+    margin: 0px auto;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Glyphicons Halflings", "Microsoft YaHei";
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+button {
+    width: 180px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    border-radius: 6px;
+    border: none;
+    background: linear-gradient(#749dcf, #1c7ecf);
+    color: #FFFFff;
+    cursor: pointer;
+    outline: none;
+}
+
+button:hover {
+    background: #1c7ecf;
+    cursor: pointer;
+}
+
+.poptop {
+    /*width: 100%;*/
+    /*height: 120px;*/
+    line-height: 120px;
+    text-align: center;
+    border-bottom: 1px solid #F2F2F2;
+    position: relative;
+}
+
+.poptop h4 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #749dcf;
+}
+
+.popbox a.close {
+    position: absolute;
+    right: 0;
+    top: -1px;
+    font-size: 20px;
+    font-weight: bold;
+    width: 36px;
+    height: 36px;
+    background: url("../images/popbox-close.png") center no-repeat;
+}
+
+.graybox {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9;
+}
+
+.popbox {
+    text-align: center; /*让div内部文字居中*/
+    background-color: #fff;
+    border-radius: 5px;
+    width: 540px;
+    height: 400px;
+    margin: auto;
+    position: absolute;
+    top: 30%;
+    left: 0;
+    right: 0;
+    bottom: 60%;
+
+    /*width: 600px;*/
+    /*padding-bottom: 30px;*/
+    /*border-radius: 6px;*/
+    background: #FFFFff;
+    /*position: absolute;*/
+    /*left: 50%;*/
+    /*margin-left: -250px;*/
+    /*top: 26%;*/
+    z-index: 19;
+}
+
+.pay_QR {
+    width: 400px;
+    border: 1px solid;
+    /*子元素水平居中*/
+    text-align: center;
+    display: none;
+}
+
+.pay_QR img {
+    height: 200px;
+    margin: 15px auto;
+
+}
+
+div.amount span {
+    font-size: 17px;
+    margin-top: 15px;
+}
+
+.go_pay {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    height: 720px;
+}
+
+button.close {
+    background-color: #ff11cd;
+    font-size: 16px;
+    margin-right: 56px;
+}
+
+li.pay_img label {
+    /*border: 1px solid;*/
+    margin: 10px 30px;
+}
+
+li.pay_img label input {
+    display: none;
+}
+
+div.pay ul li:last-of-type label {
+    border: 2px solid red;
+}
+
+div.poptop * {
+    margin: 0px;
+    padding: 0px;
+}
+
+div.pay_order_no span {
+    /*border: 1px solid;*/
+    color: #828282;
+    font-size: 17px;
+    margin: 5px auto;
+}
+
+.poptop {
+    height: 100px;
+}
+
+.pay_title {
+    /*border: 2px solid;*/
+    margin: 11px;
+
+}
+
+.pay_title, .pay_order_no {
+    /*margin: 45px auto;*/
+}

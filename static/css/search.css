@@ -1,0 +1,28 @@
+.col-md-4 img {
+    width: 200px;
+}
+
+.search_list ul {
+    margin-top: 30px;
+}
+
+.search_list ul li {
+    border-bottom: 2px solid #2D2D2D;
+    margin-bottom: 30px;
+}
+
+.search_btn {
+    clear: both;
+    /*border: 2px solid;*/
+    /*margin-right: 333px;*/
+    /*margin-bottom: 50px;*/
+    position: absolute;
+    left: 220px;
+    bottom: 20px;
+}
+
+.book_detail, .col-md-8 {
+    position: relative;
+    /*border: 2px solid;*/
+
+}

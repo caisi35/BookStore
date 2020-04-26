@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登陆弹框</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
+    <style type="text/css">
+        .mypop {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            margin: auto;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "Glyphicons Halflings", "Microsoft YaHei";
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        a, a:hover, label, input[type="checkbox"] {
+            cursor: pointer;
+        }
+
+        .clearfix:after {
+            content: '';
+            height: 0;
+            display: block;
+            visibility: hidden;
+            clear: both;
+        }
+
+        .clearfix {
+            zoom: 1;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        button {
+            width: 180px;
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            border-radius: 6px;
+            border: none;
+            background: linear-gradient(#749dcf, #1c7ecf);
+            color: #FFFFff;
+            cursor: pointer;
+            outline: none;
+        }
+
+        button:hover {
+            background: #1c7ecf;
+            cursor: pointer;
+        }
+
+        .graybox {
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, .6);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9;
+        }
+
+        .popbox {
+            width: 600px;
+            padding-bottom: 30px;
+            border-radius: 6px;
+            background: #FFFFff;
+            position: absolute;
+            left: 50%;
+            margin-left: -250px;
+            top: 26%;
+            z-index: 19;
+        }
+
+        .poptop {
+            width: 100%;
+            height: 120px;
+            line-height: 120px;
+            text-align: center;
+            border-bottom: 1px solid #F2F2F2;
+            position: relative;
+        }
+
+        .poptop h3 {
+            font-size: 32px;
+            font-weight: 600;
+            color: #749dcf;
+        }
+
+        .poptop a.close {
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 20px;
+            font-weight: bold;
+            width: 36px;
+            height: 36px;
+            background: url("../static/images/popbox-close.png") center no-repeat;
+        }
+
+        .popcon {
+            padding: 20px 50px;
+        }
+
+        .popcon .group {
+            position: relative;
+        }
+
+        .popcon .group input[type="text"] {
+            color: #999999;
+        }
+
+        .popcon .group i {
+            position: absolute;
+            left: 12px;
+            top: 28px;
+            font-size: 20px;
+            color: #bbbbbb;
+        }
+
+        .popcon input[type="text"] {
+            width: 100%;
+            height: 36px;
+            line-height: 36px;
+            border-radius: 26px;
+            margin-top: 20px;
+            padding: 0 10px 0 40px;
+            border: none;
+            background: #f0f0f0;
+        }
+
+        .popcon input:focus {
+            outline: none;
+            background: #DDDDDD;
+        }
+
+        /*点击输入框之后图标颜色改变*/
+        .popcon .group input:focus + i {
+            color: #749dcf;
+        }
+
+        .popcon .remember {
+            font-size: 12px;
+            margin-top: 15px;
+            color: #749dcf;
+        }
+
+        .popcon .remember .remember-con {
+            width: 50%;
+            display: block;
+            float: left;
+        }
+
+        .popcon input[type="checkbox"] {
+            vertical-align: -1px;
+            margin-right: -2px;
+        }
+
+        /*自定义checked样式*/
+        .popcon .remember .inputbox {
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            width: 15px;
+            height: 13px;
+            border-radius: 2px;
+            border: 1px solid #749dcf;
+            background: #FFFFff;
+        }
+
+        /*自定义checked选中之后的样式*/
+        .popcon .remember .inputbox:checked {
+            border: 1px solid #749dcf;
+            background: #FFFFff url("../static/images/dh.png") center no-repeat;
+            cursor: pointer;
+        }
+
+        .popcon .remember .code {
+            display: block;
+            float: right;
+            font-size: 14px;
+            color: #749dcf;
+        }
+
+        .popcon .remember .code:hover {
+            text-decoration: underline;
+            color: #749dcf;
+        }
+
+        .popcon .remember .fa-question-circle {
+            color: #749dcf;
+            margin-right: 3px;
+        }
+
+        .divbtn {
+            width: 260px;
+            margin: 20px auto 0;
+        }
+
+        .divbtn .btn {
+            display: block;
+            float: left;
+            width: 120px;
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            border-radius: 6px;
+            background: #eeeeee;
+            color: #464646;
+        }
+
+        .divbtn .btn:hover {
+            background: #DDDDDD;
+        }
+
+        .divbtn .ok {
+            background: #749dcf;
+            margin-left: 20px;
+            color: #FFFFff;
+        }
+
+        .divbtn .ok:hover {
+            background: #5e8ecf;
+        }
+
+
+    </style>
+</head>
+<body>
+<button>点击我出现弹框</button>
+<div class="mypop" style="display: none">
+    <div class="graybox"></div>
+    <div class="popbox">
+        <div class="poptop">
+            <h3>登录</h3>
+            <a href="#" class="close"></a>
+        </div>
+        <div class="popcon">
+            <div>
+                <div class="group">
+                    <input type="text" value="请输入帐号" onFocus="if(value=='请输入帐号') {value=''}"
+                           onBlur="if(value==''){value='请输入帐号'}">
+                    <i class="fa fa-user"></i>
+                </div>
+                <div class="group">
+                    <input type="text" value="请输入密码" onFocus="if(value=='请输入密码') {value=''}"
+                           onBlur="if(value==''){value='请输入密码'}">
+                    <i class="fa fa-lock"></i>
+                </div>
+            </div>
+            <div class="remember clearfix">
+                <div class="remember-con">
+                    <input type="checkbox" id="input1" class="inputbox">
+                    <label for="input1">记住密码</label>
+                </div>
+                <div class="remember-con">
+                    <a href="#" class="code"><i class="fa fa-question-circle"></i>忘记密码</a>
+                </div>
+            </div>
+        </div>
+        <div class="divbtn clearfix">
+            <a href="#" class="btn" id="cancel">取消</a>
+            <a href="#" class="btn ok">登陆</a>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.staticfile.org/jquery/1.4.4/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('button').click(function () {
+            $('.mypop').show();
+        });
+        $('.close,#cancel').click(function () {
+            $('.mypop').hide();
+        })
+    })
+</script>
+</body>
+</html>

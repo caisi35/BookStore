@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyBookStore</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+{#    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>#}
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index_2.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/buy.css') }}">
+    {% block link %}{% endblock %}
+</head>
+<body>
+
+<div class="container">
+    <!--页面头部-->
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+
+            <div id="header">
+                <div class="container">
+                    <div class="header_left left">
+                        <div class="address"><a>送至：</a></div>
+                    </div>
+                    <ul class="right">
+                        {% if session['user_id'] %}
+                            {% if user.name %}
+                                <li>
+                                    <a href="{{ url_for('user.login') }}">{{ user['name'] }}</a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{{ url_for('user.login') }}">{{ user['tel'] }}</a>
+                                </li>
+                            {% endif %}
+                            <li><a href="{{ url_for('user.logout') }}">注销</a></li>
+                        {% else %}
+                            <li>
+                                <a href="{{ url_for('user.login') }}">登录</a>
+                            </li>
+                        {% endif %}
+                        <li><a href="{{ url_for('products.cart') }}">购物车</a></li>
+                        <li><a href="#">我的书屋</a></li>
+                        <li><a href="#">企业采购</a></li>
+                        <li class="customer_s"><a href="#">客户服务</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--面包屑导航-->
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <ul class="breadcrumb">
+                <li>
+                    <div class="logo"><a href="{{ url_for('products.index') }}">
+                        <img src="{{ url_for('static', filename='images/logo.jpg') }}"></a>
+                    </div>
+                </li>
+                <li><a href="#">我的购物车</a></li>
+                <li><a href="#">填写订单</a></li>
+                <li class="active">完成订单</li>
+            </ul>
+        </div>
+    </div>
+    {% block buy_cart %}
+    {% endblock %}
+    <!--页面底部-->
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+
+            <div id="footer">
+                <div>
+                    <ul>
+                        <li><img src="{{ url_for('static', filename='images/logo.jpg') }}/"></li>
+                        <li><span>@2017-2021  贺州市</span></li>
+                        <li><a class="footer_last_li" href="#">版权说明</a></li>
+                        <li><a href="#">版权说明</a></li>
+                        <li><a href="#">版权说明</a></li>
+                        <li><a href="#">版权说明</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/cart.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/pay.js') }}"></script>
+{% block script %}{% endblock %}
+</body>
+</html>

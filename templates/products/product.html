@@ -1,0 +1,44 @@
+{% extends 'block_index.html' %}
+
+{% block product %}
+    <div class="container product">
+        <div class="col-md-4 column left">
+            <img alt="140x140" src="{{ book.img_url }}"/>
+        </div>
+        <div class="col-md-8 column left">
+            <div class="book_detail">
+                <div class="title"><h1>{{ book.title }}</h1></div>
+                <div class="subheading"><p>{{ book.subheading }}</p></div>
+                <div class="author author_a left">
+                    <span>作者：</span>
+                    <a href="{{ url_for('products.search', word=book['author']) }}">{{ book.author }}</a>
+                </div>
+                <div class="press author_a left">
+                    <span>出版社：</span>
+                    <a href="{{ url_for('products.search', word=book['press']) }}">{{ book.press }}</a>
+                </div>
+                <div class="pub_time left"><span>{{ book.pub_time }}</span></div>
+                <div class="price"><h1>￥{{ book.price }}</h1></div>
+                <div class="price_m"><span>定价：</span><span class="old">￥{{ book.price_m }}</span></div>
+            </div>
+            <div class="button">
+                <form method="post">
+                <div class="left">
+                    <input class="book_num left" id="cut" type="button" value="-" onclick="reductionOf(this)">
+                    <input class="book-num left" name="num" id="num" type="text" value="1" onblur="checkNumber(this)">
+                    <input class="book_num" type="button" id="add" value="+" onclick="add(this)">
+                    <input type="hidden" name="book_id" value={{ book['_id'] }}>
+                </div>
+                <div class="cart left">
+                    <button type="submit" id="calculate"
+                       class="btn btn-default left">加入购物车</button>
+                </div>
+                <div class="pay">
+                    <a type="button" href="{{ url_for('products.buy', book_id=book['_id']) }}"
+                       class="btn btn-default left">立即购买(1)</a>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

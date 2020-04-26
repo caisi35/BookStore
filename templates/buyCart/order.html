@@ -1,0 +1,17 @@
+{% extends 'block_buy_cart.html' %}
+{% block buy_cart %}
+    {% if order_no %}
+        <div>
+            <p><span>订单号：</span>{{ order_no.order_no }}</p>
+            <p><span>金额：</span>{{ order_no.amount }}￥</p>
+            <p><span>提交日期：</span><span>{{ order_no['create_time'][:4] }}年</span>
+                <span>{{ order_no['create_time'][4:6] }}月</span>
+                <span>{{ order_no['create_time'][6:8] }}日</span>
+                <span>{{ order_no['create_time'][8:10] }}:</span>
+                <span>{{ order_no['create_time'][10:12] }}</span></p>
+        </div>
+    {% endif %}
+    <div>
+        <a href="{{ url_for('products.cart') }}" class="btn" type="bottom">返回购物车</a>
+    </div>
+{% endblock %}

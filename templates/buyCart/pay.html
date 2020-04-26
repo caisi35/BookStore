@@ -1,0 +1,70 @@
+{% extends 'block_buy_cart.html' %}
+{% block link %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pay.css') }}">
+{% endblock %}
+
+{% block buy_cart %}
+    {#    orders是游标，只能循环一次得结果#}
+    {% for order in orders %}
+        <div class="go_pay">
+            <div class="order">
+                <div class="left"><span>支付金额：</span><span>{{ order['amount'] }}￥</span></div>
+                <div class="order_no left"><span>订单号：</span><a
+                        href="{{ url_for('products.order', order_no=order['order_no']) }}">{{ order['order_no'] }}</a>
+                </div>
+            </div>
+            <div class="pay">
+                {% if orders %}
+                    <div>
+                        <p>常用支付方式</p>
+                        <ul class="left">
+                            {% for image in images %}
+                                <li class="pay_img left">
+                                    <label class="pay_label" onclick="pay_click()">
+                                        <input class="pay_input" type="radio" name="pay" value="{{ image.name }}">
+                                        <img src="data:;base64,{{ image.data | safe }}" alt={{ image.name }}/>
+                                    </label>
+
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <p><br></p>
+                        <button class="btn left" onclick="pay_method_fun()">立即支付</button>
+                    </div>
+                    <div class="bank">
+                        <p>其他支付平台和银行</p>
+                        <div class="bank_link">
+                            <a>建设银行</a>
+                            <a>中国银行</a><a>农业银行</a><a>中信银行</a><a>广发银行</a><a>中国工商银行</a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            {% for order in orders %}{{ order }}{% endfor %}
+            <div class="pay_QR">
+                <div class="graybox"></div>
+                <div class="popbox">
+                    <div class="poptop">
+                        <div class="pay_title left" ><h4 id="pay_title_fun">支付宝扫码支付</h4></div>
+                        <div class="pay_order_no"><span>订单号：</span><span>{{ order['order_no'] }}</span></div>
+                        <a href="#" class="close"></a>
+                    </div>
+                    <div>
+                        <div class="amount"><span>支付 {{ order['amount'] }} ￥元</span></div>
+                        <img id="pay_img_QR" src='/static/images/pay/zhifubao_payQR.png'>
+                    </div>
+                    <div>
+                        <div>
+                            <button class="close">取消支付</button>
+                        </div>
+                        <div>
+                            <button class="success" onclick="to_orders('{{ order['order_no'] }}')">若支付成功，请点击！
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>{% endfor %}
+{% endblock %}
+{% block script %}
+{% endblock %}

@@ -1,0 +1,107 @@
+
+.product {
+    /*width: 1280px;*/
+    /*height: 500px;*/
+    /*background-color: white;*/
+    /*border: 1px solid #00925F;*/
+}
+
+.col-md-4 {
+    width: 400px;
+    padding: 30px 5px;
+    display: flex; /*设置为弹性容器*/
+    align-items: center; /*定义div的元素垂直居中*/
+    justify-content: center; /*定义div的里的元素水平居中*/
+        background-color: white;
+
+}
+
+.col-md-8 {
+    width: 800px;
+    padding: 30px 20px;
+    /*background-color: white;*/
+
+}
+
+/*副标题*/
+.subheading {
+    font-size: 16px;
+    margin: 5px;
+}
+
+/*、出版社、出版时间*/
+.pub_time, .press {
+    margin: 3px 15px;
+}
+
+/*作者*/
+.author {
+    margin: 3px 15px 3px 5px;
+
+}
+
+.author_a a {
+    color: blue;
+}
+
+.author_a a:hover {
+    color: #f4691c;
+    text-decoration: underline;
+}
+
+
+.product .price {
+    clear: both;
+    color: red;
+    margin: 60px 0px 10px 0px;
+}
+
+.price_m {
+    color: #666666;
+}
+
+.old {
+    text-decoration: line-through;
+}
+
+.book_num{
+    width: 40px;
+    height: 33px;
+    border: 2px white;
+    font-size: 20px;
+}
+.book-num{
+    text-align: center;
+    width: 40px;
+    height: 29px;
+}
+
+.button{
+    margin: 50px;
+}
+
+.cart button, .pay a{
+    margin: 0px 15px;
+    font-size: 18px;
+    color: red;
+    border: 1px solid red;
+    padding: 5px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+.cart button:hover{
+    color: #007aff;
+}
+.cart button{
+    color: white;
+    background-color: red;
+}
+
+
+
+
+
+
+
+
