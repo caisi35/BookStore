@@ -51,11 +51,9 @@ def login():
         password = request.form['password']
         db = ToConn()
         error = None
-        print(username)
         user = db.get_db(
             'select * from users where tel = %s', (username,)
         ).fetchone()
-        print('=============', user)
         if user is None:
             error = 'Incorrect username or password'
         elif username != str(user['tel']):
@@ -65,6 +63,7 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['id']
+            session['user_name'] = user['name']
             return redirect(url_for('index'))
         flash(error)
     return render_template('user/login.html')
@@ -76,7 +75,7 @@ def load_logged_in_user():
     注册用户session
     :return:
     """
-    user_id = session.get('user_id')
+    user_id = session.get('id')
     if user_id is None:
         g.user = None
     else:
@@ -96,7 +95,7 @@ def logout():
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
-        if g.user is None:
+        if session.get('user_id') is None:
             return redirect(url_for('user.login'))
         return view(**kwargs)
     return wrapped_view

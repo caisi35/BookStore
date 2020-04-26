@@ -1,6 +1,4 @@
-function $(id){
-    return typeof id === 'string' ? document.getElementById(id):id;
-}
+
 // 设置导航栏吸顶及返回顶部功能
 window.onload = function () {
     var top_id = document.getElementById("to_top_btn");
@@ -20,7 +18,7 @@ window.onload = function () {
                 clearInterval(timer);
             }
         }, 30);
-    }
+    };
     var pageHeight = 500;
     window.onscroll = function () {
         var backTop = document.documentElement.scrollTop || document.body.scrollTop;
@@ -38,9 +36,12 @@ window.onload = function () {
         } else {
             nav.style.position = "";
         }
-    }
+    };
 
     // 选项卡
+    function $(id){
+    return typeof id === 'string' ? document.getElementById(id):id;
+}
         // 拿到所有的标题(li标签) 和 标题对应的内容(div)
     var titles = $('tab-header').getElementsByTagName('li');
     var divs = $('tab-content').getElementsByClassName('dom');
