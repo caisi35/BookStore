@@ -4,6 +4,8 @@ from bson.code import Code
 from bs4 import BeautifulSoup
 from bs4 import UnicodeDammit
 import urllib.request
+import threading
+import time
 
 
 class ToConn:
@@ -246,8 +248,6 @@ class ToMongo:
             print('==============get_img================\n', e)
 
 
-
-
 class Spider:
     headers = {"User-Agent":
                    "Mozilla/5.0 (Windows; U; Windows NT 6.0 "
@@ -294,12 +294,103 @@ class Spider:
         except Exception as e:
             print('============download==========', e)
 
+    def get_province(self, url):
+        try:
+            req = urllib.request.Request(url, headers=self.headers)
+            data = urllib.request.urlopen(req)
+            data = data.read()
+            dammit = UnicodeDammit(data, ['utf-8', 'gbk'])
+            data = dammit.unicode_markup
+            soup = BeautifulSoup(data, 'lxml')
+            province_navi = soup.find('div', attrs={'class': 'navi'})
+            province_a = province_navi.find_all('a')
+            province_dict = {}
+            for a in province_a:
+                if a.text:
+                    province_dict[a.text] = urllib.request.urljoin('https://www.xzqy.net', a['href'])
+            return province_dict
+        except Exception as e:
+            print('=========get_province========', e)
+
+    def get_city(self, url):
+        try:
+            req = urllib.request.Request(url, headers=self.headers)
+            data = urllib.request.urlopen(req)
+            data = data.read()
+            dammit = UnicodeDammit(data, ['utf-8', 'gbk'])
+            data = dammit.unicode_markup
+            soup = BeautifulSoup(data, 'lxml')
+            table = soup.find('table')
+            city = {}
+            for i in table:
+                i.find('td', attrs={'class': 'parent'})
+                a = i.find('a')
+                if a:
+                    city[a.text] = urllib.request.urljoin('https://www.xzqy.net', a['href'])
+            return city
+        except Exception as e:
+            print('==========get_city=======', e)
+
+    def get_village(self, url):
+        try:
+            village = {}
+            village_list = []
+            req = urllib.request.Request(url, headers=self.headers)
+            data = urllib.request.urlopen(req)
+            data = data.read()
+            dammit = UnicodeDammit(data, ['utf-8', 'gbk'])
+            data = dammit.unicode_markup
+            soup = BeautifulSoup(data, 'lxml')
+            table = soup.find('table')
+            tr = table.find('td', attrs={'class': 'parent'}).find('a')
+            tr_child = table.find('td', attrs={'class': ''})
+            a = tr_child.find_all('a')
+            for i in a:
+                village_list.append(i.text)
+            village[tr.text] = village_list
+            return village
+        except Exception as e:
+            print('==========get_village=======', e)
+
+    def get_address(self):
+        url = 'https://www.xzqy.net/451102000000.htm'
+        province = self.get_province(url)
+        address = {}
+        for key, value in province.items():
+            province_key = key
+            city = self.get_city(value)
+            for key, value in city.items():
+                city_key = key
+                district = self.get_city(value)
+                for key, value in district.items():
+                    district_key = key
+                    address[province_key] = city_key
+                    address[city_key] = district_key
+                    address[district_key] = self.get_village(value)
+        ToMongo().insert('address', address)
+        return address
+
+
+class MyThread(threading.Thread):
+    def __init__(self, threadID, name, counter):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.name = name
+        self.counter = counter
+
+    def run(self):
+        print("Starting " + self.name)
+        Spider().get_address()
+        print("Exiting " + self.name)
+
 
 if __name__ == '__main__':
-    # with open('./static/images/spider/weixin.gif','rb') as f:
-    #     data = f.read()
-    #     f.close()
-    # ToMongo().insert_img('weixin.gif', data)
-    # ToMongo().get_img('logo.jpg')
-    pass
-
+    # Create new threads
+    thread1 = MyThread(1, "Thread-1", 1)
+    thread2 = MyThread(2, "Thread-2", 2)
+    thread3 = MyThread(3, "Thread-3", 3)
+    # Start new Threads
+    thread1.start()
+    thread2.start()
+    thread3.start()
+    print("Exiting Main Thread")
