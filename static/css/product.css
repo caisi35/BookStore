@@ -85,10 +85,13 @@
     font-size: 18px;
     color: red;
     border: 1px solid red;
-    padding: 5px;
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
     border-radius: 15px;
+}
+.pay a{
+        padding: 5px;
+
 }
 .cart button:hover{
     color: #007aff;

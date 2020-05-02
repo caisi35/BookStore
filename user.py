@@ -1,6 +1,6 @@
 import functools
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 from db import ToConn
@@ -17,14 +17,17 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        password_again = request.form['password_again']
         db = ToConn()
         error = None
         if not username:
             error = 'Username or Password is Required'
         elif not password:
             error = 'Username or Password is Required'
+        elif password != password_again:
+            error = 'Username or Password is Required'
         elif db.get_db(
-            'select id from users where tel = %s', (username,)
+                'select id from users where tel = %s', (username,)
         ).fetchone() is not None:
             error = 'User {} is Already Registered'.format(username)
         if error is None:
@@ -40,7 +43,7 @@ def register():
     return render_template('user/register.html')
 
 
-@bp.route('/login', methods=('GET', 'POST'))
+@bp.route('/login', methods=('POST', 'GET'))
 def login():
     """
     渲染登录页面，以及校验登录信息
@@ -49,6 +52,8 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        # 获取跳转过来的next url链接，以重定向回去
+        next = request.form['next']
         db = ToConn()
         error = None
         user = db.get_db(
@@ -60,13 +65,51 @@ def login():
             error = 'Incorrect username or password'
         elif not check_password_hash(user['password'], password):
             error = 'Incorrect username or password'
+
         if error is None:
+            # 登录成功
             session.clear()
             session['user_id'] = user['id']
             session['user_name'] = user['name']
-            return redirect(url_for('index'))
+            print('# 登录成功',next, type(next))
+            if 'register' in next or next == 'None':
+                # 如果是重注册页或者是直接从login链接过来的，重定向到主页去
+                return redirect(url_for('products.index'))
+            else:
+                # 登录成功重定向回原页面
+                return redirect(next)
+        else:
+            # 登录失败
+            flash(error)
+            print('error', '===================')
+            return redirect(url_for('user.login'))
+    # get请求加载渲染login页面,传跳转过来的url链接
+    return render_template('user/login.html', next=request.referrer)
+
+
+@bp.route('/index_login', methods=('POST',))
+def index_login():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    db = ToConn()
+    error = None
+    user = db.get_db(
+        'select * from users where tel = %s', (username,)
+    ).fetchone()
+    if user is None:
+        error = 'Incorrect username or password'
+    elif username != str(user['tel']):
+        error = 'Incorrect username or password'
+    elif not check_password_hash(user['password'], password):
+        error = 'Incorrect username or password'
+    if error is None:
+        session.clear()
+        session['user_id'] = user['id']
+        session['user_name'] = user['name']
+        return jsonify(result='True')
+    else:
         flash(error)
-    return render_template('user/login.html')
+        return jsonify(result='False')
 
 
 @bp.before_app_first_request
@@ -98,5 +141,5 @@ def login_required(view):
         if session.get('user_id') is None:
             return redirect(url_for('user.login'))
         return view(**kwargs)
-    return wrapped_view
 
+    return wrapped_view

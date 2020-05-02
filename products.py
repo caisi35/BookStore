@@ -1,15 +1,12 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for, session, jsonify
 )
-from db import ToConn
+from db import ToConn, ToMongo
 from werkzeug.exceptions import abort
 from user import login_required
-from db import ToMongo
 from bson.objectid import ObjectId
-import time
-import random
-import base64
-
+import time, random, base64
+from datetime import datetime, timedelta
 bp = Blueprint('products', __name__)
 
 
@@ -216,6 +213,8 @@ def buy_list():
     discount = 1.01
     sum_book = 0
     try:
+        user = get_user(session.get('user_id'))
+        addr = ToMongo().get_col('address').find({'_id': ObjectId(user['address_default'])})
         for book_id in book_id_list:
             db = ToConn()
             sql = 'select book_num from cart where user_id=%s and book_id=%s and is_effe=1'
@@ -228,15 +227,66 @@ def buy_list():
             sum_price = sum_price + round(float(mydb['price']) * float(book_num['book_num']), 2)
             sum_book = sum_book + int(book_num['book_num'])
         return render_template('buyCart/buy_list.html',
-                               user=get_user(session.get('user_id')),
+                               user=user,
                                books=book_list,
                                books_price={'sum_price': sum_price, 'freight': freight, 'package': package,
                                             'sum': round(sum_price + freight - discount, 2), 'discount': discount},
                                pay={'amount_pay': round(sum_price + freight - discount, 2), 'sum_book': sum_book,
-                                    'freight': freight})
+                                    'freight': freight},
+                               address=addr,
+                               shipping_time=datetime.now()+timedelta(days=3))
     except Exception as e:
         print('========buy_list=========:', e)
         return redirect(url_for('products.cart'))
+
+
+# t添加与修改收货人信息
+@bp.route('/address', methods=('POST',))
+def address():
+    try:
+        name = request.form.get('name')
+        tel = request.form.get('tel')
+        province = request.form.get('province')
+        city = request.form.get('city')
+        details = request.form.get('details')
+        user_id = session.get('user_id')
+        mydb = ToMongo()
+        value = {
+            'user_id': user_id,
+            'name': name,
+            'tel': tel,
+            'province': province,
+            'city': city,
+            'details': details,
+        }
+        address_default = mydb.insert('address', value).inserted_id
+        conn = ToConn().to_execute()
+        cur = conn.cursor()
+        cur.execute('update users set address_default=%s where id=%s', (str(address_default), user_id))
+    except Exception as e:
+        conn.rollback()
+        conn.close()
+        print('========address=========:', e)
+    else:
+        conn.commit()
+        conn.close()
+    return redirect(request.referrer)
+
+
+# 删除收货人信息
+@bp.route('/addr_delete', methods=('GET', 'POST'))
+def addr_delete():
+    try:
+        _id = request.form.get('_id')
+        user_id = session.get('user_id')
+        result = ToMongo().delete(col='address', doc={'_id': ObjectId(_id)}).raw_result
+        if result['ok'] == 1:
+            conn = ToConn().to_execute()
+            cur = conn.cursor()
+            cur.execute('update users set address_default=null where id=%s and address_default = %s', (user_id, _id))
+        return jsonify(result=request.referrer)
+    except Exception as e:
+        print('========addr_delete=========:', e)
 
 
 # 支付页面方法
@@ -302,7 +352,7 @@ def pay():
             zhifubao_image = base64.b64encode(mydb.get_img('zhifubao.gif')).decode('utf-8')
             images.append({'data': weixin_image, 'name': '微信支付'})
             images.append({'data': zhifubao_image, 'name': '支付宝支付'})
-            my_orders = mydb.get_col('order').find({"user_id": user_id, "is_effective": 1,'order_no':order_no})
+            my_orders = mydb.get_col('order').find({"user_id": user_id, "is_effective": 1, 'order_no': order_no})
         except Exception as e:
             print('========pay=========:', e)
         return render_template('buyCart/pay.html', user=get_user(session.get('user_id')), orders=my_orders,

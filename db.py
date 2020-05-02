@@ -371,26 +371,8 @@ class Spider:
         return address
 
 
-class MyThread(threading.Thread):
-    def __init__(self, threadID, name, counter):
-        threading.Thread.__init__(self)
-        self.threadID = threadID
-        self.name = name
-        self.counter = counter
-
-    def run(self):
-        print("Starting " + self.name)
-        Spider().get_address()
-        print("Exiting " + self.name)
 
 
-if __name__ == '__main__':
-    # Create new threads
-    thread1 = MyThread(1, "Thread-1", 1)
-    thread2 = MyThread(2, "Thread-2", 2)
-    thread3 = MyThread(3, "Thread-3", 3)
-    # Start new Threads
-    thread1.start()
-    thread2.start()
-    thread3.start()
-    print("Exiting Main Thread")
+
+# if __name__ == '__main__':
+#     # Create new threads

@@ -10,11 +10,13 @@
 
         <div class="form-group">
             <label for="username">Username</label>
-            <input class="form-control" name="username" id="username" type="tel" autofocus maxlength="11" required />
+            <input class="form-control" name="username" id="username" type="tel" autofocus maxlength="11"
+                   minlength="11" pattern="[0-9]{11}" required />
         </div>
         <div class="form-group">
             <label for="password">Password</label>
             <input type="password" class="form-control" name="password" id="password" required />
+            <input type="hidden"  name="next" value="{{ next }}"  >
         </div>
         <input type="submit" class="btn btn-default" value="Log In">
     </form>

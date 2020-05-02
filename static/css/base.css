@@ -24,3 +24,10 @@ nav ul li{
     color: red; border: 1px solid #377ba8; font-weight:bold; }
 input.danger { color: #cc2f2e; }
 input[type=submit] { align-self: start; min-width: 10em; }
+
+.logo{
+    height: 111px;
+}
+.register{
+    margin-right: 20px;
+}

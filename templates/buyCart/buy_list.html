@@ -1,6 +1,8 @@
 {% extends 'block_buy_cart.html' %}
-
+{% block title %}结算{% endblock %}
 {% block buy_cart %}
+    {% for addr in address %}
+    {#    收货人信息#}
     <div class="row clearfix">
         <div class="col-md-1 column">
         </div>
@@ -8,38 +10,82 @@
             <h3>
                 收货人信息
             </h3>
-            <table class="table table-hover con_info">
-                <thead>
-                <tr>
-                    <th>
-                        <span class="name ">黄彩思</span>
-                        <span class="tel right"> {{ user.tel }}</span>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr class="success">
-                    <td>
-                        <span class="address">中国 广西 贺州市 八步区 贺街镇 东球村</span>
-                    </td>
-                </tr>
-                <tr class="info">
-                    <td>
-                        <div>
-                            <a class="edit">编辑</a>
-                            <a class="default">设为默认地址</a>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+{#            {% if address %}#}
+{#                {% for addr in address %}#}
+                    <table class="table table-hover con_info addr_tables left" id="{{ addr['_id'] }}">
+                    <span style="display: none" id="addr_id">{{ addr['_id'] }}</span>
+                        <thead>
+                        <tr>
+                            <th>
+                                <span class="name ">{{ addr['name'] }}</span>
+                                <span class="tel right"> {{ addr.tel }}</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="success">
+                            <td>
+                                <span class="address">
+                                    <span class="province">{{ addr.province }}</span>
+                                    <span class="city">{{ addr.city }}</span>
+                                    <span class="details">{{ addr.details }}</span>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr class="info">
+                            <td>
+                                <div>
+                                    <a href="#" class="addr_edit">编辑</a>
+                                    <a href="#" class="addr_delete">删除</a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+{#                {% endfor %}#}
+{#            {% endif %}#}
             <div>
-                <a type="button" href="#" class="btn btn-default left">新增收货地址 +</a>
+                <a type="button" href="#" class="btn btn-default left" id="new_addr">新增收货地址</a>
+            </div>
+            {#            增加收货人地址信息#}
+            <div class="add_address" style="display: none;">
+                <div class="graybox"></div>
+                <div class="popbox">
+                    <div class="poptop">
+                        <a href="#" class="close"></a>
+                    </div>
+                    <form method="post" action="{{ url_for('products.address') }}">
+                        <div class="top"></div>
+                        <div class="content">
+                            <h3>填写收货人信息</h3>
+                            <ul>
+                                <li><span>姓名</span><input name="name" id="addr_name" required></li>
+                                <li><span>手机号码</span><input name="tel" id="addr_tel" required minlength="11" maxlength="11"
+                                                     autofocus
+                                                            pattern="[0-9]{11}"></li>
+                                <li><span>所在地区</span>
+                                    <select name="province" id="province" required>
+                                        <option>请选择省份</option>
+                                    </select>
+                                    <select name="city" id="city" required>
+                                        <option>请选择城市</option>
+                                    </select></li>
+                                <li><span>详细地址</span><input name="details" id="addr_details"></li>
+                            </ul>
+                        </div>
+                        <div class="bottom">
+                            <button class="btn addr_close" type="reset">取消</button>
+                            <button class="btn" type="submit">提交</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
+
         <div class="col-md-1 column">
         </div>
     </div>
+    {#    收货清单#}
     <div class="row clearfix">
         <div class="col-md-1 column">
         </div>
@@ -68,7 +114,8 @@
                 </script>
                 <tbody>
                 {% for book in books %}
-                    <script type="text/javascript">books_[i] ='{{ book._id }}';i++</script>
+                    <script type="text/javascript">books_[i] = '{{ book._id }}';
+                    i++</script>
                     <tr>
                         <td>
                             <div class="book_img left"><img src={{ book['img_url'] }}></div>
@@ -106,17 +153,21 @@
         <div class="col-md-1 column">
         </div>
     </div>
+    {#    结算#}
     <div class="row clearfix">
         <div class="col-md-1 column">
         </div>
         <div class="col-md-10 column order_det">
             <div class="con_add ">
-                <address class="right"><strong>寄送至：</strong><span>中国 广西 贺州市 八步区 贺街镇 东球村</span>
-                    <span>{{ user.name }}</span>
-                    <abbr title="Phone">{{ user.tel }}</abbr>
+                <address class="right"><strong>寄送至：</strong>
+                    <span>{{ addr['province'] }}</span>
+                    <span>{{ addr['city'] }}</span>
+                    <span>{{ addr['details'] }}</span>
+                    <span>{{ addr.name }}</span>
+                    <abbr title="Phone">{{ addr.tel }}</abbr>
                 </address>
                 <br>
-                <p class="right time">预计{{ user['createtime'].strftime('%Y年%m月%d日') }}送达</p>
+                <p class="right time">预计{{ shipping_time.strftime('%Y年%m月%d日') }}送达</p>
             </div>
             <div class="to_pay right">
                 <div>
@@ -133,8 +184,9 @@
         <div class="col-md-1 column">
         </div>
     </div>
+    {% endfor %}
     <script type="text/javascript">
-        var books_ =
-        {{ books }}
+        var books_ = {{ books }};
     </script>
+
 {% endblock %}

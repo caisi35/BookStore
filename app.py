@@ -1,6 +1,7 @@
 from flask import Flask
 import user
 import products
+import userinfo
 
 
 def create_app(test_config=None):
@@ -13,6 +14,9 @@ def create_app(test_config=None):
     app.register_blueprint(user.bp)
 
     app.register_blueprint(products.bp)
+
+    app.register_blueprint(userinfo.bp)
+
     app.add_url_rule('/', endpoint='index')
 
 

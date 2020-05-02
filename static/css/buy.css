@@ -145,7 +145,7 @@ a:hover {
     /*border: 1px solid;*/
     position: relative;
     margin-left: 50px;
-    height:  200px;
+    height: 200px;
 }
 
 .cart_em h3 {
@@ -161,4 +161,124 @@ a:hover {
     padding: 10px 17px;
     /*margin: 30px 22px 30px 22px;*/
 
+}
+
+.reduces, .adds {
+    width: 20px;
+}
+
+.book_num span.span {
+    margin: 0px 5px;
+}
+
+/*添加收货地址*/
+div.add_address {
+    /*border: 1px solid;*/
+    margin-top: 100px;
+    width: 600px;
+    text-align: center;
+    margin: 0px auto;
+    position: relative;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.graybox {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9;
+}
+
+.popbox {
+    width: 600px;
+    padding-bottom: 30px;
+    border-radius: 6px;
+    background: #FFFFff;
+    position: absolute;
+    left: 50%;
+    margin-left: -250px;
+    top: 26%;
+    z-index: 19;
+}
+
+.add_address ul li {
+    margin: 20px;
+}
+
+div.add_address .btn {
+    /*color: red;*/
+    text-align: center;
+    margin: 20px;
+
+}
+
+.add_address input {
+    width: 70%;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 26px;
+    /*margin-top: 20px;*/
+    padding: 0 10px 0 40px;
+    border: none;
+    background: #f0f0f0;
+    /*border: 1px solid;*/
+}
+
+.add_address select {
+    width: 35%;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 26px;
+    /*margin-top: 20px;*/
+    padding: 0 10px 0 40px;
+    border: none;
+    background: #f0f0f0;
+    /*border: 1px solid;*/
+}
+
+.add_address input:focus, select:focus {
+    outline: none;
+    background: #DDDDDD;
+}
+
+.add_address ul li span {
+    position: absolute;
+    /*border: 1px solid;*/
+    right: 84%;
+    text-align: center;
+    margin: 6px auto;
+}
+
+.addr_tables {
+    margin: 20px;
+}
+
+#new_addr {
+    clear: both;
+    margin-left: 20px;
+}
+
+
+.poptop a.close {
+    position: absolute;
+    right: -1px;
+    top: -2px;
+    font-size: 20px;
+    font-weight: bold;
+    width: 36px;
+    height: 36px;
+    background: url("../images/popbox-close.png") center no-repeat;
+}
+
+input.dan_select,input.checkOnly{
+    width: 15px;
+    height: 15px;
 }

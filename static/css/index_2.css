@@ -633,3 +633,11 @@ body {
 #tab-content .dom ul li dl dt img{
     width: 100px;
 }
+
+span#message{
+    color: red;
+    font-size: 16px;
+    /*span标签居中显示*/
+    text-align: center;
+    display:block;
+}
