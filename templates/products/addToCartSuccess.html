@@ -1,6 +1,9 @@
-{% extends 'block_buy_cart.html' %}
+{% extends 'block/index_top_bottom.html' %}
 {% block title %}添加成功{% endblock %}
-{% block buy_cart %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/buy.css') }}">
+{% endblock %}
+{% block content %}
 
 <div class="container">
     <div>
@@ -9,8 +12,8 @@
             <tr>
                 <td>
                     <div class="title left">
-                        <h3 class="u-icon-radioSB left"></h3>
-                        <h3 class="left">商品已成功添加至购物车！</h3>
+                        <h1 class="u-icon-radioSB left"></h1>
+                        <h1 class="left">商品已成功添加至购物车！</h1>
                     </div>
                     <div class="book left">
                         <div class="book_img left"><img src={{ book['img_url'] }}></div>

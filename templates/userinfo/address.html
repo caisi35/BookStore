@@ -1,0 +1,17 @@
+{% extends 'userinfo/userinfo.html' %}
+
+{% block info_content %}
+    {% if addr %}
+        {% for addrss in addr %}
+            <div>
+                <ul>
+                    <li>
+                        <p>{{ addrss.tel }}</p>
+                        <p>{{ addrss.name }}</p>
+                        <p>{{ addrss.province }}{{ addrss.city }}{{ addrss.details }}</p>
+                    </li><br>
+                </ul>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

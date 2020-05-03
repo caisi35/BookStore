@@ -5,11 +5,7 @@
         <div>
             <p><span>订单号：</span>{{ order_no.order_no }}</p>
             <p><span>金额：</span>{{ order_no.amount }}￥</p>
-            <p><span>提交日期：</span><span>{{ order_no['create_time'][:4] }}年</span>
-                <span>{{ order_no['create_time'][4:6] }}月</span>
-                <span>{{ order_no['create_time'][6:8] }}日</span>
-                <span>{{ order_no['create_time'][8:10] }}:</span>
-                <span>{{ order_no['create_time'][10:12] }}</span></p>
+            <p><span>提交日期：</span><span>{{ order_no['create_time'].strftime('%Y-%m-%d %H:%M:%S') }}</span>
         </div>
     {% endif %}
     <div>

@@ -1,0 +1,12 @@
+{% extends 'userinfo/userinfo.html' %}
+
+{% block info_content %}
+    {% if user %}
+        <div>
+            <p>姓名：{{ user.name }}</p>
+            <p>手机号：{{ user.tel }}</p>
+            <p>邮箱地址：{{ user.email }}</p>
+            <p>注册时间：{{user.createtime}} </p>
+        </div>
+    {% endif %}
+{% endblock %}

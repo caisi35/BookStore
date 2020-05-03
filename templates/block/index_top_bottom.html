@@ -7,13 +7,15 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index_login.css') }}">
     <!--登录弹出框中的小图标--->
     <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
-
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/product.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/swiper2.css') }}">
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    {% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/product.css') }}">
+
+    {% endblock %}
 </head>
 <body>
-</div>
+
 <!--页面头部-->
 <div id="header">
     <div class="container">
@@ -227,6 +229,7 @@
         </div>
     </div>
 </div>
+
 <script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/swiper2.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/index_2.js') }}"></script>

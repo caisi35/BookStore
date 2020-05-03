@@ -148,9 +148,10 @@ a:hover {
     height: 200px;
 }
 
-.cart_em h3 {
-    color: red;
-}
+/*.cart_em h1 {*/
+    /*color: red;*/
+    /*!*font-size: 20px;*!*/
+/*}*/
 
 .to_products a {
     position: absolute;

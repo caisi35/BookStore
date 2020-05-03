@@ -35,7 +35,7 @@ a {
     text-decoration: none;
 }
 
-button {
+.ok button {
     width: 180px;
     height: 36px;
     line-height: 36px;
@@ -47,6 +47,7 @@ button {
     cursor: pointer;
     outline: none;
 }
+
 
 button:hover {
     background: #1c7ecf;

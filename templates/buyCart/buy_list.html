@@ -1,7 +1,6 @@
 {% extends 'block_buy_cart.html' %}
 {% block title %}结算{% endblock %}
 {% block buy_cart %}
-    {% for addr in address %}
     {#    收货人信息#}
     <div class="row clearfix">
         <div class="col-md-1 column">
@@ -10,8 +9,7 @@
             <h3>
                 收货人信息
             </h3>
-{#            {% if address %}#}
-{#                {% for addr in address %}#}
+            {% if addr %}
                     <table class="table table-hover con_info addr_tables left" id="{{ addr['_id'] }}">
                     <span style="display: none" id="addr_id">{{ addr['_id'] }}</span>
                         <thead>
@@ -42,8 +40,7 @@
                         </tr>
                         </tbody>
                     </table>
-{#                {% endfor %}#}
-{#            {% endif %}#}
+            {% endif %}
             <div>
                 <a type="button" href="#" class="btn btn-default left" id="new_addr">新增收货地址</a>
             </div>
@@ -60,9 +57,10 @@
                             <h3>填写收货人信息</h3>
                             <ul>
                                 <li><span>姓名</span><input name="name" id="addr_name" required></li>
-                                <li><span>手机号码</span><input name="tel" id="addr_tel" required minlength="11" maxlength="11"
-                                                     autofocus
-                                                            pattern="[0-9]{11}"></li>
+                                <li><span>手机号码</span>
+                                    <input name="tel" id="addr_tel" required minlength="11" maxlength="11"
+                                           autofocus pattern="[0-9]{11}">
+                                </li>
                                 <li><span>所在地区</span>
                                     <select name="province" id="province" required>
                                         <option>请选择省份</option>
@@ -177,14 +175,13 @@
                     <span class="con_mon">（含运费{{ pay.freight }}元）</span>
                 </div>
                 <br>
-                <div class="btn pay_btn right"><a href="#" type="button" onclick="to_pay()">去支付</a></div>
+                <div class="btn pay_btn right"><a href="#" id="go-to-pay-btn" type="button" onclick="to_pay()">去支付</a></div>
 
             </div>
         </div>
         <div class="col-md-1 column">
         </div>
     </div>
-    {% endfor %}
     <script type="text/javascript">
         var books_ = {{ books }};
     </script>

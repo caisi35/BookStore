@@ -12,7 +12,7 @@
     display: flex; /*设置为弹性容器*/
     align-items: center; /*定义div的元素垂直居中*/
     justify-content: center; /*定义div的里的元素水平居中*/
-        background-color: white;
+    background-color: white;
 
 }
 
@@ -64,23 +64,24 @@
     text-decoration: line-through;
 }
 
-.book_num{
+.book_num {
     width: 40px;
     height: 33px;
     border: 2px white;
     font-size: 20px;
 }
-.book-num{
+
+.book-num {
     text-align: center;
     width: 40px;
     height: 29px;
 }
 
-.button{
+.button {
     margin: 50px;
 }
 
-.cart button, .pay a{
+.cart button, .pay a {
     margin: 0px 15px;
     font-size: 18px;
     color: red;
@@ -89,14 +90,51 @@
     -moz-border-radius: 15px;
     border-radius: 15px;
 }
-.pay a{
-        padding: 5px;
+
+button#calculate {
+    width: 180px;
+    height: 36px;
+    /*line-height: 36px;*/
+    text-align: center;
+    border-radius: 6px;
+    border: none;
+    /*background: linear-gradient(#749dcf, #1c7ecf);*/
+    color: #FFFFff;
+    cursor: pointer;
+    outline: none;
+}
+
+a#buy-now {
+    width: 180px;
+    height: 36px;
+    /*line-height: 36px;*/
+    text-align: center;
+    border-radius: 6px;
+    border: none;
+    background: red;
+    color: #FFFFff;
+    cursor: pointer;
+    outline: none;
+}
+
+a#buy-now:hover {
+    background-color: darkgreen;
+}
+
+button#calculate:hover {
+    background-color: darkgreen;
+}
+
+.pay a {
+    padding: 5px;
 
 }
-.cart button:hover{
+
+.cart button:hover {
     color: #007aff;
 }
-.cart button{
+
+.cart button {
     color: white;
     background-color: red;
 }
