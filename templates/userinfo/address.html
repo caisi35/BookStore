@@ -1,17 +1,69 @@
-{% extends 'userinfo/userinfo.html' %}
+{% extends 'userinfo/userinfoBase.html' %}
 
 {% block info_content %}
-    {% if addr %}
-        {% for addrss in addr %}
-            <div>
-                <ul>
-                    <li>
-                        <p>{{ addrss.tel }}</p>
-                        <p>{{ addrss.name }}</p>
-                        <p>{{ addrss.province }}{{ addrss.city }}{{ addrss.details }}</p>
-                    </li><br>
-                </ul>
+    <div class="address-ul left">
+        <ul>
+            {% for addrss in addr %}
+                <li>
+                    <input id="{{ addrss._id }}" hidden>
+                    <label for="{{ addrss._id }}">
+                        <p class="left">{{ addrss.name }}</p>
+                        <p class="right">{{ addrss.tel }}</p>
+                        <p class="address-info">
+                            <span>{{ addrss.province }}</span>
+                            <span>{{ addrss.city }}</span>
+                            <span>{{ addrss.details }}</span>
+                        </p>
+                        {#                            userinfo.js文件触发控制事件#}
+                        <a href="{{ url_for('userinfo.addressChange', _id=addrss._id) }}">修改</a>
+                        <a href="#" onclick="addressDelete('{{ addrss._id }}')">删除</a>
+                        <a href="#" onclick="addressDefault('{{ addrss._id }}')">设为默认地址</a>
+                    </label>
+                    {% if address_default|safe == addrss._id|safe %}
+                        <img class="address-default right"
+                             src="{{ url_for('static', filename='images/something/c10.png') }}"
+                             alt="默认收货地址">
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="a-link"><a href="#" id="new_addr">添加收货人信息</a></div>
+
+    <div class="add_address" style="display:none ">
+        <div class="graybox"></div>
+        <div class="popbox">
+            <div class="poptop">
+                <h3>填写收货人信息</h3>
+                <a href="#" class="close"></a>
             </div>
-        {% endfor %}
-    {% endif %}
+            <form method="post">
+                <div class="top"></div>
+                <div class="content">
+                    <ul>
+                        <li><span>姓名</span><input name="name" id="addr_name" required></li>
+                        <li><span>手机号码</span>
+                            <input name="tel" id="addr_tel" required minlength="11" maxlength="11"
+                                   pattern="[0-9]{11}">
+                        </li>
+                        <li><span>所在地区</span>
+                            <select name="province" id="province" required>
+                                <option>请选择省份</option>
+                            </select>
+                            <select name="city" id="city" required>
+                                <option>请选择城市</option>
+                            </select></li>
+                        <li><span>详细地址</span><input name="details" id="addr_details"></li>
+                    </ul>
+                    {% for message in get_flashed_messages() %}
+                        <div class="flash"><b>{{ message }}</b></div>
+                    {% endfor %}
+                </div>
+                <div class="bottom">
+                    <button class="btn addr_close" type="reset">取消</button>
+                    <button class="btn" type="submit">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}

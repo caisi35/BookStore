@@ -308,7 +308,6 @@ def address():
         cur = conn.cursor()
         address_default = mydb.insert('address', value).inserted_id
         cur.execute('update users set address_default=%s where id=%s', (str(address_default), user_id))
-        print('address_default', address_default)
         if address_default:
             conn.commit()
             conn.close()
@@ -406,12 +405,11 @@ def pay():
 @bp.route('/order', methods=('GET', 'POST'))
 @login_required
 def order():
-    user = get_user(session.get('user_id'))
     try:
         orderNo = request.args.get('order_no', '')
         mydb = ToMongo()
         myorder = mydb.get_col('order').find_one({'order_no': orderNo, 'user_id': session.get('user_id')})
-        return render_template('buyCart/order.html', user=user, order_no=myorder)
+        return render_template('buyCart/order.html', order_no=myorder)
     except Exception as e:
         print('========order=========:', e)
         return abort(403)

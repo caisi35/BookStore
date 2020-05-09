@@ -13,6 +13,7 @@ create table users
   tel        int                                 not null,      comment 用户手机号
   password   varchar(128)                        not null,      comment 用户手密码
   createtime timestamp default CURRENT_TIMESTAMP null,          comment 用户注册时间
+  address_default varchar(24) null,                             comment 用户默认收货人信息对应mongodb数据库的_id
   constraint email
     unique (email),
   constraint tel
@@ -31,9 +32,9 @@ CREATE TABLE IF NOT EXISTS `cart`(
    constraint `fk_cart_user` foreign key(user_id) references users(id)      comment 外键关联用户id
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---****** mongodb 数据库信息 ******--
+--****************************** mongodb 数据库信息 ******************************************************************--
 -- 数据库名：products
--- 集合：books,images,order
+-- 集合：books,images,order,address
 ******books集合 保存图书信息******
 books{
     _id         默认图书id
@@ -65,4 +66,14 @@ order{
         book_num    图书数量
         book_id     books集合中的图书id
     ]
+}
+******address集合 保存用户收货人信息******
+address{
+    _id             默认id
+    name            收货人姓名
+    tel             收货人手机号
+    user_id         用户mysql数据库的user表id
+    province        省份
+    city            城市
+    details         备注
 }

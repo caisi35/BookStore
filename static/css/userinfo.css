@@ -34,29 +34,507 @@
     color: mediumblue;
 }
 
-.info-list{
+.info-list {
     clear: both;
 }
+
 .col-md-8 {
     border: 1px solid;
     width: 85%;
 
 }
 
-.col-md-3{
+.col-md-3 {
     float: left;
     width: 13%;
 }
-
-/*order******************************************order.html****************************************order*************/
-.table img{
+.userinfo-img{
+    margin: 20px;
+    height: 150px;
+    width: 120px;
+}
+/*order******************************************orders.html****************************************order*************/
+.orders-content a{
+    color: #1c7ecf;
+}
+.orders-content a:hover{
+    color: rgba(40,20,204,0.88);
+    text-decoration: underline;
+}
+.table img {
     width: 100px;
 }
 
-.table .books{
+.table .books {
     width: 60%;
 }
 
-.table tr *{
+.table tr * {
     margin: 5px;
 }
+.orders-content .delete-orders{
+    background-color: red;
+    margin: 20px 0 30px 40px;
+    padding: 5px 30px;
+    border-radius: 15px;
+}
+.orders-content .delete-orders a{
+        color: black;
+}
+/*info******************************************info.html****************************************info*************/
+.info * {
+    margin: 10px;
+}
+
+.avatar {
+    width: 125px;
+    height: 150px;
+    border: 1px solid;
+}
+
+.content {
+    margin-top: 20px;
+    padding-top: 10px;
+    margin-left: 200px;
+}
+
+.info .button {
+    /*border: 1px solid;*/
+    /*width: 80px;*/
+    text-align: center;
+}
+
+.info .button button {
+    margin: 20px;
+    width: 150px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: #be3ed0;
+    color: white;
+    outline: none;
+}
+
+.info .button button:hover {
+    background-color: rgba(35, 29, 204, 0.88);
+    color: #2D2D2D;
+}
+
+/********************编辑样式**********************/
+.flash {
+    margin: 1em 0;
+    padding: 1em;
+    background: #cae6f6;
+    border: 1px solid #377ba8;
+    color: red;
+}
+
+.change-info .popbox {
+    width: 600px;
+    padding-bottom: 30px;
+    border-radius: 6px;
+    background: #FFFFff;
+    position: absolute;
+    left: 44%;
+    margin-left: -250px;
+    top: 10%;
+    z-index: 19;
+}
+
+.change-info label, textarea {
+    margin-left: 17%;
+    font-size: 17px;
+}
+
+.change-info textarea {
+    border: 0;
+    border-radius: 5px;
+    background-color: rgba(241, 241, 241, .98);
+    width: 355px;
+    height: 100px;
+    padding: 10px;
+    resize: none;
+    margin: 10px 0px;
+}
+
+.change-info input, select {
+    height: 30px;
+    line-height: 30px;
+    border-radius: 26px;
+    margin-top: 20px;
+    margin-left: 10px;
+    padding: 0 10px 0 40px;
+    border: none;
+    background: #f0f0f0;
+    outline: none;
+    font-size: 17px;
+}
+
+.change-info input[name="denger"], input[name="identity"] {
+    content: "\a0"; /*不换行空格*/
+    display: inline-block;
+    /*vertical-align: middle;*/
+    font-size: 19px;
+    width: 1em;
+    height: 1em;
+    margin-right: .4em;
+    border-radius: 50%;
+    border: 1px solid #01cd78;
+    text-indent: .15em;
+    line-height: 1;
+}
+
+.change-info input:hover {
+    outline: none;
+}
+
+.change-info .infotop {
+    width: 100%;
+    height: 60px;
+    /*line-height: 120px;*/
+    text-align: center;
+    border-bottom: 1px solid #F2F2F2;
+    position: relative;
+}
+
+.change-info .infotop div {
+    top: 20px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: #1c7ecf;
+}
+
+.infotop a.close {
+    position: absolute;
+    right: -1px;
+    top: -2px;
+    font-size: 20px;
+    font-weight: bold;
+    width: 36px;
+    height: 36px;
+    background: url("../images/popbox-close.png") center no-repeat;
+}
+
+.infotop a:hover {
+    text-decoration: none;
+}
+
+.change-info .pay_title {
+    position: absolute;
+}
+
+/*****************************************8修改密码样式××××××××××××××××××××××××××××××××××××××change-pw*/
+.change-pw .popbox {
+    width: 600px;
+    padding-bottom: 30px;
+    border-radius: 6px;
+    background: #FFFFff;
+    position: absolute;
+    left: 44%;
+    margin-left: -250px;
+    top: 25%;
+    z-index: 19;
+}
+
+.change-pw label{
+    margin-left: 17%;
+    font-size: 17px;
+}
+.change-pw input{
+    height: 30px;
+    width: 40%;
+    line-height: 30px;
+    border-radius: 26px;
+    margin-top: 20px;
+    margin-left: 10px;
+    padding: 0 10px 0 40px;
+    border: none;
+    background: #f0f0f0;
+    outline: none;
+    font-size: 17px;
+}
+
+.change-pw input:hover {
+    outline: none;
+}
+.change-pw .infotop {
+    width: 100%;
+    height: 60px;
+    /*line-height: 120px;*/
+    text-align: center;
+    border-bottom: 1px solid #F2F2F2;
+    position: relative;
+}
+
+.change-pw .pay_title {
+    position: absolute;
+}
+.change-pw .infotop div {
+    top: 20px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: #1c7ecf;
+    font-size: 20px;
+}
+
+.infotop a.close {
+    position: absolute;
+    right: -1px;
+    top: -2px;
+    font-size: 20px;
+    font-weight: bold;
+    width: 36px;
+    height: 36px;
+    background: url("../images/popbox-close.png") center no-repeat;
+}
+
+.infotop a:hover {
+    text-decoration: none;
+}
+
+/*****************************************上传头像图片××××××××××××××××××××××××××××××××××××××*/
+.avatar{
+    position: relative;
+}
+#show{
+    margin: 0px;
+}
+.upload-img{
+    position: absolute;
+}
+.select-img{
+    top: 130px;
+}
+.upload-div{
+    top: 200px;
+}
+.inputfile,#submit_img{
+    display: none;
+}
+.upload-img label,.upload-select-img{
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+.select-img{
+    margin: 0;
+    margin-top: 50px;
+
+}
+.upload-div{
+    margin-top: 10px;
+    width: 70px;
+    display: none;
+}
+
+/***********************收货人信息样式*************address-ul***********************************/
+.address-ul ul li{
+    float: left;
+    width: 300px;
+    margin: 30px 30px 30px 130px;
+    padding: 10px;
+    border-radius: 3px;
+    border: 2px solid #4CAF50;
+}
+.address-ul ul li p.address-info{
+    margin-top: 35px;
+    margin-bottom: 20px;
+}
+.address-ul ul li a{
+    color: blueviolet;
+    margin: 0px 10px;
+}
+.address-ul ul li .address-default{
+    width: 23px;
+}
+.address-ul ul li .address-default:focus{
+
+}
+/***********************编辑修改收货人信息样式************************************************/
+
+.change-address h2{
+    text-align: center;
+    color: blueviolet;
+    margin: 20px;
+}
+.change-address ul{
+    text-align: center;
+    font-size: 17px;
+}
+.change-address ul textarea{
+    margin: 0;
+    width: 250px;
+    height: 100px;
+    resize: none;
+    vertical-align: text-top;
+}
+.change-address ul li.textarea-before{
+    margin-top: 20px;
+}
+.change-address ul li.textarea-before span{
+    margin: 5px;
+}
+.change-address ul input,select{
+    width: 100%;
+    height: 36px;
+    width: 200px;
+    line-height: 36px;
+    border-radius: 26px;
+    margin-top: 20px;
+    padding: 0 10px 0 40px;
+    border: none;
+    background: white;
+    font-size: 17px;
+}
+.change-address ul select{
+    width: 100px;
+    padding: 0 10px 0 20px;
+}
+.change-address ul select:focus,input:focus {
+    outline: none;
+    background: #DDDDDD;
+}
+.change-address button{
+    text-align: center;
+    height: 30px;
+    width: 130px;
+    border-radius: 5px;
+    border:0;
+    margin: 40px 0px 30px 43%;
+    background-color: #4CAF50;
+}
+/***************************添加收货地址******************************************/
+#new_addr{
+    color: black;
+    border: 1px solid #4CAF50;
+    background-color: #4CAF50;
+    border-radius: 30px;
+    padding: 10px 18px;
+}
+
+div.add_address {
+    /*border: 1px solid;*/
+    width: 600px;
+    text-align: center;
+    margin: 0 auto;
+    position: absolute;
+    top: 20%;
+    /*right: 0;*/
+    left: 30%;
+    /*bottom: 0;*/
+}
+
+.graybox {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9;
+}
+
+.popbox {
+    width: 600px;
+    padding-bottom: 30px;
+    border-radius: 6px;
+    background: #FFFFff;
+    position: absolute;
+    left: 50%;
+    /*margin-left: -250px;*/
+    top: 26%;
+    z-index: 19;
+}
+
+.add_address ul li {
+    /*margin-right: 140px;*/
+    margin-top: 20px;
+}
+
+div.add_address .btn {
+    /*color: red;*/
+    text-align: center;
+    margin: 20px;
+
+}
+
+.add_address input {
+    width: 50%;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 26px;
+    /*margin-top: 20px;*/
+    padding: 0 10px 0 40px;
+    background: #f0f0f0;
+    border: 1px solid #749dcf;
+}
+
+.add_address select {
+    width: 28%;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 26px;
+    padding: 0 10px 0 10px;
+    background: #f0f0f0;
+    border: 1px solid #749dcf;
+}
+.add_address select option{
+        font-size: 15px;
+
+}
+.add_address input:focus, select:focus {
+    outline: none;
+    background: #DDDDDD;
+}
+
+.add_address ul li span {
+    position: absolute;
+    right: 74%;
+    text-align: center;
+    margin: 6px auto;
+}
+
+.addr_tables {
+    margin: 20px;
+}
+
+#new_addr {
+    clear: both;
+    margin-left: 20px;
+}
+
+
+.poptop a.close {
+    position: absolute;
+    right: -1px;
+    top: -2px;
+    font-size: 20px;
+    font-weight: bold;
+    width: 36px;
+    height: 36px;
+    background: url("../images/popbox-close.png") center no-repeat;
+}
+
+input.dan_select,input.checkOnly{
+    width: 15px;
+    height: 15px;
+}
+.add_address .content {
+    margin-left: 50px;
+}
+.add_address .bottom button{
+    width: 90px;
+    height: 30px;
+    margin: 30px;
+}
+.add_address .bottom button:hover{
+    color: white;
+}
+.a-link{
+    clear: both;
+    padding-top: 30px;
+    margin: 50px 200px;
+}
+

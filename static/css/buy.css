@@ -81,7 +81,7 @@ body {
 a:hover {
     color: #ff645d;
 }
-
+/******************************************Add To Cart Success Html******************************************/
 .title {
     /*border: 2px solid #666666;*/
     width: 555px;
@@ -90,14 +90,17 @@ a:hover {
     margin-top: 50px;
     text-align: center;
 }
-
+div.title h1{
+    font-size: 25px;
+}
 .u-icon-radioSB {
     clear: both;
-    width: 22px;
-    height: 22px;
+    width: 25px;
+    height: 25px;
     border-radius: 100%;
     position: relative;
     background: #f4691c;
+    margin-top: 6px;
 }
 
 .u-icon-radioSB::after {
@@ -124,8 +127,12 @@ a:hover {
     color: white;
     background-color: red;
     padding: 10px 17px;
+    margin: 10px;
 }
-
+.to_cart a:hover{
+    background-color: #cc2f2e;
+    color: royalblue;
+}
 .book {
     margin-left: 55px;
     /*border: 2px solid #666666;*/
@@ -133,14 +140,15 @@ a:hover {
 
 .btn_to_cart {
     width: 400px;
+    /*border: 1px solid;*/
 }
 
-.logo img {
+.breadcrumb .logo img {
     width: 250px;
     margin: 10px auto;
 }
 
-/*购物车为空*/
+/**********************************购物车为空**********************************/
 .cart_em, .to_products {
     /*border: 1px solid;*/
     position: relative;

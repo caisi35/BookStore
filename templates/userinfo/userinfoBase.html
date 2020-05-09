@@ -13,6 +13,9 @@
                 <div class="info-list ">
                     <ul class="list-unstyled ">
                         <li>
+                            <a href="{{ url_for('userinfo.userinfo') }}">我</a>
+                        </li>
+                        <li>
                             <a href="{{ url_for('userinfo.orders') }}">我的订单</a>
                         </li>
                         <li>
@@ -27,11 +30,21 @@
             <div class="col-md-8 column right">
                 <div class="userinf_content">
                     {% block info_content %}
-                        我的信息
+                        <img src="{{ url_for('static', filename='images/avatar/'+user.avatar) }}" class="userinfo-img" alt="头像">
+                        <div>
+                            <p>{{ user.name }}</p>
+                        </div>
                     {% endblock %}
                 </div>
             </div>
         </div>
     </div>
+
 {% endblock %}
 
+{% block js %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/userinfo.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/pay.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/cart.js') }}"></script>
+
+{% endblock %}

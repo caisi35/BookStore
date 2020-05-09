@@ -1,0 +1,40 @@
+{% extends 'userinfo/userinfoBase.html' %}
+
+{% block info_content %}
+     {% for addr in addr %}
+            <div class="change-address">
+                <form method="post">
+                    <div class="address">
+                        <h2>修改收货人信息</h2>
+                        <ul>
+                            <li><span>姓名</span><input name="name" value="{{ addr.name }}" id="addr_name" required></li>
+                            <li><span>手机号码</span>
+                                <input name="tel" id="addr_tel" required minlength="11" maxlength="11"
+                                       pattern="[0-9]{11}" value="{{ addr.tel }}">
+                            </li>
+                            <li><span>所在地区</span>
+                                {% if addr.province %}
+                                    <select name="province" required onclick="changeProvince(s=this)">
+                                    <option id="option-default">{{ addr.province }}</option>
+                                {% endif %}
+                                </select>
+                                <select name="city" id="city" required>
+                                    <option>{{ addr.city }}</option>
+                                </select></li>
+                            <li class="textarea-before"><span>详细地址</span><textarea
+                                    name="details">{{ addr.details }}</textarea></li>
+                            <li><input name="_id" value="{{ addr._id }}" hidden></li>
+                        </ul>
+                    </div>
+                    <div class="bottom">
+                        <button class="btn" type="submit">提交</button>
+                    </div>
+                </form>
+            </div>
+            <div>
+                {% for message in get_flashed_messages() %}
+                    <p class="flash">{{ message }}</p>
+                {% endfor %}
+            </div>
+     {% endfor %}
+{% endblock %}

@@ -72,7 +72,7 @@ def login():
             session['user_id'] = user['id']
             session['user_name'] = user['name']
             print('# 登录成功',next, type(next))
-            if 'register' in next or next == 'None':
+            if 'register' in next or next == 'None' or 'login' in next:
                 # 如果是重注册页或者是直接从login链接过来的，重定向到主页去
                 return redirect(url_for('products.index'))
             else:
@@ -81,7 +81,7 @@ def login():
         else:
             # 登录失败
             flash(error)
-            print('error', '===================')
+            print('error', '===================', next)
             return redirect(url_for('user.login'))
     # get请求加载渲染login页面,传跳转过来的url链接
     return render_template('user/login.html', next=request.referrer)

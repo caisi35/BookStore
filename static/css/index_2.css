@@ -91,14 +91,33 @@ a {
     /*padding-top: 2px;*/
     margin-left: 100px;
 }
-
-#nav .search_kw .search_form {: #2D2D2D;
+/*****************搜索*****************/
+#nav .search_kw .search_form {
     margin-left: 200px;
     line-height: 45px;
 }
 
 #nav .search_kw .search_form input {
-    font-size: 17px;
+    /*font-size: 17px;*/
+    border-radius: 20px;
+    padding: 5px;
+    outline: none;
+    /*border: 1px solid;*/
+
+}
+#nav .search_kw .search_form input[name='word']{
+    font-size: 16px;
+    width: 250px;
+    border: none;
+        background: #f0f0f0;
+    padding-left: 15px;
+
+}
+#nav .search_kw .search_form input[type='submit'] {
+    width: 60px;
+        border: none;
+        background: #f0f0f0;
+    border: 1 px solid;
 }
 
 #nav li {

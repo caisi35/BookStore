@@ -154,7 +154,7 @@ button:hover {
 
 .pay_QR {
     width: 400px;
-    border: 1px solid;
+    /*border: 1px solid;*/
     /*子元素水平居中*/
     text-align: center;
     display: none;

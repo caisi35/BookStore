@@ -67,14 +67,15 @@
 .book_num {
     width: 40px;
     height: 33px;
-    border: 2px white;
+    border: 2px #B2B2B2;
     font-size: 20px;
+    background-color: deepskyblue;
 }
 
 .book-num {
     text-align: center;
     width: 40px;
-    height: 29px;
+    height: 30px;
 }
 
 .button {
@@ -106,7 +107,7 @@ button#calculate {
 
 a#buy-now {
     width: 180px;
-    height: 36px;
+    /*height: 36px;*/
     /*line-height: 36px;*/
     text-align: center;
     border-radius: 6px;
