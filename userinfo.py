@@ -36,13 +36,21 @@ def get_orders(user_id):
         amount = order['amount']
         order_no = order['order_no']
         create_time = order['create_time']
+        effective_time = order['create_time'] + timedelta(days=1)
         books = order['books']
         book_info = []
         for book in books:
             book_num = book['book_num']
             book_info.append({'book_num': book_num, 'books': get_book(ObjectId(book['book_id']))})
-        orders.append({'amount': amount, 'order_no': order_no, 'create_time': create_time, 'book_info': book_info})
+        orders.append({'amount': amount, 'order_no': order_no, 'create_time': create_time, 'book_info': book_info,
+                       'effective_time': effective_time})
     return orders
+
+
+@bp.route('/test', methods=('GET', 'POST'))
+def test():
+    create_time = get_orders(5)
+    return render_template('demo/endtime.html', create_time=create_time)
 
 
 # 用户订单页
@@ -73,6 +81,8 @@ def deleteOrder():
     except Exception as e:
         print('============deleteOrder============', e)
         return redirect(url_for('userinfo.orders'))
+
+
 @bp.route('/userinfo/deleteOrders', methods=('GET', 'POST'))
 @login_required
 def deleteOrders():
@@ -342,4 +352,3 @@ def addressChange():
         # 出错，重定向到userinfo页
         flash("修改失败，请重试！")
         return redirect(request.url)
-

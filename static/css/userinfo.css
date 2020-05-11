@@ -48,39 +48,76 @@
     float: left;
     width: 13%;
 }
-.userinfo-img{
+
+.userinfo-img {
     margin: 20px;
     height: 150px;
     width: 120px;
 }
+
 /*order******************************************orders.html****************************************order*************/
-.orders-content a{
+.orders-content a {
     color: #1c7ecf;
-}
-.orders-content a:hover{
-    color: rgba(40,20,204,0.88);
-    text-decoration: underline;
-}
-.table img {
-    width: 100px;
+
 }
 
-.table .books {
-    width: 60%;
+.orders-content a:hover {
+    color: rgba(40, 20, 204, 0.88);
+    text-decoration: underline;
+}
+td.books div.book_img {
+    margin: 5px 0;
+}
+.table img {
+    width: 80px;
+}
+.book_order{
+    width: 40px;
 }
 
 .table tr * {
     margin: 5px;
 }
-.orders-content .delete-orders{
+.table tr th.books {
+    width: 50%;
+}
+.table tr th:first-child{
+    width: 70px;
+}
+.table tr th:last-child{
+    width: 70px;
+}
+.table tr th.amount-price{
+    width: 60px;
+}
+.table tr th.order-effective-time{
+    width: 120px;
+}
+.orders-content .delete-orders {
     background-color: red;
     margin: 20px 0 30px 40px;
     padding: 5px 30px;
     border-radius: 15px;
 }
-.orders-content .delete-orders a{
-        color: black;
+
+.orders-content .delete-orders a {
+    color: black;
 }
+
+.effective-time {
+    color: red;
+    align-content: center;
+    font-weight: bold;
+}
+
+.effective-time>a {
+    color: white;
+    padding: 5px 10px;
+    background: red;
+    border-radius: 5px;
+    margin:15px auto;
+}
+
 /*info******************************************info.html****************************************info*************/
 .info * {
     margin: 10px;
@@ -236,11 +273,12 @@
     z-index: 19;
 }
 
-.change-pw label{
+.change-pw label {
     margin-left: 17%;
     font-size: 17px;
 }
-.change-pw input{
+
+.change-pw input {
     height: 30px;
     width: 40%;
     line-height: 30px;
@@ -257,6 +295,7 @@
 .change-pw input:hover {
     outline: none;
 }
+
 .change-pw .infotop {
     width: 100%;
     height: 60px;
@@ -269,6 +308,7 @@
 .change-pw .pay_title {
     position: absolute;
 }
+
 .change-pw .infotop div {
     top: 20px;
     bottom: 0;
@@ -294,43 +334,51 @@
 }
 
 /*****************************************上传头像图片××××××××××××××××××××××××××××××××××××××*/
-.avatar{
+.avatar {
     position: relative;
 }
-#show{
+
+#show {
     margin: 0px;
 }
-.upload-img{
+
+.upload-img {
     position: absolute;
 }
-.select-img{
+
+.select-img {
     top: 130px;
 }
-.upload-div{
+
+.upload-div {
     top: 200px;
 }
-.inputfile,#submit_img{
+
+.inputfile, #submit_img {
     display: none;
 }
-.upload-img label,.upload-select-img{
+
+.upload-img label, .upload-select-img {
     background-color: #4CAF50;
     color: white;
     padding: 5px 10px;
     border-radius: 3px;
 }
-.select-img{
+
+.select-img {
     margin: 0;
     margin-top: 50px;
 
 }
-.upload-div{
+
+.upload-div {
     margin-top: 10px;
     width: 70px;
     display: none;
 }
 
 /***********************收货人信息样式*************address-ul***********************************/
-.address-ul ul li{
+.address-ul ul li {
     float: left;
     width: 300px;
     margin: 30px 30px 30px 130px;
@@ -338,45 +386,55 @@
     border-radius: 3px;
     border: 2px solid #4CAF50;
 }
-.address-ul ul li p.address-info{
+
+.address-ul ul li p.address-info {
     margin-top: 35px;
     margin-bottom: 20px;
 }
-.address-ul ul li a{
+
+.address-ul ul li a {
     color: blueviolet;
     margin: 0px 10px;
 }
-.address-ul ul li .address-default{
+
+.address-ul ul li .address-default {
     width: 23px;
 }
-.address-ul ul li .address-default:focus{
+
+.address-ul ul li .address-default:focus {
 
 }
+
 /***********************编辑修改收货人信息样式************************************************/
 
-.change-address h2{
+.change-address h2 {
     text-align: center;
     color: blueviolet;
     margin: 20px;
 }
-.change-address ul{
+
+.change-address ul {
     text-align: center;
     font-size: 17px;
 }
-.change-address ul textarea{
+
+.change-address ul textarea {
     margin: 0;
     width: 250px;
     height: 100px;
     resize: none;
     vertical-align: text-top;
 }
-.change-address ul li.textarea-before{
+
+.change-address ul li.textarea-before {
     margin-top: 20px;
 }
-.change-address ul li.textarea-before span{
+
+.change-address ul li.textarea-before span {
     margin: 5px;
 }
-.change-address ul input,select{
+
+.change-address ul input, select {
     width: 100%;
     height: 36px;
     width: 200px;
@@ -388,25 +446,29 @@
     background: white;
     font-size: 17px;
 }
-.change-address ul select{
+
+.change-address ul select {
     width: 100px;
     padding: 0 10px 0 20px;
 }
-.change-address ul select:focus,input:focus {
+
+.change-address ul select:focus, input:focus {
     outline: none;
     background: #DDDDDD;
 }
-.change-address button{
+
+.change-address button {
     text-align: center;
     height: 30px;
     width: 130px;
     border-radius: 5px;
-    border:0;
+    border: 0;
     margin: 40px 0px 30px 43%;
     background-color: #4CAF50;
 }
+
 /***************************添加收货地址******************************************/
-#new_addr{
+#new_addr {
     color: black;
     border: 1px solid #4CAF50;
     background-color: #4CAF50;
@@ -480,10 +542,12 @@ div.add_address .btn {
     background: #f0f0f0;
     border: 1px solid #749dcf;
 }
-.add_address select option{
-        font-size: 15px;
+
+.add_address select option {
+    font-size: 15px;
 
 }
+
 .add_address input:focus, select:focus {
     outline: none;
     background: #DDDDDD;
@@ -517,22 +581,26 @@ div.add_address .btn {
     background: url("../images/popbox-close.png") center no-repeat;
 }
 
-input.dan_select,input.checkOnly{
+input.dan_select, input.checkOnly {
     width: 15px;
     height: 15px;
 }
+
 .add_address .content {
     margin-left: 50px;
 }
-.add_address .bottom button{
+
+.add_address .bottom button {
     width: 90px;
     height: 30px;
     margin: 30px;
 }
-.add_address .bottom button:hover{
+
+.add_address .bottom button:hover {
     color: white;
 }
-.a-link{
+
+.a-link {
     clear: both;
     padding-top: 30px;
     margin: 50px 200px;
