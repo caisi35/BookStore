@@ -1,41 +1,8 @@
 {% extends 'userinfo/userinfoBase.html' %}
 
+{% block title %}我的订单{% endblock %}
+
 {% block info_content %}
-
-    <script>
-        Date.prototype.Format = function (fmt) { //author: meizz
-            var o = {
-                "M+": this.getMonth() + 1, //月份
-                "d+": this.getDate(), //日
-                "h+": this.getHours(), //小时
-                "m+": this.getMinutes(), //分
-                "s+": this.getSeconds(), //秒
-                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-                "S": this.getMilliseconds() //毫秒
-            };
-            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-            for (var k in o)
-                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-            return fmt;
-        }
-
-        function countDown(maxtime, fn, endtime) {
-            var timer = setInterval(function () {
-                if (!!maxtime && maxtime >= 0) {
-                    var day = Math.floor(maxtime / 86400),
-                        hour = Math.floor((maxtime % 86400) / 3600),
-                        minutes = Math.floor((maxtime % 3600) / 60),
-                        seconds = Math.floor(maxtime % 60),
-                        msg = day + "天" + hour + "时" + minutes + "分" + seconds + "秒"+'<br>';
-                    fn(msg);
-                    --maxtime;
-                } else {
-                    clearInterval(timer);
-                    fn(false);
-                }
-            }, 1000);
-        }
-    </script>
     <div class="orders-content">
         {% if orders %}
             <table class="table table-hover" id="table">
@@ -98,7 +65,7 @@
                                         var span = document.getElementById('{{ order.order_no }}');
                                         span.innerHTML = msg;
                                         var a = document.createElement('a');
-                                        a.href="{{ url_for('products.order', order_no=order.order_no) }}";
+                                        a.href="{{ url_for('userinfo.orderDetails', order_no=order.order_no) }}";
                                         a.innerText='支付';
                                         span.appendChild(a)
 
@@ -117,6 +84,11 @@
                 </tbody>
             </table>
             <div class="btn delete-orders left"><a href="#" type="button" onclick="deleteOrders()">删除</a></div>
+        {% else %}
+            <div class="order-null">
+                <h2>您的订单为空！</h2>
+                <div class="a-link"><a href="{{ url_for('products.index') }}">点我，去购物！</a></div>
+            </div>
         {% endif %}
     </div>
 {% endblock %}

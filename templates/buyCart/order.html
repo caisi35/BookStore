@@ -3,7 +3,7 @@
 {% block buy_cart %}
     {% if order_no %}
         <div>
-            <p><span>订单号：</span>{{ order_no.order_no }}</p>
+            <p><span>订单号：</span><a href="{{ url_for('userinfo.orderDetails', order_no=order_no.order_no) }}">{{ order_no.order_no }}</a></p>
             <p><span>金额：</span>{{ order_no.amount }}￥</p>
             <p><span>提交日期：</span><span>{{ order_no['create_time'].strftime('%Y-%m-%d %H:%M:%S') }}</span>
         </div>

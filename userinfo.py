@@ -17,9 +17,9 @@ bp = Blueprint('userinfo', __name__)
 
 
 # 用户信息页
-@bp.route('/userinfo', methods=('GET', 'POST'))
+@bp.route('/userInfo', methods=('GET', 'POST'))
 @login_required
-def userinfo():
+def userInfo():
     try:
         user = get_user(session.get('user_id'))
         return render_template('userinfo/userinfoBase.html', user=user)
@@ -47,14 +47,8 @@ def get_orders(user_id):
     return orders
 
 
-@bp.route('/test', methods=('GET', 'POST'))
-def test():
-    create_time = get_orders(5)
-    return render_template('demo/endtime.html', create_time=create_time)
-
-
 # 用户订单页
-@bp.route('/userinfo/order', methods=('GET', 'POST'))
+@bp.route('/userinfo/orders', methods=('GET', 'POST'))
 @login_required
 def orders():
     try:
@@ -66,6 +60,7 @@ def orders():
         return redirect(request.referrer)
 
 
+# 删除订单
 @bp.route('/userinfo/deleteOrder', methods=('GET', 'POST'))
 @login_required
 def deleteOrder():
@@ -83,6 +78,7 @@ def deleteOrder():
         return redirect(url_for('userinfo.orders'))
 
 
+# 选中删除订单
 @bp.route('/userinfo/deleteOrders', methods=('GET', 'POST'))
 @login_required
 def deleteOrders():
@@ -102,6 +98,52 @@ def deleteOrders():
     except Exception as e:
         print('============deleteOrder============', e)
         return redirect(url_for('userinfo.orders'))
+
+
+# 获取订单详情
+def get_order_details(order_no, user_id):
+    cur = ToMongo().get_col('order').find_one({'user_id': user_id, 'order_no': order_no})
+    create_time = cur['create_time']
+    effective_time = create_time+timedelta(days=1)
+    is_processed = cur['is_processed']
+    amount = cur['amount']
+    order_id = cur['_id']
+    order_no = cur['order_no']
+    is_effective = cur['is_effective']
+    address = cur['address']
+    book_list = []
+    for book in cur['books']:
+        book_dict = {}
+        book_dict['num'] = book['book_num']
+        book_id = book['book_id']
+        book_dict['book'] = get_book(book_id)
+        book_list.append(book_dict)
+
+    order_dict = {}
+    order_dict['books'] = book_list
+    order_dict['_id'] = order_id
+    order_dict['create_time'] = create_time
+    order_dict['effective_time'] = effective_time
+    order_dict['is_processed'] = is_processed
+    order_dict['amount'] = amount
+    order_dict['order_no'] = order_no
+    order_dict['is_effective'] = is_effective
+    order_dict['address'] = address
+    return order_dict
+
+
+# 订单详情
+@bp.route('/userinfo/orderDetails', methods=('GET', 'POST'))
+@login_required
+def orderDetails():
+    try:
+        order_no = request.args.get('order_no')
+        user_id = session.get('user_id')
+        order_details = get_order_details(order_no, user_id)
+        return render_template('userinfo/orderDetails.html', order_details=order_details)
+    except Exception as e:
+        print('============orderDetails============', e)
+        return redirect(url_for('userinfo'))
 
 
 # 用户信息页

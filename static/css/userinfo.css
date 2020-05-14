@@ -1,3 +1,5 @@
+/*userinfoBase******************************************userinfoBase.html****************************************userinfoBase*************/
+
 * {
     margin: 0;
     padding: 0;
@@ -54,7 +56,10 @@
     height: 150px;
     width: 120px;
 }
-
+.userinf_content .username{
+    margin-top: 50px;
+    margin-left: 20px;
+}
 /*order******************************************orders.html****************************************order*************/
 .orders-content a {
     color: #1c7ecf;
@@ -117,7 +122,68 @@ td.books div.book_img {
     border-radius: 5px;
     margin:15px auto;
 }
+/*order-details******************************************order-details.html****************************************order-details*************/
+div.order-detail{
+    position: relative;
+}
+.order-details .books{
+    padding: 20px;
+}
+.order-details .books img{
+    width: 100px;
+}
+.order-null{
+    margin: 50px 100px;
+}
+.order-null h2{
+    color: #e0a800;
+}
+.order-null a{
+    padding: 10px 20px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background-color: #be3ed0;
+    color: white;
+}
+.order-null a:hover{
+    background-color: #6f42c1;
+    color: #fd7e14;
+    text-decoration: none;
+}
+.order-details .info{
+    margin: 20px;
 
+}
+.order-details .address{
+    margin-top: 30px;
+}
+.order-details .delete a {
+    color: #6f42c1;
+    padding: 5px;
+
+}
+.order-details .delete a:hover{
+    text-decoration: underline;
+}
+.order-details ul{
+    position: relative;
+}
+.order-details ul li{
+    margin:20px 30px;
+}
+
+.order-details .to_pay a.pay{
+    background-color: red;
+    color: white;
+    align-content: center;
+    font-weight: bold;
+    padding: 8px 20px;
+    border-radius: 8px;
+}
+.order-details .to_pay a.pay:hover{
+    background-color:#c9302c;
+}
 /*info******************************************info.html****************************************info*************/
 .info * {
     margin: 10px;

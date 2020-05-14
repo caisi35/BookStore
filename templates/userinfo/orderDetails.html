@@ -1,0 +1,77 @@
+{% extends 'userinfo/userinfoBase.html' %}
+
+{% block title %}订单详情{% endblock %}
+
+{% block info_content %}
+    <div>
+        <div class="order-details">
+            {% if order_details %}
+                <div class="info address">
+                    <span>配送地址：</span>
+                    <span>{{ order_details.address.province }}</span>
+                    <span>{{ order_details.address.city }}</span>
+                    <span>{{ order_details.address.details }}</span>
+                </div>
+
+                <div class="info">
+                     <p>订单号：{{ order_details.order_no }}</p>
+                    <p>订单金额：{{ order_details.amount }}</p>
+                </div>
+                <div class="books">
+                    <ul>
+                        {% for book in order_details.books %}
+                            <li class="left" id="{{ book.book._id }}">
+                                <div class="book_img left">
+                                    <a href="{{ url_for('products.product', id=book.book['_id']) }}" class="left">
+                                        <img src="{{ book.book['img_url'] }}" title="{{ book.book['title'] }}"
+                                             alt="book-img">
+                                    </a>
+                                    <span style="display: none" class="book-info right" id="{{ book.book._id }}span">
+                                        <span>{{ book.book['title'] }}</span>
+                                        <br><br>
+                                        <span>{{ book.book['price'] }} x {{ book.num }}</span>
+                                    </span>
+                                </div>
+                            </li>
+                            <script>
+                                var li_id = document.getElementById('{{ book.book._id }}');
+                                var span_id = document.getElementById('{{ book.book._id }}span');
+                                showmouseevent(li_id, span_id)
+                            </script>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="info delete right">
+                    <a href="#" onclick="deleteOrder('{{ order_details.order_no }}')">删除订单</a>
+                </div>
+                <div class="info right create-time">
+                    <span id="{{ order_details.order_no }}"
+                          class="effective-time">下单时间：{{ order_details.create_time.strftime('%Y-%m-%d %H:%M:%S') }}
+                    </span>
+                    <script>
+                        var newtime = new Date();
+                        var endtime = new Date("{{ order_details.effective_time.strftime('%Y/%m/%d,%H:%M:%S') }}");
+                        countDown((endtime.getTime() - newtime.getTime()) / 1000, function (msg) {
+                            if (msg) {
+                                var span = document.getElementById('{{ order_details.order_no }}');
+                                span.innerHTML = msg;
+                                var div = document.createElement('div');
+                                div.setAttribute('class', 'to_pay');
+                                var a = document.createElement('a');
+                                a.innerText = '支付';
+                                a.setAttribute('href', '{{ url_for('products.pay', order_no=order_details.order_no) }}');
+                                a.setAttribute('class', 'pay');
+                                div.appendChild(a);
+                                span.appendChild(div);
+                            } else {
+                                document.getElementById('{{ order_details.order_no }}').innerHTML = "下单时间：{{ order_details.create_time.strftime('%Y-%m-%d %H:%M:%S') }}";
+                            }
+                        }, endtime);
+                    </script>
+
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

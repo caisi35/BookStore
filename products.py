@@ -314,6 +314,7 @@ def address():
         else:
             conn.rollback()
             conn.close()
+        return redirect(request.referrer)
     except Exception as e:
         print('========address=========:', e)
     return redirect(url_for('products.buy_list'))
@@ -352,6 +353,10 @@ def to_pay():
     create_time = datetime.now()
     books = []
     try:
+        # 获取收货地址,写入订单号详情
+        address_cur = ToConn().get_db('select address_default from users where id=%s', (user_id, )).fetchone()
+        address = ToMongo().get_col('address').find_one({'user_id':user_id, '_id': ObjectId(address_cur['address_default'])})
+
         for book_id in book_ids:
             db = ToConn()
             sql = 'select book_num from cart where user_id=%s and book_id=%s and is_effe=1'
@@ -361,7 +366,7 @@ def to_pay():
             else:
                 books.append({'book_num': 1, 'book_id': book_id})
         v = {"amount": amount, "books": books, "order_no": order_no, "is_processed": 0, "user_id": user_id,
-             "create_time": create_time, "is_effective": 1, }
+             "create_time": create_time, "is_effective": 1, "address": address}
         mydb = ToMongo()
         result = mydb.insert('order', v)
         if result:

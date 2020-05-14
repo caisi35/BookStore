@@ -31,8 +31,9 @@
                                 <div class="price">
                                     <h1>￥{{ book.price }}</h1>
                                     <div class="search_btn right">
-                                        <form method="post">
+                                        <form method="post" action="{{ url_for('products.add_to_cart') }}">
                                             <input type="hidden" name="book_id" value={{ book['_id'] }}>
+                                            <input type="hidden" name="num" value=1>
                                             <div class="cart left">
                                                 <button type="submit" id="calculate"
                                                         class="btn btn-default left">加入购物车

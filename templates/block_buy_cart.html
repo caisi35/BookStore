@@ -26,9 +26,9 @@
             {% if session['user_id'] %}
                 <li>
                     {% if session['user_name'] != None %}
-                        <a href="{{ url_for('userinfo.userinfo') }}"><span>Hi~，</span>{{ session['user_name'] }}</a>
+                        <a href="{{ url_for('userinfo.userInfo') }}"><span>Hi~，</span>{{ session['user_name'] }}</a>
                     {% else %}
-                        <a href="{{ url_for('userinfo.userinfo') }}"><span>Hi~，</span>您还为未命名</a>
+                        <a href="{{ url_for('userinfo.userInfo') }}"><span>Hi~，</span>您还为未命名</a>
                     {% endif %}
                 </li>
                 <li><a href="{{ url_for('user.logout') }}">退出登录</a></li>

@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %} - MyBookStore</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index_2.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index_login.css') }}">
     <!--登录弹出框中的小图标--->
@@ -26,9 +28,9 @@
             {% if session['user_id'] %}
                 <li>
                     {% if session['user_name'] != None %}
-                        <a href="{{ url_for('userinfo.userinfo') }}"><span>Hi~，</span>{{ session['user_name'] }}</a>
+                        <a href="{{ url_for('userinfo.userInfo') }}"><span>Hi~，</span>{{ session['user_name'] }}</a>
                     {% else %}
-                        <a href="{{ url_for('userinfo.userinfo') }}"><span>Hi~，</span>您还为未命名</a>
+                        <a href="{{ url_for('userinfo.userInfo') }}"><span>Hi~，</span>您还为未命名</a>
                     {% endif %}
                 </li>
                 <li><a href="{{ url_for('user.logout') }}">退出登录</a></li>
