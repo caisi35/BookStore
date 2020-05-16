@@ -1,0 +1,37 @@
+{% extends 'admin/indexBase.html' %}
+
+{% block title %}后台管理{% endblock %}
+
+{% block sub_header %}
+
+    <h2 class="sub-header">Section title</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>用户名</th>
+                <th>手机号</th>
+                <th>email</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{% if user.name == None %}{% else %}{{ user.name }}{% endif %}</td>
+                    <td>{{ user.tel }}</td>
+                    <td>{% if user.email == None %}{% else %}{{ user.email }}{% endif %}</td>
+                    <td>
+                        <a type="button" class="btn btn-primary" role="button">修改</a>&nbsp;&nbsp;
+                        <button type="button" class="btn btn-danger" onclick="deleteUser('{{ user.id }}')">删除</button>&nbsp;&nbsp;
+                        <button type="button" class="btn btn-danger">冻结</button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

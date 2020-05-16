@@ -2,6 +2,7 @@ from flask import Flask
 import user
 import products
 import userinfo
+from views import admin, signIn
 
 
 def create_app(test_config=None):
@@ -17,9 +18,11 @@ def create_app(test_config=None):
 
     app.register_blueprint(userinfo.bp)
 
+    app.register_blueprint(admin.bp)
+
+    app.register_blueprint(signIn.bp)
+
     app.add_url_rule('/', endpoint='index')
-
-
 
     return app
 

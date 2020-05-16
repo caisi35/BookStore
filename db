@@ -32,6 +32,29 @@ CREATE TABLE IF NOT EXISTS `cart`(
    constraint `fk_cart_user` foreign key(user_id) references users(id)      comment 外键关联用户id
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+******admin表 保存后台管理员信息******
+
+-- auto-generated definition
+create table admin
+(
+  id           int auto_increment comment '自增id',
+  email        varchar(64)   not null comment '登录邮箱地址',
+  password     varchar(128)  not null comment '管理员登录密码',
+  sign_count   int default 0 not null comment '登录次数',
+  is_effective int default 1 not null comment '是否有效',
+  last_signIn_time date          not null comment '上次登录时间',
+
+  constraint admin_email_uindex
+    unique (email),
+  constraint admin_id_uindex
+    unique (id)
+)
+  comment '管理员';
+
+alter table admin
+  add primary key (id);
+
 --****************************** mongodb 数据库信息 ******************************************************************--
 -- 数据库名：products
 -- 集合：books,images,order,address
@@ -77,3 +100,5 @@ address{
     city            城市
     details         备注
 }
+
+
