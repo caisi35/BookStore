@@ -1,0 +1,42 @@
+{% extends 'admin/indexBase.html' %}
+
+{% block title %}图书管理{% endblock %}
+
+{% block search %}
+    <form class="navbar-form navbar-right" method="get" action="{{ url_for('bookAdmin.search_book') }}">
+        <input type="text" class="form-control" name="kw" placeholder="Search...Books">
+    </form>
+{% endblock %}
+
+{% block sub_header %}
+
+    <h2 class="sub-header">图书列表</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="row">
+            <tr>
+                <th class="col-1">#</th>
+                <th class="col-1">书名</th>
+                <th class="col-1">作者</th>
+                <th class="col-lg-5">简介</th>
+                <th class="col-1">价格</th>
+                <th class="col-sm-1">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for book in books %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.subheading }}</td>
+                    <td>{{ book.price }}</td>
+                    <td><a type="button" class="btn btn-primary" role="button"
+                           href="{{ url_for('bookAdmin.bookDetails' , book_id=book['_id']) }}">详情</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

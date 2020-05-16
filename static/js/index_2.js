@@ -47,9 +47,9 @@ $('button#index_login').click(function () {
             // async: false,
             success: function (data) {
                 //登录失败
-                if (data.result == 'False') {
-                    $('#message').text("帐号或密码错误")
-                } else if (data.result == 'True') {
+                if (data.result === 'False') {
+                    $('#message').text(data.error)
+                } else if (data.result === 'True') {
                     window.location.reload()
                 }
             },

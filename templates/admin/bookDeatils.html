@@ -1,0 +1,31 @@
+{% extends 'admin/indexBase.html' %}
+
+{% block title %}图书详情{% endblock %}
+
+{% block search %}
+    <form class="navbar-form navbar-right" method="get" action="{{ url_for('bookAdmin.search_book') }}">
+        <input type="text" class="form-control" name="kw" placeholder="Search...Books">
+    </form>
+{% endblock %}
+
+{% block sub_header %}
+
+    <h2 class="sub-header">图书详情</h2>
+    <div class="row">
+        <div class="col-md-3">
+            <img src="{{ book.img_url }}" alt="图书封面"/>
+        </div>
+        <div class="col-md-8">
+            <br>
+            <p>书名：{{ book.title }}</p>
+            <p>作者：{{ book.author }}</p>
+            <p>简介：{{ book.subheading }}</p>
+            <p>{{ book.price }}<span>  原价：{{ book.price_m }}</span></p>
+            <p>出版社：{{ book.press }}</p>
+            <p>{{ book.pub_time }}</p>
+            <p>图片链接：{{ book.img_url }}</p>
+        </div>
+    </div>
+
+
+{% endblock %}

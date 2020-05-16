@@ -2,7 +2,7 @@ from flask import Flask
 import user
 import products
 import userinfo
-from views import admin, signIn
+from views import admin, signIn, userAdmin, bookAdmin
 
 
 def create_app(test_config=None):
@@ -21,6 +21,10 @@ def create_app(test_config=None):
     app.register_blueprint(admin.bp)
 
     app.register_blueprint(signIn.bp)
+
+    app.register_blueprint(userAdmin.bp)
+
+    app.register_blueprint(bookAdmin.bp)
 
     app.add_url_rule('/', endpoint='index')
 

@@ -42,6 +42,7 @@
             <li><a href="{{ url_for('products.cart') }}">购物车</a></li>
             <li><a href="#">我的书屋</a></li>
             <li><a href="#">企业采购</a></li>
+            <li><a href="{{ url_for('admin.admin') }}">后台管理</a></li>
             <li class="customer_s"><a href="#">客户服务</a></li>
         </ul>
     </div>
@@ -215,10 +216,14 @@
                     <div class="remember-con">
                         <input type="checkbox" id="input1" class="inputbox">
                         <label for="input1">记住密码</label>
+
                     </div>
                     <div class="remember-con">
                         <a href="#" class="code"><i class="fa fa-question-circle"></i>忘记密码</a>
-                        <a href="{{ url_for('user.register') }}"><i class="fa fa-question-circle"></i>去注册</a>
+
+                        <a href="{{ url_for('user.register') }}"><i class="fa fa-question-circle"></i>去注册</a>&nbsp;
+                        <a href="mailto:caisi1735@163.com"><i class="fa fa-question-circle"></i>Email to Admin</a>
+
                     </div>
                 </div>
             </div>

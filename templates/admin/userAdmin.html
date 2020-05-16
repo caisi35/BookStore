@@ -1,10 +1,16 @@
 {% extends 'admin/indexBase.html' %}
 
-{% block title %}后台管理{% endblock %}
+{% block title %}用户管理{% endblock %}
+
+{% block search %}
+    <form class="navbar-form navbar-right" method="get" action="{{ url_for('userAdmin.search') }}">
+        <input type="text" class="form-control" name="kw" placeholder="Search...Users">
+    </form>
+{% endblock %}
 
 {% block sub_header %}
 
-    <h2 class="sub-header">Section title</h2>
+    <h2 class="sub-header">用户列表</h2>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
@@ -24,9 +30,16 @@
                     <td>{{ user.tel }}</td>
                     <td>{% if user.email == None %}{% else %}{{ user.email }}{% endif %}</td>
                     <td>
-                        <a type="button" class="btn btn-primary" role="button">修改</a>&nbsp;&nbsp;
-                        <button type="button" class="btn btn-danger" onclick="deleteUser('{{ user.id }}')">删除</button>&nbsp;&nbsp;
-                        <button type="button" class="btn btn-danger">冻结</button>
+                        <a type="button" class="btn btn-primary" role="button"
+                           onclick="resetPwd('{{ user.id }}')">重置密码</a>&nbsp;&nbsp;
+                        <button type="button" class="btn btn-danger" onclick="deleteUser('{{ user.id }}')">删除账户</button>
+                        {% if user.is_freezing %}
+                            <a type="button" class="btn btn-danger" role="button"
+                               onclick="activate_user('{{ user.id }}')">激活账户</a>
+                        {% else %}
+                            <a type="button" class="btn btn-danger" role="button"
+                               onclick="freezing_user('{{ user.id }}')">冻结账户</a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
@@ -34,4 +47,8 @@
         </table>
     </div>
 
+{% endblock %}
+
+{% block js_bottom %}
+    <script src="{{ url_for('static', filename='js/admin/admin_top.js') }}"></script>
 {% endblock %}

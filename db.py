@@ -248,6 +248,21 @@ class ToMongo:
             print('==============get_img================\n', e)
 
 
+# MongoDB搜索功能的模糊查询
+def get_like_books(word):
+    try:
+        mydb = ToMongo()
+        book_list = []
+        mycol = mydb.get_col('books')
+        books = mycol.find({'$or': [{'press': {"$regex": word}}, {'title': {"$regex": word}},
+                                    {'subheading': {"$regex": word}}, {'author': {"$regex": word}}]})
+        for book in books:
+            book_list.append(book)
+        return book_list
+    except Exception as e:
+        print('========get_like_books=========', e)
+
+
 class Spider:
     headers = {"User-Agent":
                    "Mozilla/5.0 (Windows; U; Windows NT 6.0 "

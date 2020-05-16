@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <link href="/static/css/admin/dashboard.css" rel="stylesheet">
+
 </head>
 <body>
 
@@ -28,7 +29,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Bookstore 管理</a>
+            <a class="navbar-brand" href="{{ url_for('admin.admin') }}">Bookstore 管理</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -37,9 +38,11 @@
                 <li><a href="#">Profile</a></li>
                 <li><a href="#">Help</a></li>
             </ul>
+            {% block search %}
             <form class="navbar-form navbar-right">
                 <input type="text" class="form-control" placeholder="Search...">
             </form>
+            {% endblock %}
         </div>
     </div>
 </nav>
@@ -55,13 +58,13 @@
                 <li><a href="#">Export</a></li>
             </ul>
             <ul class="nav nav-sidebar">
-                <li><a href="">图书管理</a></li>
+                <li><a href="{{ url_for('bookAdmin.bookAdmin') }}">图书管理</a></li>
                 <li><a href="">Nav item</a></li>
                 <li><a href="">Another nav item</a></li>
                 <li><a href="">More navigation</a></li>
             </ul>
             <ul class="nav nav-sidebar">
-                <li><a href="">用户管理</a></li>
+                <li><a href="{{ url_for('userAdmin.userAdmin') }}">用户管理</a></li>
                 <li><a href="">Nav item again</a></li>
                 <li><a href="">One more nav</a></li>
                 <li><a href="">Another nav item</a></li>
@@ -105,9 +108,12 @@
 </div>
 
 
+<script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
+<script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
+{% block js_bottom %}{% endblock %}
 </body>
 </html>

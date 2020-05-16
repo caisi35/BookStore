@@ -65,6 +65,8 @@ def login():
             error = 'Incorrect username or password'
         elif not check_password_hash(user['password'], password):
             error = 'Incorrect username or password'
+        elif user['is_freezing']:
+            error = 'The User Freezing, Please Contact Administrator'
 
         if error is None:
             # 登录成功
@@ -102,6 +104,9 @@ def index_login():
         error = 'Incorrect username or password'
     elif not check_password_hash(user['password'], password):
         error = 'Incorrect username or password'
+    elif user['is_freezing']:
+        error = 'The User Freezing, Please Contact Administrator'
+
     if error is None:
         session.clear()
         session['user_id'] = user['id']
@@ -109,7 +114,7 @@ def index_login():
         return jsonify(result='True')
     else:
         flash(error)
-        return jsonify(result='False')
+        return jsonify(result='False', error=error)
 
 
 @bp.before_app_first_request

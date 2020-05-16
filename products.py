@@ -1,7 +1,7 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for, session, jsonify
 )
-from db import ToConn, ToMongo
+from db import ToConn, ToMongo, get_like_books
 from werkzeug.exceptions import abort
 from user import login_required
 from bson.objectid import ObjectId
@@ -420,19 +420,7 @@ def order():
         return abort(403)
 
 
-# 搜索功能的模糊查询
-def get_like_books(word):
-    try:
-        mydb = ToMongo()
-        book_list = []
-        mycol = mydb.get_col('books')
-        books = mycol.find({'$or': [{'press': {"$regex": word}}, {'title': {"$regex": word}},
-                                    {'subheading': {"$regex": word}}, {'author': {"$regex": word}}]})
-        for book in books:
-            book_list.append(book)
-        return book_list
-    except Exception as e:
-        print('========get_like_books=========', e)
+
 
 
 # 搜索功能
