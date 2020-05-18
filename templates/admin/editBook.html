@@ -1,0 +1,73 @@
+{% extends 'admin/bookDeatils.html' %}
+
+{% block title %}图书详情{% endblock %}
+
+{% block search %}
+    <form class="navbar-form navbar-right" method="get" action="{{ url_for('bookAdmin.search_book') }}">
+        <input type="text" class="form-control" name="kw" placeholder="Search...Books">
+    </form>
+{% endblock %}
+
+{% block sub_header %}
+    <h2 class="sub-header">图书详情</h2>
+    <div class="row">
+        <div class="col-md-3">
+            <img src="{{ book.img_url }}" alt="图书封面"/>
+        </div>
+        <div class="col-md-8">
+            <br>
+            <form class="form-signin" method="post" action="{{ url_for('bookAdmin.editBook') }}">
+
+                <div class="input-group">
+                    <label for="title" class="input-group-addon">书名：</label>
+                    <input value="{{ book.title }}" id="title" name="title" class="form-control">
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">作者：</span>
+                    <input type="text" value="{{ book.author }}" name="author" class="form-control">
+                </div>
+                <br>
+                <div class="input-group">
+                    <label class="input-group-addon">简介：</label>
+                    <textarea class="form-control" rows="3" name="subheading">{{ book.subheading }}</textarea>
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">售价：</span>
+                    <input type="text" value="{{ book.price }}" name="price" class="form-control">
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">定价：</span>
+                    <input type="text" value="{{ book.price_m }}" name="price_m" class="form-control">
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">出版社：</span>
+                    <input type="text" value="{{ book.press }}" name="press" class="form-control">
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">出版时间：</span>
+                    <input type="text" value="{{ book.pub_time }}" name="pub_time" class="form-control">
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">封面链接：</span>
+                    <input type="text" value="{{ book.img_url }}" name="img_url" class="form-control">
+                </div>
+                <br>
+                <input type="hidden" name="book_id" value="{{ book['_id'] }}">
+                <input type="hidden" name="next" value="{{ request.referrer }}">
+                <div>
+                    <button type="submit" class="btn btn-primary">提交</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="reset" class="btn btn-info">取消</button>
+                    {% for message in get_flashed_messages() %}
+                        <div class="flash text-center"><b>{{ message }}</b></div>
+                    {% endfor %}
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

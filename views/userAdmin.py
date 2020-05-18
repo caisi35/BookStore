@@ -7,11 +7,11 @@ from db import ToConn
 from views.signIn import admin_login_required
 from werkzeug.exceptions import abort
 
-bp = Blueprint('userAdmin', __name__, url_prefix='/admin')
+bp = Blueprint('userAdmin', __name__, url_prefix='/admin/userAdmin')
 
 
 # 加载用户管理页
-@bp.route('/userAdmin', methods=('GET', 'POST'))
+@bp.route('/', methods=('GET', 'POST'))
 @admin_login_required
 def userAdmin():
     try:

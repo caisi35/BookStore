@@ -1,15 +1,9 @@
 {% extends 'admin/indexBase.html' %}
 
-{% block title %}图书管理{% endblock %}
-
-{% block search %}
-    <form class="navbar-form navbar-right" method="get" action="{{ url_for('bookAdmin.search_book') }}">
-        <input type="text" class="form-control" name="kw" placeholder="Search...Books">
-    </form>
-{% endblock %}
+{% block title %}回收站{% endblock %}
 
 {% block sub_header %}
-    <h2 class="sub-header">图书列表</h2>
+    <h2 class="sub-header">回收站列表</h2>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead class="row">
@@ -19,7 +13,10 @@
                 <th class="col-1">作者</th>
                 <th class="col-lg-5">简介</th>
                 <th class="col-1">价格</th>
-                <th class="col-md-2"></th>
+                <th class="col-lg-2"></th>
+                {% for message in get_flashed_messages() %}
+                    <th class="col-1 info">错误</th>
+                {% endfor %}
             </tr>
             </thead>
             <tbody>
@@ -30,13 +27,19 @@
                     <td>{{ book.author }}</td>
                     <td>{{ book.subheading }}</td>
                     <td>{{ book.price }}</td>
-                    <td><a type="button" class="btn btn-primary" role="button"
-                           href="{{ url_for('bookAdmin.bookDetails' , book_id=book['_id']) }}">详情</a>
+                    <td>
                         <a type="button" class="btn btn-primary" role="button"
-                           href="{{ url_for('bookAdmin.off_shelf' , book_id=book['_id']) }}"
-                           onclick="javascrip:return confirm('您确定要将该物品下架？')">下架</a>
+                           href="{{ url_for('admin.restores' , book_id=book['_id']) }}"
+                           onclick="javascrip:return confirm('您确定要将该物品还原？')">还原</a>
+                        <a type="button" class="btn btn-danger" role="button"
+                           href="{{ url_for('admin.trash_delete' , book_id=book['_id']) }}"
+                           onclick="javascrip:return confirm('您确定要将该物品删除？')">删除</a>
                     </td>
+                    {% for message in get_flashed_messages() %}
+                        <td class="flash text-center"><b>asdf{{ message }}</b></td>
+                    {% endfor %}
                 </tr>
+
             {% endfor %}
             </tbody>
         </table>

@@ -2,7 +2,7 @@
 function deleteUser(id) {
     if(confirm('您确定要删除该用户？')){
         $.ajax({
-            url: $SCRIPT_ROOT+'/admin/delete_user',
+            url: $SCRIPT_ROOT+'/admin/userAdmin/delete_user',
             type:'post',
             dataType:'json',
             data:{'id': id},
@@ -25,7 +25,7 @@ function deleteUser(id) {
 function resetPwd(id) {
     if(confirm('您确定要重置该用户的密码？')){
         $.ajax({
-            url: $SCRIPT_ROOT+'/admin/reset_pwd',
+            url: $SCRIPT_ROOT+'/admin/userAdmin/reset_pwd',
             type:'post',
             dataType:'json',
             data:{'id': id},
@@ -46,7 +46,7 @@ function resetPwd(id) {
 function freezing_user(id) {
         if(confirm('您确定要冻结该账户吗？')){
         $.ajax({
-            url: $SCRIPT_ROOT+'/admin/freezing',
+            url: $SCRIPT_ROOT+'/admin/userAdmin/freezing',
             type:'post',
             dataType:'json',
             data:{'id': id},
@@ -69,7 +69,7 @@ function freezing_user(id) {
 function activate_user(id) {
         if(confirm('您确定要激活该账户吗？')){
         $.ajax({
-            url: $SCRIPT_ROOT+'/admin/activate_user',
+            url: $SCRIPT_ROOT+'/admin/userAdmin/activate_user',
             type:'post',
             dataType:'json',
             data:{'id': id},

@@ -263,6 +263,42 @@ def get_like_books(word):
         print('========get_like_books=========', e)
 
 
+# MongoDB分页功能
+def get_pages(page, index=3):
+    count = ToMongo().get_col('books').count()  # 120
+    if count % 20:
+        pages = int(count / 20) + 1
+    else:
+        pages = int(count / 20)
+    pages = list(i for i in range(1, pages + 1))
+    max_page = max(pages)
+    if (max(pages) - index) <= page:
+        pages_ = pages[page - 2:page + 1]
+    else:
+        pages_ = (pages[page - 1:page + 2])
+    if len(pages_) < 3:
+        pages_ = pages[-3:]
+    return pages_, max_page
+
+
+# MongoDB 回收站分页功能
+def get_trash(page, index=3):
+    count = ToMongo().get_col('trash').count()  # 120
+    if count % 20:
+        pages = int(count / 20) + 1
+    else:
+        pages = int(count / 20)
+    pages = list(i for i in range(1, pages + 1))
+    max_page = max(pages)
+    if (max(pages) - index) <= page:
+        pages_ = pages[page - 2:page + 1]
+    else:
+        pages_ = (pages[page - 1:page + 2])
+    if len(pages_) < 3:
+        pages_ = pages[-3:]
+    return pages_, max_page
+
+
 class Spider:
     headers = {"User-Agent":
                    "Mozilla/5.0 (Windows; U; Windows NT 6.0 "

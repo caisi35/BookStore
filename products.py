@@ -86,7 +86,7 @@ def add_to_cart():
             # 发生错误回滚
             to_db.rollback()
             db2.to_close()
-            abort(403)
+            abort(404)
 
 
 # 购物车
@@ -107,7 +107,7 @@ def cart():
             books.append(b1)
     except Exception as e:
         print('========cart=========:', e)
-    return render_template('products/cart.html', books=books)
+        return abort(404)
 
 
 # 购物车图书数量修改
@@ -158,8 +158,8 @@ def count_buy():
             mydb['sum_price'] = round(float(mydb['price']) * float(book_num['book_num']), 2)
             book_list.append(mydb)
     except Exception as e:
-        return redirect(url_for('products.cart'))
         print('========count_buy=========:', e)
+        return redirect(url_for('products.cart'))
 
     if book_list:
         return jsonify(result=book_list)
