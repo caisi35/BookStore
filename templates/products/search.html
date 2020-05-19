@@ -27,7 +27,7 @@
                                     <span>出版社：</span>
                                     <a href="{{ url_for('products.search', word=book['press']) }}">{{ book.press }}</a>
                                 </div>
-                                <div class="pub_time left"><span>{{ book.pub_time }}</span></div>
+                                <div class="pub_time left"><span>{% if '出版' in book.pub_time %}{{ book.pub_time }}{% else %}出版时间：{{ book.pub_time }}{% endif %}</span></div>
                                 <div class="price">
                                     <h1>￥{{ book.price }}</h1>
                                     <div class="search_btn right">

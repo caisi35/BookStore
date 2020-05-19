@@ -5,6 +5,7 @@ from bson.objectid import ObjectId
 from db import ToMongo, get_like_books, get_pages
 from views.signIn import admin_login_required
 from werkzeug.exceptions import abort
+from werkzeug.utils import secure_filename
 
 bp = Blueprint('bookAdmin', __name__, url_prefix='/admin/bookAdmin')
 
@@ -38,8 +39,12 @@ def add_book():
     try:
         # POST 提交请求
         if request.method == 'POST':
-            next = request.form.get('next', '')
-            book_id = request.form.get('book_id', '')
+            img = request.files['img']
+            s_img = secure_filename(img.filename)
+            # 随机文件名+后缀
+            filepath = './static/images/book_img/' + s_img
+            img.save(filepath)
+
             title = request.form.get('title', '')
             author = request.form.get('author', '')
             subheading = request.form.get('subheading', '')
@@ -47,27 +52,22 @@ def add_book():
             price_m = request.form.get('price_m', '')
             press = request.form.get('press', '')
             pub_time = request.form.get('pub_time', '')
-            img_url = request.form.get('img_url', '')
-            q = {'_id': ObjectId(book_id)}
-            v = {
-                '$set': {'title': title, 'author': author, 'subheading': subheading, 'price': price, 'price_m': price_m,
-                         'press': press, 'pub_time': pub_time, 'img_url': img_url}}
-            result = ToMongo().update('books', q, v).modified_count
-            if result:
-                # 成功重定向上一页
-                return redirect(next)
-            elif result == 0:
-                flash('没有改变！')
-                return redirect(request.referrer)
+            img_url = '/static/images/book_img/'+s_img
+            v = {'title': title, 'author': author, 'subheading': subheading, 'price': price, 'price_m': price_m,
+                         'press': press, 'pub_time': pub_time, 'img_url': img_url}
+            result = ToMongo().insert('books', v)
+            if result.inserted_id:
+                book = ToMongo().get_col('books').find({'_id': result.inserted_id})
+                return render_template('admin/bookDeatils.html', book=list(book)[0])
             else:
-                # 失败重定向刷新
-                flash('提交失败！')
-                return redirect(request.referrer)
+                flash('操作失败')
+                print(request.url)
+                return redirect(request.url)
 
         # GET 请求渲染
         return render_template('admin/addBook.html')
     except Exception as e:
-        print('=========book Admin editBook=========', e)
+        print('=========book Admin add_book=========', e)
         return abort(404)
 
 

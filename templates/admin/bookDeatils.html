@@ -12,7 +12,11 @@
     <h2 class="sub-header">图书详情</h2>
     <div class="row">
         <div class="col-md-3">
+{#            {% if book.img_url %}#}
             <img src="{{ book.img_url }}" alt="图书封面"/>
+{#            {% elif book.img_name %}#}
+{#            <img src="{{ url_for('static', filename='images/book_img/'+book.img_name) }}" alt="图书封面"/>#}
+{#            {% endif %}#}
         </div>
         <div class="col-md-8">
             <br>
@@ -22,7 +26,7 @@
             <p>售价：{{ book.price }}</p>
             <p>定价：{{ book.price_m }}</p>
             <p>出版社：{{ book.press }}</p>
-            <p>{{ book.pub_time }}</p>
+            <p>出版日期：{{ book.pub_time }}</p>
             <p>封面链接：{{ book.img_url }}</p>
             <a href="{{ url_for('bookAdmin.editBook', book_id= book['_id']) }}" type="button" class="btn btn-primary" role="button">编辑</a>
         </div>

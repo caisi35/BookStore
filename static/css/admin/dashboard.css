@@ -107,3 +107,12 @@ body {
 .flash b{
   color: red;
 }
+
+#file{
+opacity:0;/*设置此控件透明度为零，即完全透明*/
+ filter:alpha(opacity=0);/*设置此控件透明度为零，即完全透明针对IE*/
+ font-size:100px;
+ top:0;
+ right:0;
+}
+

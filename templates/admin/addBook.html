@@ -11,12 +11,15 @@
 {% block sub_header %}
     <h2 class="sub-header">添加图书</h2>
     <div class="row">
-        <form method="POST" action="{{ url_for('userinfo.inputAvatar') }}" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data">
 
-            <div class="col-md-3">
-                <img src="" alt="图书封面"/>
-                <input type="file" name="avatar" id="file" class="inputfile" onchange="changepic(this)"
-                       accept="image/png, image/jpeg, image/gif, image/jpg" value="上传图片"></div>
+            <div class="col-md-3 text-center">
+                <img src="" alt="图书封面" id="show"/>
+                <br><br>
+                <label class="btn btn-info fileinput-button" for="file" >上传图片</label>
+                    <input type="file" name="img" id="file"  onchange="changepic(this)" formenctype="multipart/form-data"
+                       accept="image/png, image/jpeg, image/gif, image/jpg">
+            </div>
             <div class="col-md-8">
                 <br>
                 {#            <form class="form-signin" method="post" action="{{ url_for('bookAdmin.editBook') }}">#}
@@ -52,13 +55,13 @@
                 <br>
                 <div class="input-group">
                     <span class="input-group-addon">出版时间：</span>
-                    <input type="text" name="pub_time" class="form-control" required>
+                    <input type="date" name="pub_time" class="form-control" required>
                 </div>
                 <br>
-                <div class="input-group">
-                    <span class="input-group-addon">封面链接：</span>
-                    <input type="text" name="img_url" class="form-control" required>
-                </div>
+{#                <div class="input-group">#}
+{#                    <span class="input-group-addon">封面链接：</span>#}
+{#                    <input type="text" name="img_url" class="form-control">#}
+{#                </div>#}
                 <br>
                 <div>
                     <button type="submit" class="btn btn-primary">提交</button>&nbsp;&nbsp;&nbsp;&nbsp;
