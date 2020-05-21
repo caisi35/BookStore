@@ -1,3 +1,27 @@
+
+// 将用户加入回收站
+function add_user_to_trash(id) {
+    if(confirm('您确定要将该用户放入回收车？')){
+        $.ajax({
+            url: $SCRIPT_ROOT+'/admin/userAdmin/add_trash',
+            type:'post',
+            dataType:'json',
+            data:{'id': id},
+            success:function (result) {
+                if (result){
+                    alert('加入成功');
+                    window.location.reload()
+                }else{
+                    alert('操作失败');
+                }
+            },
+            error:function (e) {
+                console.log('DeleteUser Error:'+e.toString())
+            }
+        })
+    }
+}
+
 // 删除用户
 function deleteUser(id) {
     if(confirm('您确定要删除该用户？')){

@@ -4,69 +4,104 @@
 
 {% block sub_header %}
     <h2 class="sub-header">回收站列表</h2>
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead class="row">
-            <tr>
-                <th class="col-1">#</th>
-                <th class="col-1">书名</th>
-                <th class="col-1">作者</th>
-                <th class="col-lg-5">简介</th>
-                <th class="col-1">价格</th>
-                <th class="col-lg-2"></th>
-                {% for message in get_flashed_messages() %}
-                    <th class="col-1 info">错误</th>
-                {% endfor %}
-            </tr>
-            </thead>
-            <tbody>
-            {% for book in books %}
+    {% if books %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead class="row">
                 <tr>
-                    <td>{{ loop.index }}</td>
-                    <td>{{ book.title }}</td>
-                    <td>{{ book.author }}</td>
-                    <td>{{ book.subheading }}</td>
-                    <td>{{ book.price }}</td>
-                    <td>
-                        <a type="button" class="btn btn-primary" role="button"
-                           href="{{ url_for('admin.restores' , book_id=book['_id']) }}"
-                           onclick="javascrip:return confirm('您确定要将该物品还原？')">还原</a>
-                        <a type="button" class="btn btn-danger" role="button"
-                           href="{{ url_for('admin.trash_delete' , book_id=book['_id']) }}"
-                           onclick="javascrip:return confirm('您确定要将该物品删除？')">删除</a>
-                    </td>
+                    <th class="col-1">#</th>
+                    <th class="col-1">书名</th>
+                    <th class="col-1">作者</th>
+                    <th class="col-lg-5">简介</th>
+                    <th class="col-1">价格</th>
+                    <th class="col-lg-2"></th>
                     {% for message in get_flashed_messages() %}
-                        <td class="flash text-center"><b>asdf{{ message }}</b></td>
+                        <th class="col-1 info">错误</th>
                     {% endfor %}
                 </tr>
+                </thead>
+                <tbody>
+                {% for book in books %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.author }}</td>
+                        <td>{{ book.subheading }}</td>
+                        <td>{{ book.price }}</td>
+                        <td>
+                            <a type="button" class="btn btn-primary" role="button"
+                               href="{{ url_for('admin.restores' , book_id=book['_id']) }}"
+                               onclick="javascrip:return confirm('您确定要将该物品还原？')">还原</a>
+                            <a type="button" class="btn btn-danger" role="button"
+                               href="{{ url_for('admin.trash_delete' , book_id=book['_id']) }}"
+                               onclick="javascrip:return confirm('您确定要将该物品删除？')">删除</a>
+                        </td>
+                        {% for message in get_flashed_messages() %}
+                            <td class="flash text-center"><b>asdf{{ message }}</b></td>
+                        {% endfor %}
+                    </tr>
 
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <div class="row text-center">
-        <nav aria-label="Page navigation">
-            <ul class="pagination pagination-lg">
-                <li {% if active_page == pages|min %}class="disabled"{% endif %}>
-                    <a href="{{ url_for('bookAdmin.bookAdmin', page=1) }}">首页</a></li>
-                <li {% if active_page == pages|min %}class="disabled"{% endif %}>
-                    <a href="{{ url_for('bookAdmin.bookAdmin', page=active_page - 1) }}" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                {% for page in pages %}
-                    <li class="{% if active_page == page %}active{% endif %}">
-                        <a href="{{ url_for('bookAdmin.bookAdmin', page=page) }}">{{ page }}</a></li>
                 {% endfor %}
-                <li {% if active_page == pages|max %}class="disabled"{% endif %}>
-                    <a href="{{ url_for('bookAdmin.bookAdmin', page=active_page + 1) }}" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-                <li {% if active_page == pages|max %}class="disabled"{% endif %}>
-                    <a href="{{ url_for('bookAdmin.bookAdmin', page=max_page) }}">尾页</a></li>
-                <li class="disabled"><a>共{{ max_page }}页</a></li>
-            </ul>
-        </nav>
-    </div>
+                </tbody>
+            </table>
+        </div>
+        <div class="row text-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination pagination-lg">
+                    <li {% if active_page == pages|min %}class="disabled"{% endif %}>
+                        <a href="{{ url_for('bookAdmin.bookAdmin', page=1) }}">首页</a></li>
+                    <li {% if active_page == pages|min %}class="disabled"{% endif %}>
+                        <a href="{{ url_for('bookAdmin.bookAdmin', page=active_page - 1) }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% for page in pages %}
+                        <li class="{% if active_page == page %}active{% endif %}">
+                            <a href="{{ url_for('bookAdmin.bookAdmin', page=page) }}">{{ page }}</a></li>
+                    {% endfor %}
+                    <li {% if active_page == pages|max %}class="disabled"{% endif %}>
+                        <a href="{{ url_for('bookAdmin.bookAdmin', page=active_page + 1) }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <li {% if active_page == pages|max %}class="disabled"{% endif %}>
+                        <a href="{{ url_for('bookAdmin.bookAdmin', page=max_page) }}">尾页</a></li>
+                    <li class="disabled"><a>共{{ max_page }}页</a></li>
+                </ul>
+            </nav>
+        </div>
+    {% elif users %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>用户名</th>
+                    <th>手机号</th>
+                    <th>email</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{% if user.name == None %}{% else %}{{ user.name }}{% endif %}</td>
+                        <td>{{ user.tel }}</td>
+                        <td>{% if user.email == None %}{% else %}{{ user.email }}{% endif %}</td>
+                        <td>
+                            <a type="button" class="btn btn-primary" role="button"
+                               href="{{ url_for('admin.restores_user' , user_id=user.id) }}"
+                               onclick="javascrip:return confirm('您确定要将该物品还原？')">还原</a>&nbsp;&nbsp;
+                            &nbsp;
+                            <button type="button" class="btn btn-danger" onclick="deleteUser('{{ user.id }}')">
+                                删除
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
 {% endblock %}

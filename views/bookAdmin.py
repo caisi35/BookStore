@@ -78,7 +78,7 @@ def search_book():
     try:
         word = request.args.get('kw')
         books = get_like_books(word)
-        return render_template('admin/bookAdmin.html', books=list(books))
+        return render_template('admin/bookAdmin.html', books=list(books), active_page=1)
     except Exception as e:
         print('=========book Admin search=========', e)
         return abort(404)

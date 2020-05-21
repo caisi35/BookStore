@@ -75,6 +75,17 @@ def admin_login():
         return abort(404)
 
 
+# 退出
+@bp.route('/admin_logout')
+def admin_logout():
+    """
+    注销用户登录信息
+    :return:
+    """
+    session.clear()
+    return redirect(url_for('signIn.admin_login'))
+
+
 # 过滤视图，拦截非用户访问路由视图
 def admin_login_required(view):
     @functools.wraps(view)

@@ -44,24 +44,46 @@
     <div class="row text-center">
         <nav aria-label="Page navigation">
             <ul class="pagination pagination-lg">
-                <li {% if active_page == pages|min %}class="disabled"{% endif %}>
-                    <a href="{{ url_for('bookAdmin.bookAdmin', page=1) }}">首页</a></li>
-                <li {% if active_page == pages|min %}class="disabled"{% endif %}>
+                <li {% if active_page == 1 %}class="disabled"{% endif %}>
+                    {% if active_page == 1 %}
+                    <a>首页</a>
+                    {% else %}
+                        <a href="{{ url_for('bookAdmin.bookAdmin', page=1) }}">首页</a>
+                    {% endif %}
+                </li>
+                <li {% if active_page == 1 %}class="disabled"{% endif %}>
+                    {% if active_page == 1 %}
+                    <a aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                    {% else %}
                     <a href="{{ url_for('bookAdmin.bookAdmin', page=active_page - 1) }}" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
+                    {% endif %}
                 </li>
                 {% for page in pages %}
                     <li class="{% if active_page == page %}active{% endif %}">
                         <a href="{{ url_for('bookAdmin.bookAdmin', page=page) }}">{{ page }}</a></li>
                 {% endfor %}
                 <li {% if active_page == pages|max %}class="disabled"{% endif %}>
+                    {% if active_page == max_page %}
+                    <a  aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                    {% else %}
                     <a href="{{ url_for('bookAdmin.bookAdmin', page=active_page + 1) }}" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
+                    {% endif %}
                 </li>
                 <li {% if active_page == pages|max %}class="disabled"{% endif %}>
-                    <a href="{{ url_for('bookAdmin.bookAdmin', page=max_page) }}">尾页</a></li>
+                    {% if active_page == pages|max %}
+                        <a>尾页</a>
+                    {% else %}
+                        <a href="{{ url_for('bookAdmin.bookAdmin', page=max_page) }}">尾页</a>
+                    {% endif %}
+                    </li>
                 <li class="disabled"><a>共{{ max_page }}页</a></li>
             </ul>
         </nav>

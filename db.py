@@ -265,7 +265,7 @@ def get_like_books(word):
 
 # MongoDB分页功能
 def get_pages(page, index=3):
-    count = ToMongo().get_col('books').count()  # 120
+    count = ToMongo().get_col('books').find({'is_off_shelf': 0}).count()  # 120
     if count % 20:
         pages = int(count / 20) + 1
     else:
@@ -291,6 +291,25 @@ def get_trash(page, index=3):
     pages = list(i for i in range(1, pages + 1))
     max_page = max(pages)
     if (max(pages) - index) <= page:
+        pages_ = pages[page - 2:page + 1]
+    else:
+        pages_ = (pages[page - 1:page + 2])
+    if len(pages_) < 3:
+        pages_ = pages[-3:]
+    return pages_, max_page
+
+
+# 用户分页函数
+def get_page(page_user, page):
+    users = ToConn().get_db('select * from users where is_delete=0').fetchall()
+    user_count = len(users)
+    # divmod 返回商和余数
+    pages = divmod(user_count, page_user)
+    pages = pages[0]+pages[1]
+    max_page = pages
+    pages = list(i for i in range(1, pages + 1))
+
+    if (max(pages) - page_user) <= page:
         pages_ = pages[page - 2:page + 1]
     else:
         pages_ = (pages[page - 1:page + 2])

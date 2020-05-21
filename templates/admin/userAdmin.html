@@ -31,7 +31,6 @@
                     <td>
                         <a type="button" class="btn btn-primary" role="button"
                            onclick="resetPwd('{{ user.id }}')">重置密码</a>&nbsp;&nbsp;
-                        <button type="button" class="btn btn-danger" onclick="deleteUser('{{ user.id }}')">删除账户</button>
                         {% if user.is_freezing %}
                             <a type="button" class="btn btn-danger" role="button"
                                onclick="activate_user('{{ user.id }}')">激活账户</a>
@@ -39,11 +38,62 @@
                             <a type="button" class="btn btn-danger" role="button"
                                onclick="freezing_user('{{ user.id }}')">冻结账户</a>
                         {% endif %}
+                        &nbsp;
+                        <button type="button" class="btn btn-danger" onclick="add_user_to_trash('{{ user.id }}')">
+                            加入回收站
+                        </button>
                     </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+    </div>
+    <div class="row text-center">
+        <nav aria-label="Page navigation">
+            <ul class="pagination pagination-lg">
+                <li {% if active_page == 1 %}class="disabled"{% endif %}>
+                    {% if active_page == 1 %}
+                        <a>首页</a>
+                    {% else %}
+                        <a href="{{ url_for('userAdmin.userAdmin', page=1) }}">首页</a>
+                    {% endif %}
+                </li>
+                <li {% if active_page == 1 %}class="disabled"{% endif %}>
+                    {% if active_page == 1 %}
+                        <a aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('userAdmin.userAdmin', page=active_page - 1) }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    {% endif %}
+                </li>
+                {% for page in pages %}
+                    <li class="{% if active_page == page %}active{% endif %}">
+                        <a href="{{ url_for('userAdmin.userAdmin', page=page) }}">{{ page }}</a></li>
+                {% endfor %}
+                <li {% if active_page == pages|max %}class="disabled"{% endif %}>
+                    {% if active_page == max_page %}
+                        <a aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('userAdmin.userAdmin', page=active_page + 1) }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    {% endif %}
+                </li>
+                <li {% if active_page == pages|max %}class="disabled"{% endif %}>
+                    {% if active_page == pages|max %}
+                        <a>尾页</a>
+                    {% else %}
+                        <a href="{{ url_for('userAdmin.userAdmin', page=max_page) }}">尾页</a>
+                    {% endif %}
+                </li>
+                <li class="disabled"><a>共{{ max_page }}页</a></li>
+            </ul>
+        </nav>
     </div>
 {% endblock %}
 

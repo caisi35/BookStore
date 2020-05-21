@@ -3,7 +3,7 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify
 )
 from werkzeug.security import check_password_hash, generate_password_hash
-from db import ToConn
+from db import ToConn, get_page
 from views.signIn import admin_login_required
 from werkzeug.exceptions import abort
 
@@ -15,10 +15,21 @@ bp = Blueprint('userAdmin', __name__, url_prefix='/admin/userAdmin')
 @admin_login_required
 def userAdmin():
     try:
-        users = ToConn().get_db('select * from users')
-        return render_template('admin/userAdmin.html', users=users)
+        page = request.args.get('page', 1, int)
+        # 一页展示多少用户信息
+        page_user = 3
+        if page == 1:
+            # 请求为默认的第一页
+            users = ToConn().get_db('select * from users where is_delete=0 limit %s', (page_user))
+            active_page = 1
+        else:
+            users = ToConn().get_db('select * from users where is_delete=0 limit %s,%s', ((page-1)*page_user, page_user))
+            active_page = page
+
+        pages, max_page = get_page(page_user, page)
+        return render_template('admin/userAdmin.html', users=users, pages=pages, active_page=active_page, max_page=max_page)
     except Exception as e:
-        print('==============Admin delete_user=================', e)
+        print('==============Admin userAdmin=================', e)
         return abort(404) + str(e)
 
 
@@ -32,10 +43,32 @@ def search():
         users = ToConn().get_db(sql, (word, word, word))
         return render_template('admin/userAdmin.html', users=users)
     except Exception as e:
-        print('==============Admin delete_user=================', e)
+        print('==============Admin search=================', e)
         return abort(404)
 
 
+# 加入回收站
+@bp.route('/add_trash', methods=('GET', 'POST'))
+@admin_login_required
+def add_trash():
+    try:
+        conn = ToConn().to_execute()
+        cur = conn.cursor()
+        id = request.form.get('id', '')
+
+        result = cur.execute('update users set is_delete=1 where id=%s', (id,))
+        if result:
+            conn.commit()
+            return jsonify(True)
+        else:
+            conn.rollback()
+            return jsonify(False)
+    except Exception as e:
+        print('==============Admin delete_user=================', e)
+        return 'Error:' + str(e)
+
+
+# 删除账户
 @bp.route('/delete_user', methods=('GET', 'POST'))
 @admin_login_required
 def delete_user():
@@ -56,7 +89,7 @@ def delete_user():
         return 'Error:' + str(e)
 
 
-# 生成随机密码
+# 修改用户密码，生成随机密码
 def get_pwd():
     src = string.ascii_letters + string.digits
     ll = random.sample(src, 8)
@@ -101,7 +134,7 @@ def freezing():
             conn.rollback()
             return jsonify(False)
     except Exception as e:
-        print('==============Admin reset_pwd=================', e)
+        print('==============Admin freezing=================', e)
         return 'Error:' + str(e)
 
 
@@ -121,5 +154,5 @@ def activate_user():
             conn.rollback()
             return jsonify(False)
     except Exception as e:
-        print('==============Admin reset_pwd=================', e)
+        print('==============Admin activate_user=================', e)
         return 'Error:' + str(e)
