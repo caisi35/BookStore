@@ -50,6 +50,8 @@ def get_user(id):
 @bp.route('/product?<string:id>', methods=('GET', 'POST'))
 def product(id):
     book = get_book(id)
+    # 添加点击量
+    ToMongo().update('books', {'_id': ObjectId(book['_id'])}, {'$inc': {'hits': 1}})
     return render_template('products/product.html', book=book)
 
 
@@ -94,7 +96,6 @@ def add_to_cart():
 @login_required
 def cart():
     try:
-        books = []
         user_id = session.get('user_id')
         db = ToConn()
         sql = 'select book_id, book_num from cart where user_id=%s and is_effe=1'
@@ -105,6 +106,7 @@ def cart():
             b1['book_num'] = book_id['book_num']
             b1['sum_price'] = round((int(book_id['book_num']) * float(b1['price'])), 2)
             books.append(b1)
+        return render_template('products/cart.html', books=books)
     except Exception as e:
         print('========cart=========:', e)
         return abort(404)
@@ -185,7 +187,7 @@ def get_buy(user_id, books_id, is_list=True):
             else:
                 address = ToMongo().get_col('address').find({'_id': ObjectId(user['address_default'])})
                 for a in address:
-                    addr['name']=a['name']
+                    addr['name'] = a['name']
                     addr['tel'] = a['tel']
                     addr['province'] = a['province']
                     addr['city'] = a['city']
@@ -342,7 +344,7 @@ def addr_delete():
         print('========addr_delete=========:', e)
 
 
-# 支付页面方法
+# 结算页面的去支付方法
 @bp.route('/to_pay', methods=('GET', 'POST'))
 @login_required
 def to_pay():
@@ -354,8 +356,9 @@ def to_pay():
     books = []
     try:
         # 获取收货地址,写入订单号详情
-        address_cur = ToConn().get_db('select address_default from users where id=%s', (user_id, )).fetchone()
-        address = ToMongo().get_col('address').find_one({'user_id':user_id, '_id': ObjectId(address_cur['address_default'])})
+        address_cur = ToConn().get_db('select address_default from users where id=%s', (user_id,)).fetchone()
+        address = ToMongo().get_col('address').find_one(
+            {'user_id': user_id, '_id': ObjectId(address_cur['address_default'])})
 
         for book_id in book_ids:
             db = ToConn()
@@ -382,6 +385,9 @@ def to_pay():
                 conn.rollback()  # 事务回滚
             else:
                 conn.commit()  # 事务提交
+                # 销量加1
+                for book_id in book_ids:
+                    ToMongo().update('books', {'_id': ObjectId(book_id)}, {'$inc': {'sales': 1}})
             db.to_close()
     except Exception as e:
         print('========to_pay=========:', e)
@@ -400,13 +406,14 @@ def pay():
         images.append({'data': weixin_image, 'name': '微信支付'})
         images.append({'data': zhifubao_image, 'name': '支付宝支付'})
         my_orders = mydb.get_col('order').find({"is_effective": 1, 'order_no': order_no})
-        return render_template('buyCart/pay.html', user=get_user(session.get('user_id')), orders=my_orders,
+        return render_template('buyCart/pay.html', user=get_user(session.get('user_id')), orders=list(my_orders),
                                images=images)
     except Exception as e:
         print('========pay=========:', e)
         return abort(403)
 
 
+# 订单号
 @bp.route('/order', methods=('GET', 'POST'))
 @login_required
 def order():
@@ -418,9 +425,6 @@ def order():
     except Exception as e:
         print('========order=========:', e)
         return abort(403)
-
-
-
 
 
 # 搜索功能

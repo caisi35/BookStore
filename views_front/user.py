@@ -73,7 +73,6 @@ def login():
             session.clear()
             session['user_id'] = user['id']
             session['user_name'] = user['name']
-            print('# 登录成功',next, type(next))
             if 'register' in next or next == 'None' or 'login' in next:
                 # 如果是重注册页或者是直接从login链接过来的，重定向到主页去
                 return redirect(url_for('products.index'))

@@ -24,10 +24,21 @@ def userInfo():
         return redirect(request.referrer)
 
 
+# 获取图书信息
+def get_order_book(id):
+    mydb = ToMongo()
+    mycol = mydb.get_col('books')
+    book = mycol.find_one({'_id': ObjectId(id)})
+    if book is None:
+        return
+    if str(book['_id']) != str(id):
+        return
+    return book
 # 查询用户订单信息
 def get_orders(user_id):
     result = ToMongo().get_col('order').find({'user_id': user_id, 'is_effective': 1})
     orders = []
+    result = list(result)
     for order in result:
         amount = order['amount']
         order_no = order['order_no']
@@ -37,7 +48,8 @@ def get_orders(user_id):
         book_info = []
         for book in books:
             book_num = book['book_num']
-            book_info.append({'book_num': book_num, 'books': get_book(ObjectId(book['book_id']))})
+            # 图书下架后get_book查询不到信息，会抛出错误
+            book_info.append({'book_num': book_num, 'books': get_order_book(ObjectId(book['book_id']))})
         orders.append({'amount': amount, 'order_no': order_no, 'create_time': create_time, 'book_info': book_info,
                        'effective_time': effective_time})
     return orders
@@ -49,8 +61,8 @@ def get_orders(user_id):
 def orders():
     try:
         user_id = session.get('user_id')
-        orders = get_orders(user_id)
-        return render_template('userinfo/orders.html', orders=orders)
+        orders_ = get_orders(user_id)
+        return render_template('userinfo/orders.html', orders=orders_)
     except Exception as e:
         print('============orders============', e)
         return redirect(request.referrer)
@@ -134,6 +146,7 @@ def get_order_details(order_no, user_id):
 def orderDetails():
     try:
         order_no = request.args.get('order_no')
+        print('============orderDetails============', order_no)
         user_id = session.get('user_id')
         order_details = get_order_details(order_no, user_id)
         return render_template('userinfo/orderDetails.html', order_details=order_details)

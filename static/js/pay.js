@@ -4,12 +4,12 @@ function to_pay() {
     var addr_id = $('#addr_id').text();
     if (addr_id.length === 24) {
         var amount = document.getElementById("amount_pay");
+        console.log(amount.innerText);
         $.ajax({
             url: $SCRIPT_ROOT + '/to_pay',
-            type: "post",
+            type: "POST",
             data: {amount_pay: amount.innerText, books: books_},
             dataType: 'json',
-            async: false,
             success: function (data) {
                 var order_no = data.result;
                 window.location.href = $SCRIPT_ROOT + '/pay?order_no=' + order_no;

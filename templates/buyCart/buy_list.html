@@ -16,7 +16,7 @@
                         <tr>
                             <th>
                                 <span class="name ">{{ addr['name'] }}</span>
-                                <span class="tel right"> {{ addr.tel }}</span>
+                                <span class="tel right">{{ addr.tel }}</span>
                             </th>
                         </tr>
                         </thead>
@@ -58,8 +58,7 @@
                             <ul>
                                 <li><span>姓名</span><input name="name" id="addr_name" required></li>
                                 <li><span>手机号码</span>
-                                    <input name="tel" id="addr_tel" required minlength="11" maxlength="11"
-                                           autofocus pattern="[0-9]{11}">
+                                    <input name="tel" id="addr_tel" required minlength="11" maxlength="11" pattern="[0-9]{11}">
                                 </li>
                                 <li><span>所在地区</span>
                                     <select name="province" id="province" required>
