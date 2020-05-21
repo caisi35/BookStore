@@ -5,9 +5,11 @@ from models.db import ToConn, ToMongo, get_trash, get_page
 from views_admin.signIn import admin_login_required
 from werkzeug.exceptions import abort
 from bson.objectid import ObjectId
-
+from pyecharts import Bar
+import pymongo
 
 bp = Blueprint('admin', __name__, url_prefix='/admin')
+REMOTE_HOST = "/static/assets/js"
 
 
 # 管理主页
@@ -15,10 +17,35 @@ bp = Blueprint('admin', __name__, url_prefix='/admin')
 @admin_login_required
 def admin():
     try:
-        return render_template('admin/indexBase.html')
+        bar = hits_bar()
+        return render_template('admin/indexBase.html',
+                               myhitsbar=bar.render_embed(),
+                               host=REMOTE_HOST,
+                               script_list=bar.get_js_dependencies(),
+                               )
     except Exception as e:
         print('==============Admin login=================', e)
-        return 'Error:'+str(e)
+        return 'Error:' + str(e)
+
+
+# 获取点击量hits的数据
+def get_hits_data():
+    data = ToMongo().get_col('books').find({'hits': {'$gt': 0}}).sort('hits', pymongo.DESCENDING).limit(10)
+    data_x = []
+    data_y = []
+    for i in data:
+        data_x.append(i['title'])
+        data_y.append(i['hits'])
+    return data_x, data_y
+
+
+# 实例化 点击量的柱形图
+# 实例链接https://05x-docs.pyecharts.org/#/zh-cn/flask
+def hits_bar():
+    bar = Bar(title='点击量 TOP 10', height=300, width=300)
+    data_x, data_y = get_hits_data()
+    bar.add('', data_x, data_y, xaxis_rotate=45, is_xaxis_show=False, is_toolbox_show=False)
+    return bar
 
 
 # 回收站
@@ -45,7 +72,9 @@ def book_trash():
         return render_template('admin/trash.html', books=list(books), active_page=active_page, max_page=max_page)
     except Exception as e:
         print('==============Admin book_trash=================', e)
-        return 'Error:'+str(e)
+        return 'Error:' + str(e)
+
+
 @bp.route('/user_trash', methods=('GET', 'POST'))
 @admin_login_required
 def user_trash():
@@ -69,7 +98,7 @@ def user_trash():
         return render_template('admin/trash.html', users=users)
     except Exception as e:
         print('==============Admin user_trash=================', e)
-        return 'Error:'+str(e)
+        return 'Error:' + str(e)
 
 
 # 还原图书
@@ -89,6 +118,7 @@ def restores():
     except Exception as e:
         print('=========book Admin restores=========', e)
         return abort(404)
+
 
 # 还原用户
 @bp.route('/restores_user', methods=('GET', 'POST'))
