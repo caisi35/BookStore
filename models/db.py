@@ -4,8 +4,7 @@ from bson.code import Code
 from bs4 import BeautifulSoup
 from bs4 import UnicodeDammit
 import urllib.request
-import threading
-import time
+
 
 
 class ToConn:
@@ -301,15 +300,17 @@ def get_trash(page, index=3):
 
 # 用户分页函数
 def get_page(page_user, page):
-    users = ToConn().get_db('select * from users where is_delete=0').fetchall()
-    user_count = len(users)
+    user_count = ToConn().get_db('select count(*) as c from users where is_delete=0  ').fetchall()[0]['c']
+
     # divmod 返回商和余数
     pages = divmod(user_count, page_user)
-    pages = pages[0]+pages[1]
+    if pages[1]:
+        pages = pages[0]+1
+    else:
+        pages = pages[0]
     max_page = pages
     pages = list(i for i in range(1, pages + 1))
-
-    if (max(pages) - page_user) <= page:
+    if (max(pages) - page_user) < page:
         pages_ = pages[page - 2:page + 1]
     else:
         pages_ = (pages[page - 1:page + 2])

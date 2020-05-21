@@ -1,17 +1,13 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for, session, jsonify
+    Blueprint, flash, redirect, render_template, request, url_for, session, jsonify
 )
-from db import ToConn, ToMongo
-from werkzeug.exceptions import abort
-from user import login_required
+from models.db import ToConn, ToMongo
+from views_front.user import login_required
 from bson.objectid import ObjectId
-import time, random, base64
-from datetime import datetime, timedelta
-from products import get_user, get_book
-import products
+from datetime import timedelta
+from views_front.products import get_user, get_book
 from werkzeug.utils import secure_filename
 from werkzeug.security import check_password_hash, generate_password_hash
-import os
 
 bp = Blueprint('userinfo', __name__)
 

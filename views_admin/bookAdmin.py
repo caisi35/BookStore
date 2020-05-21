@@ -1,9 +1,9 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify
+    Blueprint, flash, redirect, render_template, request, url_for
 )
 from bson.objectid import ObjectId
-from db import ToMongo, get_like_books, get_pages
-from views.signIn import admin_login_required
+from models.db import ToMongo, get_like_books, get_pages
+from views_admin.signIn import admin_login_required
 from werkzeug.exceptions import abort
 from werkzeug.utils import secure_filename
 

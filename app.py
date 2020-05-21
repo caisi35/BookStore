@@ -1,8 +1,6 @@
 from flask import Flask
-import user
-import products
-import userinfo
-from views import admin, signIn, userAdmin, bookAdmin
+from views_front import user, products, userinfo
+from views_admin import admin, signIn, userAdmin, bookAdmin
 
 
 def create_app(test_config=None):

@@ -3,7 +3,7 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify
 )
 from werkzeug.security import check_password_hash, generate_password_hash
-from db import ToConn
+from models.db import ToConn
 
 bp = Blueprint('user', __name__, url_prefix='/user')
 

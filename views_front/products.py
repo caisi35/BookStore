@@ -1,9 +1,9 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for, session, jsonify
+    Blueprint, redirect, render_template, request, url_for, session, jsonify
 )
-from db import ToConn, ToMongo, get_like_books
+from models.db import ToConn, ToMongo, get_like_books
 from werkzeug.exceptions import abort
-from user import login_required
+from views_front.user import login_required
 from bson.objectid import ObjectId
 import time, random, base64
 from datetime import datetime, timedelta
@@ -259,11 +259,11 @@ def buy_list():
         user_id = session.get('user_id')
         book_list, books_price, pay, shipping_time, addr = get_buy(user_id, book_id)
         return render_template('buyCart/buy_list.html',
-                           books=book_list,
-                           books_price=books_price,
-                           pay=pay,
-                           addr=addr,
-                           shipping_time=shipping_time)
+                               books=book_list,
+                               books_price=books_price,
+                               pay=pay,
+                               addr=addr,
+                               shipping_time=shipping_time)
     except Exception as e:
         print('========buy_list=========:', e)
         return redirect(url_for('products.cart'))

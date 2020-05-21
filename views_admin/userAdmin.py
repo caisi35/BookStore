@@ -1,10 +1,10 @@
 import string, random
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify
+    Blueprint, render_template, request, jsonify
 )
-from werkzeug.security import check_password_hash, generate_password_hash
-from db import ToConn, get_page
-from views.signIn import admin_login_required
+from werkzeug.security import generate_password_hash
+from models.db import ToConn, get_page
+from views_admin.signIn import admin_login_required
 from werkzeug.exceptions import abort
 
 bp = Blueprint('userAdmin', __name__, url_prefix='/admin/userAdmin')
@@ -20,21 +20,23 @@ def userAdmin():
         page_user = 3
         if page == 1:
             # 请求为默认的第一页
-            users = ToConn().get_db('select * from users where is_delete=0 limit %s', (page_user))
+            users = ToConn().get_db('select * from users where is_delete=0 limit %s', (page_user,)).fetchall()
             active_page = 1
         else:
-            users = ToConn().get_db('select * from users where is_delete=0 limit %s,%s', ((page-1)*page_user, page_user))
+            users = ToConn().get_db('select * from users where is_delete=0 limit %s,%s',
+                                    ((page - 1) * page_user, page_user)).fetchall()
             active_page = page
 
         pages, max_page = get_page(page_user, page)
-        return render_template('admin/userAdmin.html', users=users, pages=pages, active_page=active_page, max_page=max_page)
+        return render_template('admin/userAdmin.html', users=users, pages=pages, active_page=active_page,
+                               max_page=max_page)
     except Exception as e:
         print('==============Admin userAdmin=================', e)
         return abort(404) + str(e)
 
 
 # 搜索模糊匹配users表中的name、tel、email字段
-@bp.route('/search', methods=('GET', ))
+@bp.route('/search', methods=('GET',))
 @admin_login_required
 def search():
     try:
@@ -126,7 +128,7 @@ def freezing():
         conn = ToConn().to_execute()
         cur = conn.cursor()
         id = request.form.get('id', '')
-        result = cur.execute('update users set is_freezing=1 where id=%s', (id, ))
+        result = cur.execute('update users set is_freezing=1 where id=%s', (id,))
         if result:
             conn.commit()
             return jsonify(True)
@@ -146,7 +148,7 @@ def activate_user():
         conn = ToConn().to_execute()
         cur = conn.cursor()
         id = request.form.get('id', '')
-        result = cur.execute('update users set is_freezing=0 where id=%s', (id, ))
+        result = cur.execute('update users set is_freezing=0 where id=%s', (id,))
         if result:
             conn.commit()
             return jsonify(True)

@@ -35,7 +35,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Dashboard</a></li>
                 <li><a href="#">Settings</a></li>
-                <li><a href="#">Profile</a></li>
+                <li><a href="{{ url_for('products.index') }}">前台页面</a></li>
                 <li><a href="{{ url_for('signIn.admin_logout') }}">退出</a></li>
             </ul>
             {% block search %}
