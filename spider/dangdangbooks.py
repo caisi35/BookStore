@@ -4,6 +4,8 @@ from urllib.parse import urljoin
 import time
 import csv
 import pymongo
+from lxml import etree
+
 
 
 def get_html(url):
@@ -44,7 +46,7 @@ def parse_detail(url):
     if not html:
         print("Response not 2 start")
         return
-    Etree = lh.etree.HTML(html)
+    Etree = etree.HTML(html)
     title = "".join(Etree.xpath("//div[@class='name_info']/h1/text()")).strip()
     subheading = "".join(Etree.xpath("//div[@class='name_info']/h2/span/text()")).strip()
     author = ''.join(Etree.xpath("//div[@class='messbox_info']/span[@id='author']/a/text()")).strip()
@@ -52,9 +54,13 @@ def parse_detail(url):
     pub_time = ''.join(Etree.xpath("////div[@class='messbox_info']/span[3]/text()")).strip()
     price = ''.join(Etree.xpath("//div[@class='price_pc']/div/div[@class='price_d']/p[@id='dd-price']/text()")).strip()
     price_m = ''.join(Etree.xpath("//div[@class='price_pc']/div/div[@class='price_m']/text()")).strip()
+
+    ISBN = ''.join(Etree.xpath('//*[@id="detail_describe"]/ul/li[5]/text()')).strip()
+
     img_url = ''.join(Etree.xpath("//div[@class='pic']/a/img/@src"))
+
     return {'title':title, 'subheading':subheading, 'author':author, 'press':press,
-            'pub_time':pub_time, 'price':price, 'price_m':price_m, 'img_url':img_url}
+            'pub_time':pub_time, 'price':price, 'price_m':price_m, 'img_url':img_url, 'ISBN':ISBN}
 
 
 class ToMongo:
@@ -79,6 +85,22 @@ class ToMongo:
         except Exception as e:
             print('==============================\n', e)
 
+
+def write_csv(file_path, data):
+    """
+    保持为csv文件
+    :param file_path:
+    :param datas:
+    :return:
+    """
+    with open(file=file_path, mode="a", encoding="utf8") as f:
+        writer = csv.writer(f)
+        lis = []
+        for key, value in data.items():
+            lis.append(value)
+        writer.writerow(lis)
+
+
 def spier():
     """
     循环获取所有页内容，保存到csv文件中
@@ -92,20 +114,10 @@ def spier():
     db = ToMongo()
     for url in urls:
         data = parse_detail(url)
+        print(data)
         db.insert(col='books', value=data)
+        write_csv('./books.csv', data)
 
-def write_csv(file_path, datas):
-    """
-    保持为csv文件
-    :param file_path:
-    :param datas:
-    :return:
-    """
-    f = open(file=file_path, mode="a", encoding="utf8", newline="")
-    writer = csv.writer(f)
-    print(datas)
-    writer.writerow(datas)
-    f.close()
 
 
 if __name__ == "__main__":
