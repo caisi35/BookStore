@@ -119,7 +119,6 @@ def spier():
         write_csv('./books.csv', data)
 
 
-
 if __name__ == "__main__":
     start_time = time.time()
     spier()
