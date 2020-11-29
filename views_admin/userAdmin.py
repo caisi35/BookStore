@@ -17,19 +17,22 @@ def userAdmin():
     try:
         page = request.args.get('page', 1, int)
         # 一页展示多少用户信息
-        page_user = 3
+        page_size = 20
+        page_view = 5
         if page == 1:
             # 请求为默认的第一页
-            users = ToConn().get_db('select * from users where is_delete=0 limit %s', (page_user,)).fetchall()
-            active_page = 1
+            users = ToConn().get_db('select * from users where is_delete=0 limit %s', (page_size,)).fetchall()
         else:
             users = ToConn().get_db('select * from users where is_delete=0 limit %s,%s',
-                                    ((page - 1) * page_user, page_user)).fetchall()
-            active_page = page
-
-        pages, max_page = get_page(page_user, page)
-        return render_template('admin/userAdmin.html', users=users, pages=pages, active_page=active_page,
-                               max_page=max_page)
+                                    ((page - 1) * page_size, page_size)).fetchall()
+        total = ToConn().get_db('select count(*) from users where is_delete=0').fetchone().get('count(*)')
+        return render_template('admin/userAdmin.html',
+                               users=users,
+                               active_page=page,
+                               total=total,
+                               page_size=page_size,
+                               page_count=page_view,
+                               )
     except Exception as e:
         print('==============Admin userAdmin=================', e)
         return abort(404) + str(e)

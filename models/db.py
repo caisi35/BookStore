@@ -248,16 +248,25 @@ class ToMongo:
 
 
 # MongoDB搜索功能的模糊查询
-def get_like_books(word):
+def get_like_books(word, page, page_size):
     try:
         mydb = ToMongo()
         book_list = []
         mycol = mydb.get_col('books')
-        books = mycol.find({'$or': [{'press': {"$regex": word}}, {'title': {"$regex": word}},
-                                    {'subheading': {"$regex": word}}, {'author': {"$regex": word}}]})
+        print(page,'==',page_size,'==',page*page_size)
+        books = mycol.find({'$or': [{'press': {"$regex": word}},
+                                    {'title': {"$regex": word}},
+                                    {'subheading': {"$regex": word}},
+                                    {'author': {"$regex": word}}]
+                            }).sort('hits', -1).skip(page*page_size).limit(page_size)
         for book in books:
             book_list.append(book)
-        return book_list
+        count = mycol.find({'$or': [{'press': {"$regex": word}},
+                                    {'title': {"$regex": word}},
+                                    {'subheading': {"$regex": word}},
+                                    {'author': {"$regex": word}}]
+                            }).sort('hits', -1).count()
+        return book_list, count
     except Exception as e:
         print('========get_like_books=========', e)
 

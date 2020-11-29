@@ -83,7 +83,7 @@ img {
 body {
 	margin:0;
 	padding:0;
-	background:url(../images/blurred.jpg) no-repeat;
+	background:url(/static/images/building_images/blurred.jpg) no-repeat;
 	font-family: 'Tahoma', sans-serif;
 	background-size:100% 100%;
 	background-attachment: fixed;

@@ -3,7 +3,8 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify
 )
 from werkzeug.security import check_password_hash, generate_password_hash
-from models.db import ToConn
+from models.db import ToConn, ToMongo
+import datetime
 
 bp = Blueprint('user', __name__, url_prefix='/user')
 
@@ -43,6 +44,24 @@ def register():
     return render_template('user/register.html')
 
 
+# 访问量加1函数
+def add_visits(user_id):
+    today = datetime.datetime.now().date()
+    date = ToMongo().get_col('visits').aggregate([{'$group': {'_id': '$_id', 'day': {'$last': '$date'}}}])
+    date = list(date)
+    # 不为空
+    if date:
+        # 同一天加入
+        if date[0]['day'].date() == today:
+            ToMongo().update('visits', {'_id': date[0]['_id']}, {'$addToSet': {'users_id': user_id}})
+        else:
+            # 不是同一天，插入新的文档
+            ToMongo().insert('visits', {'date': datetime.datetime.now(), 'users_id': [user_id]})
+    else:
+        # 为空也插入
+        ToMongo().insert('visits', {'date': datetime.datetime.now(), 'users_id': [user_id]})
+
+
 @bp.route('/login', methods=('POST', 'GET'))
 def login():
     """
@@ -73,6 +92,10 @@ def login():
             session.clear()
             session['user_id'] = user['id']
             session['user_name'] = user['name']
+
+            # 访问量加1
+            add_visits(user_id=user['id'])
+
             if 'register' in next or next == 'None' or 'login' in next:
                 # 如果是重注册页或者是直接从login链接过来的，重定向到主页去
                 return redirect(url_for('products.index'))
@@ -110,6 +133,10 @@ def index_login():
         session.clear()
         session['user_id'] = user['id']
         session['user_name'] = user['name']
+
+        # 访问量加1
+        add_visits(user_id=user['id'])
+
         return jsonify(result='True')
     else:
         flash(error)

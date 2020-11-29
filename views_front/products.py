@@ -15,10 +15,11 @@ bp = Blueprint('products', __name__)
 @bp.route('/')
 def index():
     mydb = ToMongo()
+    # 轮播
     books = mydb.get_col('books').find().limit(15)
     new_books = mydb.get_col('books').find().skip(15).limit(12)
     book_top = mydb.get_col('books').find().sort("price", -1).limit(5)
-    book_top2 = mydb.get_col('books').find().sort("price_m", -1).limit(5)
+    book_top2 = mydb.get_col('books').find().sort("sales", -1).limit(5)
     return render_template('products/index.html', books=books, new_books=new_books,
                            book_top=book_top, book_top2=book_top2)
 
@@ -432,8 +433,31 @@ def order():
 def search():
     try:
         word = request.values.get('word')
-        books = get_like_books(word)
-        return render_template('products/search.html', books=books)
+        page = request.values.get('page', 0, type=int)
+        page_size = request.values.get('page_size', 15, type=int)
+        if page != 0:
+            page = page-1
+        # 如果输入不为空
+        if word:
+            # 添加关键字数据到数据库，用与绘制词云图
+            ToMongo().update('keyword', {'_id': 'keyword'}, {'$inc': {word: 1}})
+            books, count = get_like_books(word, page, page_size)
+        # 如果输入为空，则显示点击量前十的
+        else:
+            books = ToMongo().get_col('books').find().sort('hits', -1).skip(page*page_size).limit(page_size)
+            count = ToMongo().get_col('books').find().count()
+        result_list = list(books)
+        if page == 0:
+            page = 1
+        return render_template('products/search.html',
+                               books=result_list,
+                               key_word=word,
+                               active_page=page+1,
+                               total=count,
+                               page_size=page_size,
+                               page_count=5,
+                               )
     except Exception as e:
         print('=========search=========', e)
         return redirect('/')
+

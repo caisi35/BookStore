@@ -35,13 +35,13 @@
                 <li><a href="{{ url_for('user.logout') }}">退出登录</a></li>
             {% else %}
                 <li>
-                    <a id="index_login" href="#">登录</a>
+                    <a id="index_login" >登录</a>
                 </li>
             {% endif %}
             <li><a href="{{ url_for('products.cart') }}">购物车</a></li>
-            <li><a href="#">我的书屋</a></li>
-            <li><a href="#">企业采购</a></li>
-            <li class="customer_s"><a href="#">客户服务</a></li>
+            <li><a href="{{ url_for('building.building') }}">我的书屋</a></li>
+            <li><a href="{{ url_for('building.building') }}">企业采购</a></li>
+            <li class="customer_s"><a href="{{ url_for('building.building') }}">客户服务</a></li>
         </ul>
                 </div>
             </div>
@@ -56,8 +56,8 @@
                         <img src="{{ url_for('static', filename='images/logo.jpg') }}"></a>
                     </div>
                 </li>
-                <li><a href="#">我的购物车</a></li>
-                <li><a href="#">填写订单</a></li>
+                <li><a href="{{ url_for('building.building') }}">我的购物车</a></li>
+                <li><a href="{{ url_for('building.building') }}">填写订单</a></li>
                 <li class="active">完成订单</li>
             </ul>
         </div>
@@ -75,10 +75,10 @@
                     <ul>
                         <li><img src="{{ url_for('static', filename='images/logo.jpg') }}/"></li>
                         <li><span>@2017-2021  贺州市</span></li>
-                        <li><a class="footer_last_li" href="#">版权说明</a></li>
-                        <li><a href="#">版权说明</a></li>
-                        <li><a href="#">版权说明</a></li>
-                        <li><a href="#">版权说明</a></li>
+                        <li><a class="footer_last_li" href="{{ url_for('building.building') }}">版权说明</a></li>
+                        <li><a href="{{ url_for('building.building') }}">版权说明</a></li>
+                        <li><a href="{{ url_for('building.building') }}">版权说明</a></li>
+                        <li><a href="{{ url_for('building.building') }}">版权说明</a></li>
                     </ul>
                 </div>
             </div>

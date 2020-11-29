@@ -16,17 +16,21 @@ bp = Blueprint('bookAdmin', __name__, url_prefix='/admin/bookAdmin')
 def bookAdmin():
     try:
         page = request.args.get('page', 1, int)
-        pages, max_page = get_pages(page)
-        page_book = 20
+        page_size = 20
         if page == 1:
             # 请求为默认的第一页
-            books = ToMongo().get_col('books').find({'is_off_shelf': 0}).limit(page_book)
-            active_page = 1
+            books = ToMongo().get_col('books').find({'is_off_shelf': 0}).limit(page_size)
+            total = ToMongo().get_col('books').find({'is_off_shelf': 0}).count()
         else:
-            books = ToMongo().get_col('books').find({'is_off_shelf': 0}).skip((page - 1) * page_book).limit(page_book)
-            active_page = page
-        return render_template('admin/bookAdmin.html', books=list(books), pages=pages, active_page=active_page,
-                               max_page=max_page)
+            books = ToMongo().get_col('books').find({'is_off_shelf': 0}).skip((page - 1) * page_size).limit(page_size)
+            total = ToMongo().get_col('books').find({'is_off_shelf': 0}).count()
+        return render_template('admin/bookAdmin.html',
+                               books=list(books),
+                               active_page=page,
+                               page_count=5,
+                               page_size=page_size,
+                               total = total,
+                               )
     except Exception as e:
         print('==============Admin delete_user=================', e)
         return abort(404) + str(e)
@@ -162,16 +166,22 @@ def off_shelf():
 def off_shelf_books():
     try:
         page = request.args.get('page', 1, int)
-        pages, max_page = get_pages(page)
+        page_size = 20
+        page_view = 5
         page_book = 20
         if page == 1:
             # 请求为默认的第一页
             books = ToMongo().get_col('books').find({'is_off_shelf': 1}).limit(page_book)
-            active_page = 1
         else:
             books = ToMongo().get_col('books').find({'is_off_shelf': 1}).skip((page - 1) * page_book).limit(page_book)
-            active_page = page
-        return render_template('admin/offShelfBook.html', books=list(books), active_page=active_page, max_page=max_page)
+        total = ToMongo().get_col('books').find({'is_off_shelf': 1}).count()
+        return render_template('admin/offShelfBook.html',
+                               books=list(books),
+                               active_page=page,
+                               total=total,
+                               page_size=page_size,
+                               page_count=page_view,
+                               )
     except Exception as e:
         print('=========book Admin off_shelf_books=========', e)
         return abort(404)

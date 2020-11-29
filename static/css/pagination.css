@@ -30,7 +30,7 @@
 ._page_container {
   font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,SimSun,sans-serif;
   font-size: 13px;
-  height: 28px;
+  /*height: 28px;*/
   line-height: 28px;
   text-align: center;
   user-select: none;

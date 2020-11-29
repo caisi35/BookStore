@@ -1,6 +1,11 @@
 {% extends 'block_index.html' %}
 {% block title %}搜索{% endblock %}
 
+{% block css %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pagination.css') }}">
+    <script src="{{ url_for('static', filename='js/pagination.js') }}"></script>
+{% endblock %}
 
 {% block product %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/search.css') }}">
@@ -27,7 +32,8 @@
                                     <span>出版社：</span>
                                     <a href="{{ url_for('products.search', word=book['press']) }}">{{ book.press }}</a>
                                 </div>
-                                <div class="pub_time left"><span>{% if '出版' in book.pub_time %}{{ book.pub_time }}{% else %}出版时间：{{ book.pub_time }}{% endif %}</span></div>
+                                <div class="pub_time left"><span>{% if '出版' in book.pub_time %}
+                                    {{ book.pub_time }}{% else %}出版时间：{{ book.pub_time }}{% endif %}</span></div>
                                 <div class="price">
                                     <h1>￥{{ book.price }}</h1>
                                     <div class="search_btn right">
@@ -50,5 +56,36 @@
                 </li>
             {% endfor %}
         </ul>
+
     </div>
+    <div id="pages">
+
+    </div>
+    <script>
+        new Pagination({
+            element: '#pages',
+            type: 1,
+            pageIndex: {{ active_page }},   //默认活动页
+            pageSize: {{ page_size }},	//一页数量
+            pageCount: {{ page_count }},   //显示页数
+            total: {{ total }},      //总数
+            jumper: true,
+            singlePageHide: true,
+            prevText: '上一页',
+            nextText: '下一页',
+            disabled: false,
+            currentChange: function (index) {
+                console.log(index);
+                //https://blog.csdn.net/pengShuai007/article/details/86528992
+                var a = document.createElement('a');
+                a.setAttribute('href', '/search?word={{key_word}}&page='+index);
+                // 防止反复添加
+                if (document.getElementById('startTelMedicine')) {
+                    document.body.removeChild(document.getElementById('startTelMedicine'));
+                }
+                document.body.appendChild(a);
+                a.click();
+            }
+        });
+    </script>
 {% endblock %}
