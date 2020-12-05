@@ -5,6 +5,7 @@
 {% block search %}
     <form class="navbar-form navbar-right" method="get" action="{{ url_for('bookAdmin.search_book') }}">
         <input type="text" class="form-control" name="kw" placeholder="Search...Books">
+        <input type="submit" class="form-control" value="搜索">
     </form>
 {% endblock %}
 

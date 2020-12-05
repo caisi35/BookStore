@@ -1,0 +1,85 @@
+{% extends 'admin/indexBase.html' %}
+
+{% block title %}订单管理{% endblock %}
+
+{% block search %}
+    <form class="navbar-form navbar-right" method="get" action="{{ url_for('orderAdmin.search_order') }}">
+        <input type="text" class="form-control" name="kw" placeholder="Search...Orders">
+        <input type="submit" class="form-control" value="搜索">
+    </form>
+{% endblock %}
+
+{% block main %}
+    <h2 class="sub-header">待处理订单列表</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="row">
+            <tr>
+                <th class="col-1">#</th>
+                <th class="col-1">订单号</th>
+                <th class="col-1">用户号</th>
+                <th class="col-1">下单时间</th>
+                <th class="col-1">图书信息</th>
+                <th class="col-1">收件人信息</th>
+                <th class="col-1">总价</th>
+                <th class="col-1"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for d in data %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ d.order_no }}</td>
+                    <td>{{ d.user_id }}</td>
+                    <td>{{ d.create_time }}</td>
+                    <td>{% for foo in d.books %}
+                        图书ID：{{foo.book_id}}<br>
+                        图书数量：{{ foo.book_num }}<br>
+                    {% endfor %}
+                    </td>
+                    <td>
+                        收货人：{{ d.address.name }}<br>
+                        联系电话：{{ d.address.tel }}<br>
+                        地址：{{ d.address.province }} {{ d.address.city }} {{ d.address.details }}
+                    </td>
+                    <td>{{ d.amount }}￥</td>
+                    <td><a type="button" class="btn btn-primary" role="button"
+                           href="{{ url_for('orderAdmin.order_handle' , order_no=d.order_no) }}">处理</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div id="pages">
+    </div>
+
+    <script>
+        new Pagination({
+            element: '#pages',
+            type: 1,
+            pageIndex: {{ active_page }},   //默认活动页
+            pageSize: {{ page_size }},	//一页数量
+            pageCount: {{ page_count }},   //显示页数
+            total: {{ total }},      //总数
+            jumper: true,
+            singlePageHide: false,
+            prevText: '上一页',
+            nextText: '下一页',
+            disabled: false,
+            currentChange: function (index) {
+                console.log(index);
+                //https://blog.csdn.net/pengShuai007/article/details/86528992
+                var a = document.createElement('a');
+                a.setAttribute('href', '/admin/orderAdmin/?page='+index);
+                // 防止反复添加
+                if (document.getElementById('startTelMedicine')) {
+                    document.body.removeChild(document.getElementById('startTelMedicine'));
+                }
+                document.body.appendChild(a);
+                a.click();
+            }
+        });
+    </script>
+{% endblock %}
+

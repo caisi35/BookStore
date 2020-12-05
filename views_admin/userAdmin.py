@@ -27,6 +27,7 @@ def userAdmin():
                                     ((page - 1) * page_size, page_size)).fetchall()
         total = ToConn().get_db('select count(*) from users where is_delete=0').fetchone().get('count(*)')
         return render_template('admin/userAdmin.html',
+                               page_active="userAdmin",
                                users=users,
                                active_page=page,
                                total=total,
@@ -46,7 +47,9 @@ def search():
         word = request.args.get('kw')
         sql = 'select * from users where position(%s in name) or position(%s in tel) or position(%s in email)'
         users = ToConn().get_db(sql, (word, word, word))
-        return render_template('admin/userAdmin.html', users=users)
+        return render_template('admin/userAdmin.html',
+                               page_active="userAdmin",
+                               users=users)
     except Exception as e:
         print('==============Admin search=================', e)
         return abort(404)

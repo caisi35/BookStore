@@ -5,10 +5,11 @@
 {% block search %}
     <form class="navbar-form navbar-right" method="get" action="{{ url_for('userAdmin.search') }}">
         <input type="text" class="form-control" name="kw" placeholder="Search...Users">
+        <input type="submit" class="form-control" value="搜索">
     </form>
 {% endblock %}
 
-{% block sub_header %}
+{% block main %}
     <h2 class="sub-header">用户列表</h2>
     <div class="table-responsive">
         <table class="table table-striped">

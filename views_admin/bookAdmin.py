@@ -25,11 +25,12 @@ def bookAdmin():
             books = ToMongo().get_col('books').find({'is_off_shelf': 0}).skip((page - 1) * page_size).limit(page_size)
             total = ToMongo().get_col('books').find({'is_off_shelf': 0}).count()
         return render_template('admin/bookAdmin.html',
+                               page_active="bookAdmin",
                                books=list(books),
                                active_page=page,
                                page_count=5,
                                page_size=page_size,
-                               total = total,
+                               total=total,
                                )
     except Exception as e:
         print('==============Admin delete_user=================', e)
@@ -56,9 +57,9 @@ def add_book():
             price_m = request.form.get('price_m', '')
             press = request.form.get('press', '')
             pub_time = request.form.get('pub_time', '')
-            img_url = '/static/images/book_img/'+s_img
+            img_url = '/static/images/book_img/' + s_img
             v = {'title': title, 'author': author, 'subheading': subheading, 'price': price, 'price_m': price_m,
-                         'press': press, 'pub_time': pub_time, 'img_url': img_url}
+                 'press': press, 'pub_time': pub_time, 'img_url': img_url}
             result = ToMongo().insert('books', v)
             if result.inserted_id:
                 book = ToMongo().get_col('books').find({'_id': result.inserted_id})
@@ -69,7 +70,8 @@ def add_book():
                 return redirect(request.url)
 
         # GET 请求渲染
-        return render_template('admin/addBook.html')
+        return render_template('admin/addBook.html',
+                               page_active="add_book")
     except Exception as e:
         print('=========book Admin add_book=========', e)
         return abort(404)
@@ -80,9 +82,18 @@ def add_book():
 @admin_login_required
 def search_book():
     try:
+        page_size = 20
         word = request.args.get('kw')
-        books = get_like_books(word)
-        return render_template('admin/bookAdmin.html', books=list(books), active_page=1)
+        page = request.args.get('page', 0, type=int)
+        books, total = get_like_books(word, page, page_size)
+        return render_template('admin/bookAdmin.html',
+                               books=list(books),
+                               page_active="bookAdmin",
+                               active_page=page,
+                               page_count=5,
+                               page_size=page_size,
+                               total=total
+                               )
     except Exception as e:
         print('=========book Admin search=========', e)
         return abort(404)
@@ -176,6 +187,7 @@ def off_shelf_books():
             books = ToMongo().get_col('books').find({'is_off_shelf': 1}).skip((page - 1) * page_book).limit(page_book)
         total = ToMongo().get_col('books').find({'is_off_shelf': 1}).count()
         return render_template('admin/offShelfBook.html',
+                               page_active="off_shelf_books",
                                books=list(books),
                                active_page=page,
                                total=total,

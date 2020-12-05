@@ -27,6 +27,7 @@ def admin():
         kw_wc = keyword_wordcloud()
 
         return render_template('admin/indexBase.html',
+                               page_active="index",
                                myvisitsscatter=visitsscatter.render_embed(),
                                myvisits_pie=visits_pie.render_embed(),
 
@@ -241,6 +242,7 @@ def book_trash():
             books = ToMongo().get_col('trash').find().skip((page - 1) * page_size).limit(page_size)
         total = ToMongo().get_col('trash').find().count()
         return render_template('admin/trash.html',
+                               page_active="book_trash",
                                books=list(books),
                                active_page=page,
                                page_size=page_size,
@@ -268,6 +270,7 @@ def user_trash():
                                     ((page - 1) * page_size, page_size))
         total = ToConn().get_db('select count(*) from users where is_delete=1').fetchone().get('count(*)')
         return render_template('admin/trash.html',
+                               page_active="user_trash",
                                users=users,
                                page_size=page_size,
                                page_count=page_count,

@@ -22,7 +22,7 @@
     {% endfor %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/pagination.css') }}">
     <script src="{{ url_for('static', filename='js/pagination.js') }}"></script>
-{#    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>#}
+    {#    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>#}
 </head>
 <body>
 
@@ -41,14 +41,16 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Dashboard</a></li>
-                <li><a href="#">Settings</a></li>
+                <li><a href="{{ url_for('orderAdmin.process') }}">订单管理</a></li>
+                <li><a href="{{ url_for('bookAdmin.bookAdmin') }}">图书管理</a></li>
+                <li><a href="{{ url_for('userAdmin.userAdmin') }}">用户管理</a></li>
                 <li><a href="{{ url_for('products.index') }}">前台页面</a></li>
                 <li><a href="{{ url_for('signIn.admin_logout') }}">退出</a></li>
             </ul>
             {% block search %}
                 <form class="navbar-form navbar-right">
                     <input type="text" class="form-control" placeholder="Search...">
+                    <input type="submit" class="form-control" value="搜索">
                 </form>
             {% endblock %}
         </div>
@@ -56,64 +58,77 @@
 </nav>
 
 <div class="container-fluid">
-
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">可视化</a></li>
-                <li><a href="#">Analytics</a></li>
-                <li><a href="#">Export</a></li>
+                <li class={% if page_active == 'index' %}
+                    "active"
+                {% endif %}><a href="{{ url_for('admin.admin') }}">数据可视化<span class="sr-only">(current)</span></a></li>
             </ul>
             <ul class="nav nav-sidebar">
-                <li><a href="{{ url_for('bookAdmin.bookAdmin') }}">图书管理</a></li>
-                <li><a href="{{ url_for('bookAdmin.off_shelf_books') }}">下架图书</a></li>
-                <li><a href="{{ url_for('bookAdmin.add_book') }}">添加图书</a></li>
-                <li><a href="">More navigation</a></li>
+                <li class={% if page_active == 'process' %}
+                    "active"
+                {% endif %}><a href="{{ url_for('orderAdmin.process') }}">订单管理</a></li>
             </ul>
             <ul class="nav nav-sidebar">
-                <li><a href="{{ url_for('userAdmin.userAdmin') }}">用户管理</a></li>
-                <li><a href="">Nav item again</a></li>
-                <li><a href="">One more nav</a></li>
-                <li><a href="">Another nav item</a></li>
+                <li class={% if page_active == 'bookAdmin' %}
+                    "active"
+                {% endif %}><a href="{{ url_for('bookAdmin.bookAdmin') }}">图书管理</a></li>
+                <li class={% if page_active == 'off_shelf_books' %}
+                    "active"
+                {% endif %}><a href="{{ url_for('bookAdmin.off_shelf_books') }}">下架图书</a></li>
+                <li class={% if page_active == 'add_book' %}
+                    "active"
+                {% endif %}><a href="{{ url_for('bookAdmin.add_book') }}">添加图书</a></li>
             </ul>
             <ul class="nav nav-sidebar">
-                <li><a href="">回收站</a></li>
-                <li><a href="{{ url_for('admin.book_trash') }}">图书</a></li>
-                <li><a href="{{ url_for('admin.user_trash') }}">用户</a></li>
+                <li class={% if page_active == 'userAdmin' %}
+                    "active"
+                {% endif %}><a href="{{ url_for('userAdmin.userAdmin') }}">用户管理</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                {#                <li><a href="">回收站</a></li>#}
+                <li class={% if page_active == 'book_trash' %}
+                    "active"
+                {% endif %}><a href="{{ url_for('admin.book_trash') }}">已删除图书</a></li>
+                <li class={% if page_active == 'user_trash' %}
+                    "active"
+                {% endif %}><a href="{{ url_for('admin.user_trash') }}">已删除用户</a></li>
             </ul>
         </div>
 
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">可视化</h1>
-            <div class="row placeholders">
-                <div class="col-xs-12 col-sm-12 col-md-12 placeholder">
-                    {{ myvisitsscatter|safe }}
+            {% block main %}
+                <h1 class="page-header">可视化</h1>
+                <div class="row placeholders">
+                    <div class="col-xs-12 col-sm-12 col-md-12 placeholder">
+                        {{ myvisitsscatter|safe }}
+                    </div>
                 </div>
-            </div>
-            <div class="row placeholders">
-                <div class="col-xs-12 col-sm-12 col-md-7 placeholder">
-                    {{ myvisits_pie|safe }}
+                <div class="row placeholders">
+                    <div class="col-xs-12 col-sm-12 col-md-7 placeholder">
+                        {{ myvisits_pie|safe }}
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-5 placeholder">
+                        {{ mykw_wc|safe }}
+                    </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-5 placeholder">
-                    {{ mykw_wc|safe }}
-                </div>
-            </div>
 
-            <div class="row placeholders">
+                <div class="row placeholders">
 
-                <div class="col-xs-12 col-sm-6 col-md-4 placeholder">
-                    {{ myhitsbar|safe }}
+                    <div class="col-xs-12 col-sm-6 col-md-4 placeholder">
+                        {{ myhitsbar|safe }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 placeholder">
+                        {{ mysalesbar|safe }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 placeholder end_charts">
+                        {{ myinte_sales|safe }}
+                    </div>
                 </div>
-                <div class="col-xs-12 col-sm-6 col-md-4 placeholder">
-                    {{ mysalesbar|safe }}
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-4 placeholder end_charts">
-                    {{ myinte_sales|safe }}
-                </div>
-            </div>
-            {% block sub_header %}
+                {% block sub_header %}
 
+                {% endblock %}
             {% endblock %}
         </div>
 
