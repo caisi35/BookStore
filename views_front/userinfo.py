@@ -1,3 +1,4 @@
+import json
 from flask import (
     Blueprint, flash, redirect, render_template, request, url_for, session, jsonify
 )
@@ -34,6 +35,8 @@ def get_order_book(id):
     if str(book['_id']) != str(id):
         return
     return book
+
+
 # 查询用户订单信息
 def get_orders(user_id):
     result = ToMongo().get_col('order').find({'user_id': user_id, 'is_effective': 1})
@@ -112,7 +115,7 @@ def deleteOrders():
 def get_order_details(order_no, user_id):
     cur = ToMongo().get_col('order').find_one({'user_id': user_id, 'order_no': order_no})
     create_time = cur['create_time']
-    effective_time = create_time+timedelta(days=1)
+    effective_time = create_time + timedelta(days=1)
     is_processed = cur['is_processed']
     amount = cur['amount']
     order_id = cur['_id']
@@ -278,12 +281,17 @@ def address():
             user_id = session.get('user_id')
             name = request.form.get('name')
             tel = request.form.get('tel')
-            province = request.form.get('province')
-            city = request.form.get('city')
+            address_list = request.form.get('address').strip().split(' ')
+
             details = request.form.get('details')
             _id = request.form.get('_id')
             result = ToMongo().insert('address',
-                                      {'name': name, 'tel': tel, 'province': province, 'city': city, 'details': details,
+                                      {'name': name,
+                                       'tel': tel,
+                                       'province': address_list[0],
+                                       'city': address_list[1],
+                                       'district': address_list[2],
+                                       'details': details,
                                        'user_id': user_id})
             if result.inserted_id:
                 conn = ToConn().to_execute()
@@ -305,8 +313,9 @@ def address():
         # get请求
         user_id = session.get('user_id')
         result = ToMongo().get_col('address').find({'user_id': user_id})
+        # print(len(list(result)))
         address_default = get_user(user_id)['address_default']
-        return render_template('userinfo/address.html', addr=result, address_default=address_default)
+        return render_template('userinfo/address.html', addr=list(result), address_default=address_default)
     except Exception as e:
         print('============address============', e)
         return redirect(request.referrer)
@@ -378,12 +387,16 @@ def addressChange():
         if request.method == 'POST':
             name = request.form.get('name')
             tel = request.form.get('tel')
-            province = request.form.get('province')
-            city = request.form.get('city')
+            address_list = request.form.get('address').strip().split(' ')
             details = request.form.get('details')
             _id = request.form.get('_id')
+
             result = ToMongo().update('address', {'_id': ObjectId(_id)},
-                                      {"$set": {'name': name, 'tel': tel, 'province': province, 'city': city,
+                                      {"$set": {'name': name,
+                                                'tel': tel,
+                                                'province': address_list[0],
+                                                'city': address_list[1],
+                                                'district': address_list[2],
                                                 'details': details}})
             if result.modified_count:
                 user_id = session.get('user_id')
@@ -397,9 +410,10 @@ def addressChange():
         _id = request.args.get('_id')
         user_id = session.get('user_id')
         result = ToMongo().get_col('address').find({'user_id': user_id, '_id': ObjectId(_id)})
+        result = list(result)
         return render_template('userinfo/addressChange.html', addr=result)
-    except Exception as e:
-        print('============addressChange============', e)
+    except IndexError as e:
+        print('============addressChange IndexError============', e)
         # 出错，重定向到userinfo页
-        flash("修改失败，请重试！")
+        flash("修改失败，请正确选择地址！")
         return redirect(request.url)

@@ -192,6 +192,7 @@ def get_buy(user_id, books_id, is_list=True):
                     addr['tel'] = a['tel']
                     addr['province'] = a['province']
                     addr['city'] = a['city']
+                    addr['district'] = a['district']
                     addr['details'] = a['details']
                     addr['_id'] = user['address_default']
 
@@ -241,6 +242,7 @@ def get_buy(user_id, books_id, is_list=True):
                     addr['tel'] = a['tel']
                     addr['province'] = a['province']
                     addr['city'] = a['city']
+                    addr['district'] = a['district']
                     addr['details'] = a['details']
                     addr['_id'] = user['address_default']
             books_price = {'sum_price': sum_price, 'freight': freight, 'package': package,
@@ -294,8 +296,7 @@ def address():
     try:
         name = request.form.get('name')
         tel = request.form.get('tel')
-        province = request.form.get('province')
-        city = request.form.get('city')
+        address_list = request.form.get('address').strip().split(' ')
         details = request.form.get('details')
         user_id = session.get('user_id')
         mydb = ToMongo()
@@ -303,8 +304,9 @@ def address():
             'user_id': user_id,
             'name': name,
             'tel': tel,
-            'province': province,
-            'city': city,
+            'province': address_list[0],
+            'city': address_list[1],
+            'district': address_list[2],
             'details': details,
         }
         conn = ToConn().to_execute()

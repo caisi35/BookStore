@@ -1,5 +1,12 @@
 {% extends 'block_buy_cart.html' %}
 {% block title %}结算{% endblock %}
+
+{% block link %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/address/ydui_buy_list.css') }}">
+    {#    <link rel="stylesheet" href="{{ url_for('static', filename='css/address/demo.css') }}">#}
+    <script src="{{ url_for('static', filename='js/address/ydui.flexible.js') }}"></script>
+{% endblock %}
+
 {% block buy_cart %}
     {#    收货人信息#}
     <div class="row clearfix">
@@ -10,36 +17,37 @@
                 收货人信息
             </h3>
             {% if addr %}
-                    <table class="table table-hover con_info addr_tables left" id="{{ addr['_id'] }}">
+                <table class="table table-hover con_info addr_tables left" id="{{ addr['_id'] }}">
                     <span style="display: none" id="addr_id">{{ addr['_id'] }}</span>
-                        <thead>
-                        <tr>
-                            <th>
-                                <span class="name ">{{ addr['name'] }}</span>
-                                <span class="tel right">{{ addr.tel }}</span>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="success">
-                            <td>
+                    <thead>
+                    <tr>
+                        <th>
+                            <span class="name ">{{ addr['name'] }}</span>
+                            <span class="tel right">{{ addr.tel }}</span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="success">
+                        <td>
                                 <span class="address">
                                     <span class="province">{{ addr.province }}</span>
                                     <span class="city">{{ addr.city }}</span>
+                                    <span class="district">{{ addr.district }}</span>
                                     <span class="details">{{ addr.details }}</span>
                                 </span>
-                            </td>
-                        </tr>
-                        <tr class="info">
-                            <td>
-                                <div>
-                                    <a href="#" class="addr_edit">编辑</a>
-                                    <a href="#" class="addr_delete">删除</a>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                        </td>
+                    </tr>
+                    <tr class="info">
+                        <td>
+                            <div>
+                                <a href="#" class="addr_edit">编辑</a>
+                                <a href="#" class="addr_delete">删除</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             {% endif %}
             <div>
                 <a type="button" href="#" class="btn btn-default left" id="new_addr">新增收货地址</a>
@@ -49,7 +57,7 @@
                 <div class="graybox"></div>
                 <div class="popbox">
                     <div class="poptop">
-                        <a href="#" class="close"></a>
+                        <a href="" class="close"></a>
                     </div>
                     <form method="post" action="{{ url_for('products.address') }}">
                         <div class="top"></div>
@@ -58,15 +66,26 @@
                             <ul>
                                 <li><span>姓名</span><input name="name" id="addr_name" required></li>
                                 <li><span>手机号码</span>
-                                    <input name="tel" id="addr_tel" required minlength="11" maxlength="11" pattern="[0-9]{11}">
+                                    <input name="tel" id="addr_tel" required minlength="11" maxlength="11"
+                                           pattern="[0-9]{11}">
                                 </li>
-                                <li><span>所在地区</span>
-                                    <select name="province" id="province" required>
-                                        <option>请选择省份</option>
-                                    </select>
-                                    <select name="city" id="city" required>
-                                        <option>请选择城市</option>
-                                    </select></li>
+                                <li><span class="">所在地区</span>
+                                    <section class="g-flexview">
+                                        <section class="g-scrollview">
+                                            <div class="m-cell">
+                                                <div class="cell-item">
+                                                    <div class="cell-right cell-arrow">
+                                                        <input type="text"
+                                                               class="cell-input"
+                                                               readonly id="J_Address2"
+                                                               value="{% if addr.province %} {{ addr.province }} {{ addr.city }}{% endif %}"
+                                                               placeholder="请选择收货地址" name="address">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </section>
+                                </li>
                                 <li><span>详细地址</span><input name="details" id="addr_details"></li>
                             </ul>
                         </div>
@@ -174,7 +193,8 @@
                     <span class="con_mon">（含运费{{ pay.freight }}元）</span>
                 </div>
                 <br>
-                <div class="btn pay_btn right"><a href="#" id="go-to-pay-btn" type="button" onclick="to_pay()">去支付</a></div>
+                <div class="btn pay_btn right"><a href="#" id="go-to-pay-btn" type="button" onclick="to_pay()">去支付</a>
+                </div>
 
             </div>
         </div>
@@ -185,4 +205,51 @@
         var books_ = {{ books }};
     </script>
 
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/address/ydui.citys.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/address/ydui.js') }}"></script>
+    <script type="text/javascript">
+        /**
+         * 默认调用
+         */
+        !function () {
+            var $target = $('#J_Address');
+
+            $target.citySelect();
+
+            $target.on('click', function (event) {
+                event.stopPropagation();
+                $target.citySelect('open');
+            });
+
+            $target.on('done.ydui.cityselect', function (ret) {
+                $(this).val(ret.provance + ' ' + ret.city + ' ' + ret.area);
+            });
+        }();
+        /**
+         https://www.jb51.net/jiaoben/577191.html#downintro2
+         * 设置默认值
+         */
+        !function () {
+            var $target = $('#J_Address2');
+
+            $target.citySelect({
+                provance: "",
+                city: "",
+                area: ""
+            });
+
+            $target.on('click', function (event) {
+                event.stopPropagation();
+                $target.citySelect('open');
+            });
+
+            $target.on('done.ydui.cityselect', function (ret) {
+                $(this).val(ret.provance + ' ' + ret.city + ' ' + ret.area);
+            });
+        }();
+    </script>
 {% endblock %}

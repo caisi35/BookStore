@@ -1,40 +1,106 @@
 {% extends 'userinfo/userinfoBase.html' %}
 
+{% block css %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/address/ydui.css') }}">
+    {#    <link rel="stylesheet" href="{{ url_for('static', filename='css/address/demo.css') }}">#}
+    <script src="{{ url_for('static', filename='js/address/ydui.flexible.js') }}"></script>
+{% endblock %}
+
 {% block info_content %}
-     {% for addr in addr %}
-            <div class="change-address">
-                <form method="post">
-                    <div class="address">
-                        <h2>修改收货人信息</h2>
-                        <ul>
-                            <li><span>姓名</span><input name="name" value="{{ addr.name }}" id="addr_name" required></li>
-                            <li><span>手机号码</span>
-                                <input name="tel" id="addr_tel" required minlength="11" maxlength="11"
-                                       pattern="[0-9]{11}" value="{{ addr.tel }}">
-                            </li>
-                            <li><span>所在地区</span>
-                                {% if addr.province %}
-                                    <select name="province" required onclick="changeProvince(s=this)">
-                                    <option id="option-default">{{ addr.province }}</option>
-                                {% endif %}
-                                </select>
-                                <select name="city" id="city" required>
-                                    <option>{{ addr.city }}</option>
-                                </select></li>
-                            <li class="textarea-before"><span>详细地址</span><textarea
-                                    name="details">{{ addr.details }}</textarea></li>
-                            <li><input name="_id" value="{{ addr._id }}" hidden></li>
-                        </ul>
-                    </div>
-                    <div class="bottom">
-                        <button class="btn" type="submit">提交</button>
-                    </div>
-                </form>
-            </div>
-            <div>
-                {% for message in get_flashed_messages() %}
-                    <p class="flash">{{ message }}</p>
-                {% endfor %}
-            </div>
-     {% endfor %}
+    {% for addr in addr %}
+        <div class="change-address">
+            <form method="post">
+                <div class="address">
+                    <h2>修改收货人信息</h2>
+                    <ul>
+                        <li><span>姓名</span><input name="name" value="{{ addr.name }}" id="addr_name" required></li>
+                        <li><span>手机号码</span>
+                            <input name="tel" id="addr_tel" required minlength="11" maxlength="11"
+                                   pattern="[0-9]{11}" value="{{ addr.tel }}">
+                        </li>
+                        <li>
+                            <section class="g-flexview">
+                                <section class="g-scrollview">
+                                    <div class="m-cell">
+                                        <div class="cell-item">
+                                            <div class="cell-right cell-arrow">
+                                                <span class="">所在地区：</span>
+                                                <input type="text"
+                                                  class="cell-input"
+                                                  readonly id="J_Address2"
+                                                  value="{% if addr.province %} {{ addr.province }} {{ addr.city }}{% endif %}"
+                                                       placeholder="请选择收货地址" name="address">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </section>
+                        </li>
+                        <li class="textarea-before"><span>详细地址</span><textarea
+                                name="details">{{ addr.details }}</textarea></li>
+                        <li><input name="_id" value="{{ addr._id }}" hidden></li>
+                    </ul>
+                </div>
+                <div class="bottom">
+                    <button class="btn" type="submit">提交</button>
+                </div>
+            </form>
+        </div>
+        <div>
+            {% for message in get_flashed_messages() %}
+                <p class="flash">{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block js %}
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/address/ydui.citys.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/address/ydui.js') }}"></script>
+    <script type="text/javascript">
+        /**
+         * 默认调用
+         */
+        !function () {
+            var $target = $('#J_Address');
+
+            $target.citySelect();
+
+            $target.on('click', function (event) {
+                event.stopPropagation();
+                $target.citySelect('open');
+            });
+
+            $target.on('done.ydui.cityselect', function (ret) {
+                $(this).val(ret.provance + ' ' + ret.city + ' ' + ret.area);
+            });
+        }();
+        /**
+         https://www.jb51.net/jiaoben/577191.html#downintro2
+         * 设置默认值
+         */
+        !function () {
+            var $target = $('#J_Address2');
+
+            $target.citySelect({
+            {% for addr in addr %}
+                provance: "{{ addr.get('province') }}",
+                city: "{{ addr.get('city') }}",
+                area: "{% if addr.get('district') %}{{ addr.get('district') }}{% endif %}"
+            {% endfor %}
+            });
+
+            $target.on('click', function (event) {
+                event.stopPropagation();
+                $target.citySelect('open');
+            });
+
+            $target.on('done.ydui.cityselect', function (ret) {
+                $(this).val(ret.provance + ' ' + ret.city + ' ' + ret.area);
+            });
+        }();
+    </script>
 {% endblock %}

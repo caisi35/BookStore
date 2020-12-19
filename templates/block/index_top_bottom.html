@@ -33,7 +33,6 @@
                         <a href="{{ url_for('userinfo.userInfo') }}"><span>Hi~，</span>您还为未命名</a>
                     {% endif %}
                 </li>
-                <li><a href="{{ url_for('user.logout') }}">退出登录</a></li>
             {% else %}
                 <li>
                     <a id="index_login" href="#">登录</a>
@@ -43,7 +42,9 @@
 {#            <li><a href="{{ url_for('building.building') }}">我的书屋</a></li>#}
 {#            <li><a href="{{ url_for('building.building') }}">企业采购</a></li>#}
             <li><a href="{{ url_for('admin.admin') }}">后台管理</a></li>
-            <li class="customer_s"><a href="{{ url_for('building.building') }}">客户服务</a></li>
+            <li ><a href="{{ url_for('building.building') }}">客户服务</a></li>
+            <li class="customer_s"><a href="{{ url_for('user.logout') }}">退出登录</a></li>
+
         </ul>
     </div>
 </div>
