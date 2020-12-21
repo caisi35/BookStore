@@ -2,10 +2,11 @@ from flask import (
     Blueprint, redirect, render_template, request, url_for, session, jsonify
 )
 from models.db import ToConn, ToMongo, get_like_books
+from models.choice_type import choice_book_type
 from werkzeug.exceptions import abort
 from views_front.user import login_required
 from bson.objectid import ObjectId
-import time, random, base64
+import time, random, base64, inspect
 from datetime import datetime, timedelta
 
 bp = Blueprint('products', __name__)
@@ -20,8 +21,13 @@ def index():
     new_books = mydb.get_col('books').find().skip(15).limit(12)
     book_top = mydb.get_col('books').find().sort("price", -1).limit(5)
     book_top2 = mydb.get_col('books').find().sort("sales", -1).limit(5)
-    return render_template('products/index.html', books=books, new_books=new_books,
-                           book_top=book_top, book_top2=book_top2)
+    book_type_list = choice_book_type()
+    return render_template('products/index.html',
+                           books=books,
+                           new_books=new_books,
+                           book_top=book_top,
+                           book_top2=book_top2,
+                           book_type_list = book_type_list)
 
 
 # 获取图书信息
@@ -435,7 +441,7 @@ def order():
 def search():
     try:
         word = request.values.get('word')
-        page = request.values.get('page', 0, type=int)
+        page = request.values.get('page', 1, type=int)
         page_size = request.values.get('page_size', 15, type=int)
         if page != 0:
             page = page-1
@@ -451,13 +457,17 @@ def search():
         result_list = list(books)
         if page == 0:
             page = 1
+        book_type_list = choice_book_type()
         return render_template('products/search.html',
+                               def_url=inspect.stack()[0][3],
                                books=result_list,
                                key_word=word,
-                               active_page=page+1,
+                               active_page=page,
                                total=count,
                                page_size=page_size,
                                page_count=5,
+                               book_type_list=book_type_list,
+                               search=True,
                                )
     except Exception as e:
         print('=========search=========', e)

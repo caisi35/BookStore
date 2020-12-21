@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from views_front import user, products, userinfo, building
+from views_front import user, products, userinfo, building, index_view
 from views_admin import admin, signIn, userAdmin, bookAdmin, order_admin
 
 
@@ -28,6 +28,8 @@ def create_app(test_config=None):
     app.register_blueprint(bookAdmin.bp)
 
     app.register_blueprint(order_admin.bp)
+
+    app.register_blueprint(index_view.bp)
 
     app.add_url_rule('/', endpoint='index')
 

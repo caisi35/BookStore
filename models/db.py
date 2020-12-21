@@ -6,7 +6,6 @@ from bs4 import UnicodeDammit
 import urllib.request
 
 
-
 class ToConn:
     def __init__(self):
         self.connection = pymysql.connect(
@@ -248,24 +247,27 @@ class ToMongo:
 
 
 # MongoDB搜索功能的模糊查询
-def get_like_books(word, page, page_size):
+def get_like_books(word, page, page_size, book_type=None):
     try:
         mydb = ToMongo()
         book_list = []
         mycol = mydb.get_col('books')
-        print(page,'==',page_size,'==',page*page_size)
-        books = mycol.find({'$or': [{'press': {"$regex": word}},
-                                    {'title': {"$regex": word}},
-                                    {'subheading': {"$regex": word}},
-                                    {'author': {"$regex": word}}]
-                            }).sort('hits', -1).skip(page*page_size).limit(page_size)
+        if book_type:
+            books = mycol.find({'type': word}).sort('hits', -1).skip(page * page_size).limit(page_size)
+            count = mycol.find({'type': word}).count()
+        else:
+            books = mycol.find({'$or': [{'press': {"$regex": word}},
+                                        {'title': {"$regex": word}},
+                                        {'subheading': {"$regex": word}},
+                                        {'author': {"$regex": word}}]
+                                }).sort('hits', -1).skip(page * page_size).limit(page_size)
+            count = mycol.find({'$or': [{'press': {"$regex": word}},
+                                        {'title': {"$regex": word}},
+                                        {'subheading': {"$regex": word}},
+                                        {'author': {"$regex": word}}]
+                                }).count()
         for book in books:
             book_list.append(book)
-        count = mycol.find({'$or': [{'press': {"$regex": word}},
-                                    {'title': {"$regex": word}},
-                                    {'subheading': {"$regex": word}},
-                                    {'author': {"$regex": word}}]
-                            }).sort('hits', -1).count()
         return book_list, count
     except Exception as e:
         print('========get_like_books=========', e)
@@ -314,7 +316,7 @@ def get_page(page_user, page):
     # divmod 返回商和余数
     pages = divmod(user_count, page_user)
     if pages[1]:
-        pages = pages[0]+1
+        pages = pages[0] + 1
     else:
         pages = pages[0]
     max_page = pages
@@ -449,10 +451,6 @@ class Spider:
                     address[district_key] = self.get_village(value)
         ToMongo().insert('address', address)
         return address
-
-
-
-
 
 # if __name__ == '__main__':
 #     # Create new threads

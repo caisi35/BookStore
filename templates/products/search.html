@@ -1,5 +1,5 @@
 {% extends 'block_index.html' %}
-{% block title %}搜索{% endblock %}
+{% block title %}搜索-'{{ key_word }}'{% endblock %}
 
 {% block css %}
     {{ super() }}
@@ -78,7 +78,7 @@
                 console.log(index);
                 //https://blog.csdn.net/pengShuai007/article/details/86528992
                 var a = document.createElement('a');
-                a.setAttribute('href', '/search?word={{key_word}}&page='+index);
+                a.setAttribute('href', '/{{ def_url }}?word={{key_word}}&page='+index);
                 // 防止反复添加
                 if (document.getElementById('startTelMedicine')) {
                     document.body.removeChild(document.getElementById('startTelMedicine'));
