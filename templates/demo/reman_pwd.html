@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>登录页面</title>
+        <link rel="stylesheet" href="layui/css/layui.css">
+        <script src="js/jquery.js"></script>
+        <script src="js/jquery.cookie.js"></script>
+        <script src="js/jquery.base64.js"></script>
+        <style  type="text/css"> 
+            html,body{
+                height:100%;
+                width:100%;
+                background-color: #53E3A6;
+            }
+            .div1{
+                height: 300px;
+                width: 400px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-top: -150px;
+                margin-left: -200px;
+                background: #F0F0F0;
+                text-align: center;
+                padding-top: 10px;
+            }
+        </style>
+    </head>
+    <body  οnlοad="getCookie();">
+        <div class="div1">
+            <h2>后台管理系统</h2>
+            <div>
+                <div style="margin: 10px;">
+                  <input id="zhanghao" type="text" name="zhanghao" required lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input" value="admin">
+                </div>
+                <div style="margin: 10px;">
+                  <input id="mima" type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input" value="123456">
+                </div>
+                <div style="margin: 10px;">
+                    <input style="position: absolute;left: 10px;width: 20px;height: 20px;" type="checkbox" name="jizhu" title="发呆" lay-skin="primary">
+                    <span style="position: absolute;left: 40px;">记录密码</span>
+                </div>
+                <div style="margin-top: 50px;">
+                    <button id="denglu" class="layui-btn" style="width: 200px;">登录</button>
+                </div>
+            </div>
+        </div>
+        <script>
+            //var loginurl="http://localhost:8088/register";
+            var loginurl="http://localhost:8088/login";
+            $("#denglu").click(function(){
+                login();
+            });
+            //设置cookie  
+            function setCookie(){   
+                 var loginCode = $("#zhanghao").val(); //获取用户名信息    
+                 var pwd = $("#mima").val(); //获取登陆密码信息    
+                 var checked = $("input[type='checkbox']").is(':checked');//获取“是否记住密码”复选框  
+                   //console.log("setCookie方法是否记住密码："+checked);
+                 if(checked){ //判断是否选中了“记住密码”复选框    
+                     //设置cookie过期时间
+                     var date = new Date();
+                    date.setTime(date.getTime()+60*1000);//只能这么写，60表示60秒钟
+                    //console.log("cookie过期时间："+date);
+                    $.cookie("login_code",loginCode,{ expires: date, path: '/' });//调用jquery.cookie.js中的方法设置cookie中的用户名    
+                    $.cookie("pwd",$.base64.encode(pwd),{ expires: date, path: '/' });//调用jquery.cookie.js中的方法设置cookie中的登陆密码，并使用base64（jquery.base64.js）进行加密
+                 }else{     
+                     $.cookie("login_code", null);  
+                    $.cookie("pwd", null);     
+                 }      
+            } 
+            
+            //清除所有cookie函数
+            function clearAllCookie() {
+                var date=new Date();
+                date.setTime(date.getTime()-10000);
+                var keys=document.cookie.match(/[^ =;]+(?=\=)/g);
+                console.log("需要删除的cookie名字："+keys);
+                if (keys) {
+                    for (var i =  keys.length; i--;)
+                      document.cookie=keys[i]+"=0; expire="+date.toGMTString()+"; path=/";
+                }
+            }
+            //获取cookie    
+            function getCookie(){ 
+                 var loginCode = $.cookie("login_code"); //获取cookie中的用户名    
+                 var pwd =  $.cookie("pwd"); //获取cookie中的登陆密码  
+                 console.log("获取cookie:账户："+loginCode);
+                 console.log("获取cookie:密码："+pwd);
+                 if (!loginCode||loginCode==0) {
+                      console.log("账户："+!loginCode);
+                      //alert("请输出内容！");
+                 }else{
+                     $("#zhanghao").val(loginCode);   
+                 }
+                 if(!pwd||pwd==0){
+                     console.log("密码："+!pwd);
+                 }else{
+                     //密码存在的话把密码填充到密码文本框    
+                     //console.log("密码解密后："+$.base64.decode(pwd));
+                    $("#mima").val($.base64.decode(pwd));
+                    //密码存在的话把“记住用户名和密码”复选框勾选住    
+                    $("[name='jizhu']").attr("checked","true");
+                 }
+                     
+            } 
+            function login(){     
+                var userName = $('#zhanghao').val(); 
+                console.log("用户名："+userName);
+                if(userName == ''){    
+                    alert("请输入用户名。");    
+                    return;    
+                }    
+                var userPass =$('#mima').val(); 
+                console.log("密码："+userPass);
+                if(userPass == ''){    
+                    alert("请输入密码。");    
+                    return;    
+                }  
+                //判断是否选中复选框，如果选中，添加cookie  
+                var jizhupwd=$("input[type='checkbox']").is(':checked');
+                console.log("是否记住密码："+jizhupwd);
+                if(jizhupwd){    
+                    //添加cookie    
+                    setCookie();      
+                }else{    
+                    clearAllCookie();
+                }  
+                netWorking(userName,userPass);//联网上传账号密码
+            }
+            function netWorking(zhanghao,mima){
+                    $.ajax({
+                        type:"post",    
+                        url:loginurl,    
+                        data:{
+                             username:zhanghao,  //期刊id
+                             password:mima, 
+                        }, 
+                        success: function(res) {
+                           console.log("请求数据1.："+res);
+                           console.log("请求数据2.："+JSON.stringify(res));
+                           var datas=eval(res);
+                           var ticket=datas.ticket;
+                              //var ticket=datas.msg;
+                           console.log("请求数据2.："+ticket);
+                           if (ticket==undefined) {
+                                 alert("请您先注册");
+                           } else{
+                               window.location.href='htmls/home.html';
+                           }
+                        },
+                        error:function() { 
+                            alert("失败");
+                       } 
+                    });
+            }
+
+        </script>
+    </body>
+</html>
