@@ -1,0 +1,173 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <style>
+            body{
+                font-size: 12px;
+            }
+            .reHead{
+                margin: 15px 4%; 
+            }
+            .headForm{
+                text-align: center;
+                padding: 40px 0 70px 0;
+            }
+            #test-image-preview {
+                position: relative;
+                display: inline-block;
+                width: 100px;
+                height: 100px;
+                border-radius: 50px;
+                background: #F5F5F5;
+                color: #fff;
+                font-size: 60px;
+                text-align: center;
+                line-height: 100px;
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center center;
+                margin-bottom: 26px;
+            }
+            .fileHead{
+                position: absolute;
+                width: 100px;
+                height: 100px;
+                right: 0;
+                top: 0;
+                opacity: 0;
+            }
+            .content-format {
+                font-size: 12px;
+                font-weight: 400;
+                color: rgba(153, 153, 153, 1);
+            }
+            .headMain{
+                height: 40px;
+            }
+            .file {
+                position: relative;
+                background: #fff;
+                color: #F39800;
+                font-weight:800;
+            }
+            .file input {
+                position: absolute;
+                font-size: 12px;
+                right: 0;
+                top: 0;
+                opacity: 0;
+            }
+            .fileName {
+                line-height: 28px;
+                font-size: 12px;
+                font-weight: 400;
+                color: rgba(51, 51, 51, 1);
+            }
+            .but{
+                text-align: center;
+            }
+            .orangeHead{
+                width: 40%;
+                height: 40px;
+                background: #f60;
+                border: none;
+            }
+            .orangeHead a{
+                color: #fff;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="reHead">
+             <P class="content-format">头像支持jpg、png、jpeg格式，文件大小最大不能超过1M</P>
+             <div class="content">
+                 <form method="post" enctype="multipart/form-data" id="file_upload" class="headForm">
+                     <div id="test-image-preview" class="iconfont icon-bianjitouxiang">
+                          <input type="file" name="test" id="test-image-file" class="fileHead" accept="image/gif, image/jpeg, image/png, image/jpg" multiple="multiple">
+                      </div>
+                      <div class="headMain">
+                          <span class="file">上传文件</span>
+                          <p id="test-file-info" class="fileName"></p>
+                     </div>
+                  </form>
+              </div>
+              <div class="but">
+                  <button class=" orangeHead" id="upImgSub"><a href="" title="编辑资料" target="_blank">保存</a></button>
+              </div>
+          </div>
+    </body>
+    
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+    <script type="text/javascript" >
+        var fileInput = document.getElementById('test-image-file'),
+            info = document.getElementById('test-file-info'),
+            preview = document.getElementById('test-image-preview');
+            dataBase64 = '',
+        // preview.style.backgroundImage = 'url(../../img/portrait.png)';    //默认显示的图片
+
+        // 监听change事件:
+        fileInput.addEventListener('change', upImg);
+
+        // 头像上传逻辑函数
+        function upImg(){
+            preview.style.backgroundImage = '';       // 清除背景图片
+            if (!fileInput.value) {     // 检查文件是否选择:
+                $('#test-image-preview').addClass('icon-bianjitouxiang');
+                info.innerHTML = '没有选择文件';
+            }else{
+                $('#test-image-preview').removeClass('icon-bianjitouxiang');
+                info.innerHTML = '';
+            }
+            
+            var file = fileInput.files[0];    // 获取File引用
+            var size = file.size;
+            if (size >= 1 * 1024 * 1024) {     //判断文件大小
+                info.innerHTML = '文件大于1兆不行!';
+                preview.style.backgroundImage = '';
+                $('#test-image-preview').addClass('icon-bianjitouxiang');
+                return false;
+            }
+            
+            if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif') {    // 获取File信息:
+                info.innerHTML = '不是有效的图片文件!';
+                preview.style.backgroundImage = '';
+                $('#test-image-preview').addClass('icon-bianjitouxiang');
+                return;
+            }
+
+            // 读取文件:
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                dataBase64 = e.target.result;      
+                preview.style.backgroundImage = 'url(' + dataBase64 + ') ';
+                preview.style.backgroundRepeat = 'no-repeat';
+                preview.style.backgroundSize = ' 100% 100%';
+            };
+            // 以DataURL的形式读取文件:
+            reader.readAsDataURL(file);
+            // console.log(file);
+        }
+        //提交图片，将图片的 base64 编码提交到服务器
+        $("#upImgSub").click(function () {
+            $.ajax({
+                type:'post',
+                data:{'newHead':dataBase64},
+                async:false,     //  是否异步请求
+                dataType:'json',
+                url:'/index/img',
+                success:function (res) {    // 返回成功
+                    if(res.code === 200){
+                        alert(msg)          // 上传成功
+                    }else{
+                        alert(msg)          // 上传失败
+                    }
+                },
+                error:function () {
+                    alert("接口错误");       // 返回失败
+                }
+            })
+        });
+    </script>
+</html>
