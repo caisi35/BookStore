@@ -1,4 +1,3 @@
-import json
 from flask import (
     Blueprint, flash, redirect, render_template, request, url_for, session, jsonify
 )
@@ -9,7 +8,7 @@ from datetime import timedelta
 from views_front.products import get_user, get_book
 from werkzeug.utils import secure_filename
 from werkzeug.security import check_password_hash, generate_password_hash
-
+from utils.time_model import format_time_second
 bp = Blueprint('userinfo', __name__)
 
 
@@ -39,7 +38,7 @@ def get_order_book(id):
 
 # 查询用户订单信息
 def get_orders(user_id):
-    result = ToMongo().get_col('order').find({'user_id': user_id, 'is_effective': 1})
+    result = ToMongo().get_col('order').find({'user_id': user_id, 'is_effective': 1}).sort('order_no', -1)
     orders = []
     result = list(result)
     for order in result:
@@ -53,8 +52,12 @@ def get_orders(user_id):
             book_num = book['book_num']
             # 图书下架后get_book查询不到信息，会抛出错误
             book_info.append({'book_num': book_num, 'books': get_order_book(ObjectId(book['book_id']))})
-        orders.append({'amount': amount, 'order_no': order_no, 'create_time': create_time, 'book_info': book_info,
-                       'effective_time': effective_time})
+        orders.append({'amount': amount,
+                       'order_no': order_no,
+                       'create_time': format_time_second(create_time),
+                       'book_info': book_info,
+                       'effective_time': effective_time,
+                       })
     return orders
 
 

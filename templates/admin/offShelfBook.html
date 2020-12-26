@@ -2,7 +2,7 @@
 
 {% block title %}下架图书{% endblock %}
 
-{% block sub_header %}
+{% block main %}
     <h2 class="sub-header">下架图书列表</h2>
     <div class="table-responsive">
         <table class="table table-striped">
@@ -33,11 +33,11 @@
                            href="{{ url_for('bookAdmin.on_shelf' , book_id=book['_id']) }}"
                            onclick="javascrip:return confirm('您确定要将该物品上架？')">上架</a>
                         <a type="button" class="btn btn-danger" role="button"
-                           href="{{ url_for('bookAdmin.off_shelf_book_trash' , book_id=book['_id']) }}"
+                           href="/admin/bookAdmin/off_shelf_book_trash?book_id={{book['_id'] }}"
                            onclick="javascrip:return confirm('您确定要将该物品加入回收站？')">加入回收站</a>
                     </td>
                     {% for message in get_flashed_messages() %}
-                        <td class="flash text-center"><b>asdf{{ message }}</b></td>
+                        <td class="flash text-center"><b>{{ message }}</b></td>
                     {% endfor %}
                 </tr>
 
@@ -65,7 +65,7 @@
                 console.log(index);
                 //https://blog.csdn.net/pengShuai007/article/details/86528992
                 var a = document.createElement('a');
-                a.setAttribute('href', '/admin/bookAdmin/off_shelf_books?page='+index);
+                a.setAttribute('href', '{{ url_for('bookAdmin.off_shelf_books') }}?page='+index);
                 // 防止反复添加
                 if (document.getElementById('startTelMedicine')) {
                     document.body.removeChild(document.getElementById('startTelMedicine'));

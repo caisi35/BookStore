@@ -32,7 +32,6 @@
                         <a href="{{ url_for('userinfo.userInfo') }}"><span>Hi~，</span>您还为未命名</a>
                     {% endif %}
                 </li>
-                <li><a href="{{ url_for('user.logout') }}">退出登录</a></li>
             {% else %}
                 <li>
                     <a id="index_login" >登录</a>
@@ -41,7 +40,10 @@
             <li><a href="{{ url_for('products.cart') }}">购物车</a></li>
             <li><a href="{{ url_for('building.building') }}">我的书屋</a></li>
             <li><a href="{{ url_for('building.building') }}">企业采购</a></li>
-            <li class="customer_s"><a href="{{ url_for('building.building') }}">客户服务</a></li>
+            <li class="{% if not session['user_id'] %}customer_s{% endif %}"><a href="{{ url_for('building.building') }}">客户服务</a></li>
+            {% if session['user_id'] %}
+                <li class="customer_s"><a href="{{ url_for('user.logout') }}">退出登录</a></li>
+            {% endif %}
         </ul>
                 </div>
             </div>

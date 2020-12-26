@@ -1,10 +1,12 @@
 import functools
+import datetime
+
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify
 )
 from werkzeug.security import check_password_hash, generate_password_hash
+
 from models.db import ToConn, ToMongo
-import datetime
 
 bp = Blueprint('user', __name__, url_prefix='/user')
 

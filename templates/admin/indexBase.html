@@ -69,6 +69,9 @@
                 <li class={% if page_active == 'process' %}
                     "active"
                 {% endif %}><a href="{{ url_for('orderAdmin.process') }}">订单管理</a></li>
+                <li class={% if page_active == 'invalid' %}
+                    "active"
+                {% endif %}><a href="{{ url_for('orderAdmin.invalid_orders') }}">失效订单</a></li>
             </ul>
             <ul class="nav nav-sidebar">
                 <li class={% if page_active == 'bookAdmin' %}
@@ -90,10 +93,10 @@
                 {#                <li><a href="">回收站</a></li>#}
                 <li class={% if page_active == 'book_trash' %}
                     "active"
-                {% endif %}><a href="{{ url_for('admin.book_trash') }}">已删除图书</a></li>
+                {% endif %}><a href="{{ url_for('bookAdmin.book_trash') }}">已删除图书</a></li>
                 <li class={% if page_active == 'user_trash' %}
                     "active"
-                {% endif %}><a href="{{ url_for('admin.user_trash') }}">已删除用户</a></li>
+                {% endif %}><a href="{{ url_for('userAdmin.user_trash') }}">已删除用户</a></li>
             </ul>
         </div>
 

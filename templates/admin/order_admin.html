@@ -71,7 +71,7 @@
                 console.log(index);
                 //https://blog.csdn.net/pengShuai007/article/details/86528992
                 var a = document.createElement('a');
-                a.setAttribute('href', '/admin/orderAdmin/?page='+index);
+                a.setAttribute('href', '{{ def_url }}?page='+index);
                 // 防止反复添加
                 if (document.getElementById('startTelMedicine')) {
                     document.body.removeChild(document.getElementById('startTelMedicine'));

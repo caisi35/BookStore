@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/swiper2.css') }}">
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
     {% block css %}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/product.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/product.css') }}">
 
     {% endblock %}
 </head>
@@ -39,11 +39,12 @@
                 </li>
             {% endif %}
             <li><a href="{{ url_for('products.cart') }}">购物车</a></li>
-{#            <li><a href="{{ url_for('building.building') }}">我的书屋</a></li>#}
-{#            <li><a href="{{ url_for('building.building') }}">企业采购</a></li>#}
             <li><a href="{{ url_for('admin.admin') }}">后台管理</a></li>
-            <li ><a href="{{ url_for('building.building') }}">客户服务</a></li>
-            <li class="customer_s"><a href="{{ url_for('user.logout') }}">退出登录</a></li>
+            <li class="{% if not session['user_id'] %}customer_s{% endif %}"><a href="{{ url_for('building.building') }}">客户服务</a></li>
+            {% if session['user_id'] %}
+                <li class="customer_s"><a href="{{ url_for('user.logout') }}">退出登录</a></li>
+            {% endif %}
+
 
         </ul>
     </div>
@@ -64,7 +65,7 @@
         <ul class="right">
             <li><a href="{{ url_for('index') }}">首页</a></li>
             {% for book_type in book_type_list %}
-            <li><a href="{{ url_for('index_view.book_type', book_type=book_type) }}">{{ book_type }}</a></li>
+                <li><a href="{{ url_for('index_view.book_type', book_type=book_type) }}">{{ book_type }}</a></li>
             {% endfor %}
         </ul>
     </div>
@@ -196,13 +197,14 @@
                 <a href="#" class="close"></a>
             </div>
             {#            <form role="form" method="post" action="{{ url_for('user.index_login') }}">#}
-{#            错误信息flash #}
+            {#            错误信息flash #}
             <span id="message"></span>
             <div class="popcon">
                 <div>
                     <div class="group">
                         {#                    失去焦点：onBlur="if(value==''){value='请输入密码'}"获取焦点：onFocus="if(value=='请输入密码') {value=''}"#}
-                        <input type="tel" placeholder="请输入您的手机号码" name="username" pattern="[0-9]{11}" id="login_username"
+                        <input type="tel" placeholder="请输入您的手机号码" name="username" pattern="[0-9]{11}"
+                               id="login_username"
                                 {#                               onkeyup="this.value=this.value.replace(/^\s+|\s+$/g,'')"#}
                                required autofocus maxlength="11" minlength="11">
                         <i class="fa fa-user"></i>

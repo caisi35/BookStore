@@ -1,13 +1,10 @@
+import inspect
 from flask import (
-    Blueprint, redirect, render_template, request, url_for, session, jsonify
+    Blueprint, render_template, request
 )
-from models.db import ToConn, ToMongo, get_like_books
+
+from models import get_like_books
 from models.choice_type import choice_book_type
-from werkzeug.exceptions import abort
-from views_front.user import login_required
-from bson.objectid import ObjectId
-import time, random, base64, inspect
-from datetime import datetime, timedelta
 
 bp = Blueprint('index_view', __name__)
 

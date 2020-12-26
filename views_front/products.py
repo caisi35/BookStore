@@ -1,14 +1,14 @@
 from flask import (
     Blueprint, redirect, render_template, request, url_for, session, jsonify
 )
-from models.db import ToConn, ToMongo, get_like_books
+from models import ToConn, ToMongo, get_like_books
 from models.choice_type import choice_book_type
 from werkzeug.exceptions import abort
 from views_front.user import login_required
 from bson.objectid import ObjectId
 import time, random, base64, inspect
 from datetime import datetime, timedelta
-
+from utils import format_time_second
 bp = Blueprint('products', __name__)
 
 
@@ -27,7 +27,7 @@ def index():
                            new_books=new_books,
                            book_top=book_top,
                            book_top2=book_top2,
-                           book_type_list = book_type_list)
+                           book_type_list=book_type_list)
 
 
 # 获取图书信息
@@ -361,7 +361,7 @@ def to_pay():
     book_ids = request.form.getlist('books[]')
     order_no = str(time.strftime('%Y%m%d%H%M', time.localtime(time.time()))) + str(random.randint(100001, 999999))
     user_id = session.get('user_id')
-    create_time = datetime.now()
+    create_time = int(time.time())
     books = []
     try:
         # 获取收货地址,写入订单号详情
@@ -377,8 +377,17 @@ def to_pay():
                 books.append({'book_num': int(book_num['book_num']), 'book_id': book_id})
             else:
                 books.append({'book_num': 1, 'book_id': book_id})
-        v = {"amount": amount, "books": books, "order_no": order_no, "is_processed": 0, "user_id": user_id,
-             "create_time": create_time, "is_effective": 1, "address": address}
+        v = {"amount": amount,
+             "books": books,
+             "order_no": order_no,
+             "is_processed": 0,
+             "user_id": user_id,
+             "create_time": create_time,
+             "is_effective": 1,
+             "address": address,
+             "orders_status": 0,
+             "pay_status": 0,
+             "exp_status": 0, }
         mydb = ToMongo()
         result = mydb.insert('order', v)
         if result:
@@ -430,7 +439,11 @@ def order():
         orderNo = request.args.get('order_no', '')
         mydb = ToMongo()
         myorder = mydb.get_col('order').find_one({'order_no': orderNo, 'user_id': session.get('user_id')})
-        return render_template('buyCart/order.html', order_no=myorder)
+        data = {'order_no': myorder.get('order_no'),
+                'amount': myorder.get('amount'),
+                'create_time': format_time_second(myorder.get('create_time'))}
+
+        return render_template('buyCart/order.html', order_no=data)
     except Exception as e:
         print('========order=========:', e)
         return abort(403)
@@ -444,7 +457,7 @@ def search():
         page = request.values.get('page', 1, type=int)
         page_size = request.values.get('page_size', 15, type=int)
         if page != 0:
-            page = page-1
+            page = page - 1
         # 如果输入不为空
         if word:
             # 添加关键字数据到数据库，用与绘制词云图
@@ -452,7 +465,7 @@ def search():
             books, count = get_like_books(word, page, page_size)
         # 如果输入为空，则显示点击量前十的
         else:
-            books = ToMongo().get_col('books').find().sort('hits', -1).skip(page*page_size).limit(page_size)
+            books = ToMongo().get_col('books').find().sort('hits', -1).skip(page * page_size).limit(page_size)
             count = ToMongo().get_col('books').find().count()
         result_list = list(books)
         if page == 0:
@@ -472,4 +485,3 @@ def search():
     except Exception as e:
         print('=========search=========', e)
         return redirect('/')
-

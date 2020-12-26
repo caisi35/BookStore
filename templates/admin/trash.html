@@ -30,14 +30,14 @@
                         <td>{{ book.price }}</td>
                         <td>
                             <a type="button" class="btn btn-primary" role="button"
-                               href="{{ url_for('admin.restores' , book_id=book['_id']) }}"
+                               href="{{ url_for('bookAdmin.off_shelf_book_trash' , book_id=book['_id']) }}"
                                onclick="javascrip:return confirm('您确定要将该物品还原？')">还原</a>
                             <a type="button" class="btn btn-danger" role="button"
-                               href="{{ url_for('admin.trash_delete' , book_id=book['_id']) }}"
+                               href="{{ url_for('bookAdmin.trash_delete' , book_id=book['_id']) }}"
                                onclick="javascrip:return confirm('您确定要将该物品删除？')">删除</a>
                         </td>
                         {% for message in get_flashed_messages() %}
-                            <td class="flash text-center"><b>asdf{{ message }}</b></td>
+                            <td class="flash text-center"><b>{{ message }}</b></td>
                         {% endfor %}
                     </tr>
 
@@ -66,7 +66,7 @@
                         <td>{% if user.email == None %}{% else %}{{ user.email }}{% endif %}</td>
                         <td>
                             <a type="button" class="btn btn-primary" role="button"
-                               href="{{ url_for('admin.restores_user' , user_id=user.id) }}"
+                               href="{{ url_for('userAdmin.restores_user' , user_id=user.id) }}"
                                onclick="javascrip:return confirm('您确定要将该物品还原？')">还原</a>&nbsp;&nbsp;
                             &nbsp;
                             <button type="button" class="btn btn-danger" onclick="deleteUser('{{ user.id }}')">
