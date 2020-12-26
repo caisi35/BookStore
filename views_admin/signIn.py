@@ -36,7 +36,6 @@ def admin_login():
                 # 登录失败，快闪显示错误，重定向回原页面
                 flash(error)
                 return redirect(url_for('signIn.admin_login'))
-        # GET 请求
         return render_template('admin/signin.html')
     except Exception as e:
         print('===============admin_login===============', e)
