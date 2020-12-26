@@ -47,11 +47,11 @@
                 </div>
                 <div class="info right create-time">
                     <span id="{{ order_details.order_no }}"
-                          class="effective-time">下单时间：{{ order_details.create_time.strftime('%Y-%m-%d %H:%M:%S') }}
+                          class="effective-time">下单时间：{{ order_details.create_time }}
                     </span>
                     <script>
                         var newtime = new Date();
-                        var endtime = new Date("{{ order_details.effective_time.strftime('%Y/%m/%d,%H:%M:%S') }}");
+                        var endtime = new Date("{{ order_details.effective_time }}");
                         countDown((endtime.getTime() - newtime.getTime()) / 1000, function (msg) {
                             if (msg) {
                                 var span = document.getElementById('{{ order_details.order_no }}');
@@ -65,7 +65,7 @@
                                 div.appendChild(a);
                                 span.appendChild(div);
                             } else {
-                                document.getElementById('{{ order_details.order_no }}').innerHTML = "下单时间：{{ order_details.create_time.strftime('%Y-%m-%d %H:%M:%S') }}";
+                                document.getElementById('{{ order_details.order_no }}').innerHTML = "下单时间：{{ order_details.create_time }}";
                             }
                         }, endtime);
                     </script>

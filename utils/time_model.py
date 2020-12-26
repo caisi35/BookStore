@@ -1,6 +1,11 @@
 import time
 
 
+def get_day_time():
+    rel = int(time.time())
+    return rel
+
+
 def get_now():
     return int(time.time())
 
