@@ -4,16 +4,13 @@
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %} - MyBookStore</title>
     <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
-
+    {% block css %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index_2.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index_login.css') }}">
     <!--登录弹出框中的小图标--->
     <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/swiper2.css') }}">
-    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
-    {% block css %}
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/product.css') }}">
-
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/product.css') }}">
     {% endblock %}
 </head>
 <body>
@@ -42,10 +39,8 @@
             <li><a href="{{ url_for('admin.admin') }}">后台管理</a></li>
             <li class="{% if not session['user_id'] %}customer_s{% endif %}"><a href="{{ url_for('building.building') }}">客户服务</a></li>
             {% if session['user_id'] %}
-                <li class="customer_s"><a href="{{ url_for('user.logout') }}">退出登录</a></li>
+                <li class="customer_s"><a href="{{ url_for('user_login_register.logout') }}">退出登录</a></li>
             {% endif %}
-
-
         </ul>
     </div>
 </div>
@@ -196,7 +191,7 @@
                 <h3>登录</h3>
                 <a href="#" class="close"></a>
             </div>
-            {#            <form role="form" method="post" action="{{ url_for('user.index_login') }}">#}
+            {#            <form role="form" method="post" action="{{ url_for('user_login_register.index_login') }}">#}
             {#            错误信息flash #}
             <span id="message"></span>
             <div class="popcon">
@@ -223,7 +218,7 @@
                     <div class="remember-con">
                         <a href="#" class="code"><i class="fa fa-question-circle"></i>忘记密码</a>
 
-                        <a href="{{ url_for('user.register') }}"><i class="fa fa-question-circle"></i>去注册</a>&nbsp;
+                        <a href="{{ url_for('user_login_register.register') }}"><i class="fa fa-question-circle"></i>去注册</a>&nbsp;
                         <a href="mailto:caisi1735@163.com"><i class="fa fa-question-circle"></i>Email to Admin</a>
 
                     </div>

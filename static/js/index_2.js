@@ -39,8 +39,8 @@ $('button#index_login').click(function () {
     }
     else {
         $.ajax({
-            // user.py  blueprint  加了url_prefix 所以地址从/user开始
-            url: $SCRIPT_ROOT + "/user/index_login",
+            // user_login_register.py  blueprint  加了url_prefix 所以地址从/user开始
+            url: $SCRIPT_ROOT + "/user_login_register/index_login",
             type: 'post',
             data: {username: username, password: password},
             dataType: 'json',

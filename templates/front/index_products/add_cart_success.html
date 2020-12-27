@@ -1,10 +1,14 @@
-{% extends '../../tests/demo_html/block/index_top_bottom.html' %}
-{% block title %}添加成功{% endblock %}
-{% block css %}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/buy.css') }}">
-{% endblock %}
-{% block content %}
+{% extends 'front/index_products/base_index_products.html' %}
 
+{% block title %}添加成功{% endblock %}
+
+{% block css %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/buy.css') }}">
+
+{% endblock %}
+
+{% block main %}
 <div class="container">
     <div>
         <table class="table table-hover">

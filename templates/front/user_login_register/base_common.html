@@ -1,0 +1,59 @@
+{% extends 'front/base_front.html' %}
+
+{% block css %}
+{#    {{ super() }}#}
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/base.css') }}">
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+{% endblock %}
+
+{% block header %}{% endblock %}
+
+
+{% block main %}
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-md-3 column">
+            </div>
+
+            <div class="col-md-6 column">
+                <nav>
+                    <a href="{{ url_for('products.index') }}">
+                        <img src="{{ url_for('static',filename='/images/logo.jpg') }}" class="logo left" alt="logo">
+                        <h1 class="left">BookStore</h1></a>
+                    <ul class="left">
+                        {% if g.user %}
+                            <li><span>{{ g.user['username'] }}</span></li>
+                            <li><a href="{{ url_for('user_login_register.logout') }}">Log Out</a></li>
+                        {% else %}
+                            <li class="register"><a href="{{ url_for('user_login_register.register') }}">Register</a>
+                            </li>
+                            <li><a href="{{ url_for('user_login_register.login') }}">Log In</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+
+                <header>
+                    {% block header_common %}
+                    {% endblock %}
+                </header>
+                {% for message in get_flashed_messages() %}
+                    <div class="flash"><b>{{ message }}</b></div>
+                {% endfor %}
+
+                {% block content %}
+                {% endblock %}
+
+                <a href="mailto:caisi1735@163.com" class="right">Email to Administrator:caisi1735@163.com</a>
+
+            </div>
+
+            <div class="col-md-3 column">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

@@ -140,6 +140,16 @@ button#calculate:hover {
     background-color: red;
 }
 
+.description {
+    text-align: center;
+    background-color: white;
+}
+
+.description .desc_img img {
+    padding-top: 50px;
+    width: 40%;
+
+}
 
 
 

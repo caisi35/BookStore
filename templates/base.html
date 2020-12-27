@@ -2,61 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %} - BookStore</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='/css/base.css') }}">
-	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    {% block link %}{% endblock %}
+    <title>{% block title %}{% endblock %} - 阅读人生</title>
+    {% block css %}{% endblock %}
 </head>
 <body>
-<div class="container">
-	<div class="row clearfix">
-		<div class="col-md-12 column">
-		</div>
-	</div>
-	<div class="row clearfix">
-		<div class="col-md-3 column">
-		</div>
 
-		<div class="col-md-6 column">
-        <nav>
-            <a href="{{ url_for('products.index') }}">
-                <img src="{{ url_for('static',filename='/images/logo.jpg') }}" class="logo left" alt="logo">
-                <h1 class="left">BookStore</h1></a>
-            <ul class="left">
-                {% if g.user %}
-                    <li><span>{{ g.user['username'] }}</span></li>
-                <li><a href="{{ url_for('user.logout') }}">Log Out</a></li>
-                {% else %}
-                 <li class="register"><a href="{{ url_for('user.register') }}">Register</a></li>
-                <li><a href="{{ url_for('user.login') }}">Log In</a></li>
-                {% endif %}
-            </ul>
-        </nav>
+{% block header %}{% endblock %}
 
-        <header>
-            {% block header %}
-            {% endblock %}
-        </header>
-          {% for message in get_flashed_messages() %}
-            <div class="flash"><b>{{ message }}</b></div>
-          {% endfor %}
+{% block nav %}{% endblock %}
 
-          {% block content %}
-          {% endblock %}
+{% block main %}{% endblock %}
 
-            <a href="mailto:caisi1735@163.com" class="right">Email to Administrator:caisi1735@163.com</a>
+{% block servers %}{% endblock %}
 
-		</div>
+{% block footer %}{% endblock %}
 
-		<div class="col-md-3 column">
-		</div>
-	</div>
-	<div class="row clearfix">
-		<div class="col-md-12 column">
-		</div>
-	</div>
-</div>
+{% block js %}{% endblock %}
+
 </body>
 </html>
 

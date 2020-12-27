@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>demo</title>
+    <link rel="stylesheet" href="./css/pagination.css">
+    <script src="./js/pagination.js"></script>
+</head>
+<body>
+    <div id="pages">
+        
+    </div>
+</body>
+</html>
+<script>
+    new Pagination({
+        element: '#pages',
+        type: 1,
+        pageIndex: 1,   //默认活动页	
+        pageSize: 15,	//一页数量
+        pageCount: 5,   //显示页数
+        total: 89,      //总数
+        jumper: true,
+        singlePageHide: false,
+        prevText: '上一页',
+        nextText: '下一页',
+        disabled: true,
+        currentChange: function(index) {
+            console.log(index);
+        }
+    });
+</script>

@@ -1667,7 +1667,7 @@
                         if (Math.abs(s.velocity) < s.params.freeModeMinimumVelocity) {
                             s.velocity = 0;
                         }
-                        // this implies that the user stopped moving a finger then released.
+                        // this implies that the user_login_register stopped moving a finger then released.
                         // There would be no events with distance zero, so the last event is stale.
                         if (time > 150 || (new window.Date().getTime() - lastMoveEvent.time) > 300) {
                             s.velocity = 0;

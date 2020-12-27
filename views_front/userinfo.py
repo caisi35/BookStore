@@ -1,11 +1,9 @@
 from flask import (
     Blueprint, flash, redirect, render_template, request, url_for, session, jsonify
 )
-from models.db import ToConn, ToMongo
 from views_front.user import login_required
-from bson.objectid import ObjectId
 from views_front.products import get_user
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import check_password_hash
 from models.front_models import (
     get_user_orders_model,
     user_delete_order,
@@ -149,7 +147,7 @@ def changePW():
             if not change_pwd_model(user_id, new_pw):
                 flash("修改失败，请重试！")
         session.clear()
-        return render_template('user/login.html', next=request.referrer)
+        return render_template('front/user_login_register/login.html', next=request.referrer)
     except Exception as e:
         print('============change_pw============', e)
         flash("修改失败，请重试！")

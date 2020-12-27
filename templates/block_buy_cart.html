@@ -42,7 +42,7 @@
             <li><a href="{{ url_for('building.building') }}">企业采购</a></li>
             <li class="{% if not session['user_id'] %}customer_s{% endif %}"><a href="{{ url_for('building.building') }}">客户服务</a></li>
             {% if session['user_id'] %}
-                <li class="customer_s"><a href="{{ url_for('user.logout') }}">退出登录</a></li>
+                <li class="customer_s"><a href="{{ url_for('user_login_register.logout') }}">退出登录</a></li>
             {% endif %}
         </ul>
                 </div>

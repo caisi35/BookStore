@@ -249,8 +249,6 @@ def edit_cart_num(user_id, book_id, count=0, method='delete'):
     db.to_close()
     return count
 
-    return count
-
 
 def get_user_cart(user_id):
     db = ToConn()
@@ -258,9 +256,10 @@ def get_user_cart(user_id):
     result = db.get_db(sql, (user_id,)).fetchall()
     books = []
     for book_id in result:
-        b1 = get_book(book_id['book_id'])
-        b1['book_num'] = book_id['book_num']
-        b1['sum_price'] = round((int(book_id['book_num']) * float(b1['price'])), 2)
+        book_num = book_id.get('book_num')
+        b1 = get_book(book_id.get('book_id'))
+        b1['book_num'] = book_num
+        b1['sum_price'] = round((int(book_num) * float(b1.get('price'))), 2)
         books.append(b1)
     return books
 
@@ -305,15 +304,16 @@ def get_book(id):
     mycol = mydb.get_col('books')
     book = mycol.find_one({'_id': ObjectId(id)})
     # 添加点击量
-    ToMongo().update('books', {'_id': ObjectId(book['_id'])}, {'$inc': {'hits': 1}})
+    ToMongo().update('books', {'_id': ObjectId(id)}, {'$inc': {'hits': 1}})
     return book
 
 
 def index_model():
     mydb = ToMongo()
     # 轮播
-    books = mydb.get_col('books').find().limit(15)
-    new_books = mydb.get_col('books').find().skip(15).limit(12)
-    book_top = mydb.get_col('books').find().sort("price", -1).limit(5)
-    book_top2 = mydb.get_col('books').find().sort("sales", -1).limit(5)
+    books = list(mydb.get_col('books').find().limit(15))
+    new_books = list(mydb.get_col('books').find().skip(15).limit(12))
+    book_top = list(mydb.get_col('books').find().sort("price", -1).limit(5))
+    book_top2 = list(mydb.get_col('books').find().sort("sales", -1).limit(5))
+
     return books, new_books, book_top, book_top2

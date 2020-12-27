@@ -30,35 +30,42 @@ def index():
     """主页"""
     books, new_books, book_top, book_top2 = index_model()
     book_type_list = choice_book_type()
-    return render_template('products/index.html',
+    return render_template('front/index_products/index.html',
                            books=books,
                            new_books=new_books,
                            book_top=book_top,
                            book_top2=book_top2,
-                           book_type_list=book_type_list)
+                           book_type_list=book_type_list,
+                           )
 
 
 @bp.route('/product?<string:id>', methods=('GET', 'POST'))
 def product(id):
     """展示product图书详情页"""
     book = get_book(id)
-    return render_template('products/product.html',
-                           book=book)
+    book_type_list = choice_book_type()
+
+    return render_template('front/index_products/product.html',
+                           book=book,
+                           book_type_list=book_type_list,
+                           )
 
 
-@bp.route('/product/add_to_cart', methods=('POST',))
+@bp.route('/product/add_to_cart')
 @login_required
 def add_to_cart():
     """将物品加入到购物车"""
     user_id = session.get('user_id')
-    num = request.form.get('num', 0, type=int)
-    book_id = request.form.get('book_id')
-
+    num = request.args.get('num', 0, type=int)
+    book_id = request.args.get('book_id')
     add_card_model(user_id, book_id, num)
-    book = get_book(book_id),
-    return render_template('products/addToCartSuccess.html',
+    book = get_book(book_id)
+    book_type_list = choice_book_type()
+    return render_template('front/index_products/add_cart_success.html',
                            book=book,
-                           num=num)
+                           num=num,
+                           book_type_list=book_type_list,
+                           )
 
 
 @bp.route('/cart', methods=('GET', 'POST'))
@@ -68,7 +75,7 @@ def cart():
     try:
         user_id = session.get('user_id')
         books = get_user_cart(user_id)
-        return render_template('products/cart.html',
+        return render_template('front/index_products/cart.html',
                                books=books)
     except Exception as e:
         print('========cart=========:', e)
@@ -205,7 +212,7 @@ def search():
         page_size = request.values.get('page_size', 15, type=int)
         books, count = search_book_model(word, page, page_size)
         book_type_list = choice_book_type()
-        return render_template('products/search.html',
+        return render_template('front/index_products/search.html',
                                def_url=inspect.stack()[0][3],
                                books=books,
                                key_word=word,

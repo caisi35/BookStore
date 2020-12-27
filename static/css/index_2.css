@@ -83,7 +83,7 @@ a {
 #nav {
     height: 45px;
     background-color: white;
-    border-bottom: 1px solid green;
+    /*border-bottom: 1px solid green;*/
 }
 
 #nav img {
@@ -206,7 +206,7 @@ body {
 }
 #book ul li {
 
-    width: 220px;
+    width: 190px;
     /*border: 1px solid #000;*/
     float: left;
     margin: 20px 10px;
@@ -473,7 +473,7 @@ body {
 
 #book_new .new_book_left li {
     float: left;
-    margin: 20px 10px;
+    margin: 15px 10px;
     border-bottom: 3px solid #EAEAEA;
     -webkit-transition: all .3s;
     -moz-transition: all .3s;
@@ -547,7 +547,7 @@ body {
 #book_new .new_book_right ul li {
     background-color: #EAEAEA;
     margin: 20px 10px;
-    padding-bottom: 20px;
+    padding-bottom: 2px;
     border-bottom: 1px solid #00925F;
     background-color: white;
 }
@@ -639,7 +639,7 @@ body {
 #tab-content .dom ul li{
     float: left;
     /*background-color: red;*/
-    margin: 11px auto;
+    margin: 9px auto;
     width: 400px;
 }
 #tab-content .dom ul li dl dd {

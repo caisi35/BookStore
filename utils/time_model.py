@@ -1,4 +1,10 @@
 import time
+import datetime
+
+
+def get_dawn_timestamp():
+    day_time = int(time.mktime(datetime.date.today().timetuple()))
+    return day_time
 
 
 def get_day_time():

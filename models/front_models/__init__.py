@@ -1,3 +1,9 @@
+from .user_events_model import (
+user_register_model,
+user_login_model,
+add_visits,
+)
+
 from .address_model import (
     get_user_addr_info,
     get_addr_list_model,
