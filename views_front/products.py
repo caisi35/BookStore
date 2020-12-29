@@ -1,4 +1,5 @@
 import inspect
+import logging
 from werkzeug.exceptions import abort
 from flask import (
     Blueprint, redirect, render_template, request, url_for, session, jsonify
@@ -21,8 +22,11 @@ from models.front_models import (
     search_book_model,
 )
 from views_front.user import login_required
-
+from utils import (
+    Logger
+)
 bp = Blueprint('products', __name__)
+logger = Logger('products.log')
 
 
 @bp.route('/')
@@ -44,14 +48,13 @@ def product(id):
     """展示product图书详情页"""
     book = get_book(id)
     book_type_list = choice_book_type()
-
     return render_template('front/index_products/product.html',
                            book=book,
                            book_type_list=book_type_list,
                            )
 
 
-@bp.route('/product/add_to_cart')
+@bp.route('/product/add_to_cart', methods=['GET'])
 @login_required
 def add_to_cart():
     """将物品加入到购物车"""
@@ -78,7 +81,7 @@ def cart():
         return render_template('front/index_products/cart.html',
                                books=books)
     except Exception as e:
-        print('========cart=========:', e)
+        logging.exception(e)
         return abort(404)
 
 
@@ -112,7 +115,7 @@ def buy_list():
         book_id = request.args.get('book_list')
         user_id = session.get('user_id')
         book_list, books_price, pay, shipping_time, addr = to_buy_model(user_id, book_id)
-        return render_template('buyCart/buy_list.html',
+        return render_template('front/settle_pay/settle_from_list.html',
                                books=book_list,
                                books_price=books_price,
                                pay=pay,

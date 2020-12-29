@@ -137,7 +137,7 @@ def write_csv(file_path, data):
 
 class ToMongo:
     def __init__(self):
-        myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+        myclient = pymongo.MongoClient("notebook://localhost:27017/")
         self.mydb = myclient['products']
 
     def insert(self, col, value):

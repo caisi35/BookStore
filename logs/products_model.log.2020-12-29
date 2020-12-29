@@ -1,0 +1,179 @@
+2020-12-29 22:31:37 _internal.py[line:113] INFO  * Detected change in '/home/caisi/PycharmProjects/BookStore/models/front_models/products_model.py', reloading
+2020-12-29 22:31:58 _internal.py[line:113] INFO  * Detected change in '/home/caisi/PycharmProjects/BookStore/models/front_models/products_model.py', reloading
+2020-12-29 22:32:03 products.py[line:84] ERROR 'NoneType' object does not support item assignment
+Traceback (most recent call last):
+  File "/home/caisi/PycharmProjects/BookStore/views_front/products.py", line 80, in cart
+    books = get_user_cart(user_id)
+  File "/home/caisi/PycharmProjects/BookStore/models/front_models/products_model.py", line 266, in get_user_cart
+    b1['book_num'] = book_num
+TypeError: 'NoneType' object does not support item assignment
+2020-12-29 22:32:03 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:32:03] "[33mGET /cart HTTP/1.1[0m" 404 -
+2020-12-29 22:32:03 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:32:03] "[33mGET /static/css/images/error_bg.jpg HTTP/1.1[0m" 404 -
+2020-12-29 22:32:03 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:32:03] "[33mGET /static/css/images/error_cloud.png HTTP/1.1[0m" 404 -
+2020-12-29 22:32:09 products.py[line:84] ERROR 'NoneType' object does not support item assignment
+Traceback (most recent call last):
+  File "/home/caisi/PycharmProjects/BookStore/views_front/products.py", line 80, in cart
+    books = get_user_cart(user_id)
+  File "/home/caisi/PycharmProjects/BookStore/models/front_models/products_model.py", line 266, in get_user_cart
+    b1['book_num'] = book_num
+TypeError: 'NoneType' object does not support item assignment
+2020-12-29 22:32:09 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:32:09] "[33mGET /cart HTTP/1.1[0m" 404 -
+2020-12-29 22:32:15 products_model.py[line:292] INFO 5：添加[None：0]到购物车
+2020-12-29 22:32:15 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:32:15] "[37mPOST /product/add_to_cart HTTP/1.1[0m" 200 -
+2020-12-29 22:32:15 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:32:15] "[37mGET /static/images/favicon.ico HTTP/1.1[0m" 200 -
+2020-12-29 22:34:14 _internal.py[line:113] INFO  * Detected change in '/home/caisi/PycharmProjects/BookStore/views_front/products.py', reloading
+2020-12-29 22:34:22 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:34:22] "[31m[1mPOST /product/add_to_cart HTTP/1.1[0m" 405 -
+2020-12-29 22:35:39 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:35:39] "[31m[1mPOST /product/add_to_cart HTTP/1.1[0m" 405 -
+2020-12-29 22:35:47 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:35:47] "[37mGET /product%3F5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 22:35:47 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:35:47] "[37mGET /static/images/favicon.ico HTTP/1.1[0m" 200 -
+2020-12-29 22:35:51 products_model.py[line:292] INFO 5：添加[5ee96bec360d930a489db223：2]到购物车
+2020-12-29 22:35:51 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:35:51] "[37mGET /product/add_to_cart?num=2&book_id=5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 22:36:19 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:36:19] "[37mGET /cart HTTP/1.1[0m" 200 -
+2020-12-29 22:36:19 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:36:19] "[36mGET /static/js/cart.js HTTP/1.1[0m" 304 -
+2020-12-29 22:45:01 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:45:01] "[37mGET /user_login_register/login HTTP/1.1[0m" 200 -
+2020-12-29 22:45:07 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:45:07] "[37mGET /buy_now?book_id=5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 22:45:08 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:45:08] "[37mGET /static/css/address/ydui_buy_list.css HTTP/1.1[0m" 200 -
+2020-12-29 22:45:08 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:45:08] "[37mGET /static/js/address/ydui.flexible.js HTTP/1.1[0m" 200 -
+2020-12-29 22:45:08 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:45:08] "[36mGET /static/js/pay.js HTTP/1.1[0m" 304 -
+2020-12-29 22:45:08 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:45:08] "[37mGET /static/js/address/ydui.citys.js HTTP/1.1[0m" 200 -
+2020-12-29 22:45:08 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:45:08] "[36mGET /static/images/logo.jpg/ HTTP/1.1[0m" 304 -
+2020-12-29 22:45:08 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:45:08] "[37mGET /static/js/address/ydui.js HTTP/1.1[0m" 200 -
+2020-12-29 22:45:14 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:45:14] "[37mPOST /to_pay HTTP/1.1[0m" 200 -
+2020-12-29 22:45:14 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:45:14] "[37mGET /pay?order_no=202012292245758677 HTTP/1.1[0m" 200 -
+2020-12-29 22:45:15 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:45:15] "[37mGET /static/css/pay.css HTTP/1.1[0m" 200 -
+2020-12-29 22:45:15 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:45:15] "[37mGET /static/images/pay/zhifubao_payQR.png HTTP/1.1[0m" 200 -
+2020-12-29 22:45:17 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:45:17] "[36mGET /static/images/popbox-close.png HTTP/1.1[0m" 304 -
+2020-12-29 22:45:21 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:45:21] "[37mGET /order?order_no=202012292245758677 HTTP/1.1[0m" 200 -
+2020-12-29 22:45:33 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:45:33] "[35m[1mGET /userinfo/orderDetails?order_no=202012292245758677 HTTP/1.1[0m" 500 -
+2020-12-29 22:45:33 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:45:33] "[37mGET /userinfo/orderDetails?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+2020-12-29 22:45:33 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:45:33] "[37mGET /userinfo/orderDetails?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+2020-12-29 22:45:33 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:45:33] "[37mGET /userinfo/orderDetails?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+2020-12-29 22:45:33 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:45:33] "[37mGET /userinfo/orderDetails?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:45:33 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:45:33] "[37mGET /userinfo/orderDetails?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:46:02 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:46:02] "[32mGET /userInfo HTTP/1.1[0m" 302 -
+2020-12-29 22:46:02 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:46:02] "[37mGET /order?order_no=202012292245758677 HTTP/1.1[0m" 200 -
+2020-12-29 22:46:04 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:46:04] "[32mGET /userInfo HTTP/1.1[0m" 302 -
+2020-12-29 22:46:04 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:46:04] "[37mGET /order?order_no=202012292245758677 HTTP/1.1[0m" 200 -
+2020-12-29 22:46:07 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:46:07] "[37mGET / HTTP/1.1[0m" 200 -
+2020-12-29 22:46:10 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:46:10] "[32mGET /userInfo HTTP/1.1[0m" 302 -
+2020-12-29 22:46:10 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:46:10] "[37mGET / HTTP/1.1[0m" 200 -
+2020-12-29 22:46:55 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:46:55] "[37mGET /product%3F5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 22:46:58 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:46:58] "[37mGET /buy_now?book_id=5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 22:47:09 products_model.py[line:292] INFO 5：添加[5ee96bec360d930a489db223：1]到购物车
+2020-12-29 22:47:09 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:47:09] "[37mGET /product/add_to_cart?num=1&book_id=5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 22:47:09 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:47:09] "[37mGET /product/add_to_cart?num=1&book_id=5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 22:47:11 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:47:11] "[37mGET /cart HTTP/1.1[0m" 200 -
+2020-12-29 22:47:19 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:47:19] "[32mGET /buy_list?book_list=5ee9748f360d930a489dbb64,5ee975cf360d930a489dbcc0,5ee9772e360d930a489dbe3c,5ee973e5360d930a489dbaaa,5ee96bec360d930a489db223 HTTP/1.1[0m" 302 -
+2020-12-29 22:47:19 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:47:19] "[37mGET /cart HTTP/1.1[0m" 200 -
+2020-12-29 22:49:04 _internal.py[line:113] INFO  * Detected change in '/home/caisi/PycharmProjects/BookStore/models/front_models/products_model.py', reloading
+2020-12-29 22:49:10 products_model.py[line:189] ERROR 'NoneType' object is not subscriptable
+Traceback (most recent call last):
+  File "/home/caisi/PycharmProjects/BookStore/models/front_models/products_model.py", line 158, in to_buy_model
+    if user['address_default'] is None or user['address_default'] is '':
+TypeError: 'NoneType' object is not subscriptable
+2020-12-29 22:49:10 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:49:10] "[32mGET /buy_list?book_list=5ee9748f360d930a489dbb64,5ee975cf360d930a489dbcc0,5ee9772e360d930a489dbe3c,5ee973e5360d930a489dbaaa,5ee96bec360d930a489db223 HTTP/1.1[0m" 302 -
+2020-12-29 22:49:10 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:49:10] "[37mGET /cart HTTP/1.1[0m" 200 -
+2020-12-29 22:51:36 _internal.py[line:113] INFO  * Detected change in '/home/caisi/PycharmProjects/BookStore/models/front_models/products_model.py', reloading
+2020-12-29 22:51:45 products_model.py[line:158] INFO userinfo:None
+2020-12-29 22:51:45 products_model.py[line:190] ERROR 'NoneType' object is not subscriptable
+Traceback (most recent call last):
+  File "/home/caisi/PycharmProjects/BookStore/models/front_models/products_model.py", line 159, in to_buy_model
+    if user['address_default'] is None or user['address_default'] is '':
+TypeError: 'NoneType' object is not subscriptable
+2020-12-29 22:51:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:51:45] "[32mGET /buy_list?book_list=5ee9748f360d930a489dbb64,5ee975cf360d930a489dbcc0,5ee9772e360d930a489dbe3c,5ee973e5360d930a489dbaaa,5ee96bec360d930a489db223 HTTP/1.1[0m" 302 -
+2020-12-29 22:51:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:51:45] "[37mGET /cart HTTP/1.1[0m" 200 -
+2020-12-29 22:52:50 _internal.py[line:113] INFO  * Detected change in '/home/caisi/PycharmProjects/BookStore/models/front_models/products_model.py', reloading
+2020-12-29 22:52:57 products_model.py[line:158] INFO userinfo:{'birthday': datetime.date(2020, 5, 5), 'name': '黄彩思', 'avatar': '5.png', 'address_default': '5fdd841d3849ba2fd78112e2', 'introduce': 'kba', 'id': 5, 'email': 'caisi@163.com', 'age': '20', 'gender': 'M', 'password': 'pbkdf2:sha256:150000$aqaMgFu4$16f5642f9315726558e89b05dfa2949b1d8b7466ae51f7431c82e74347512266', 'tel': '13481470145', 'identity': '本科生', 'is_freezing': 0, 'hobbies': 'ka', 'createtime': datetime.datetime(2020, 4, 26, 0, 0), 'is_delete': 0}
+2020-12-29 22:52:57 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:52:57] "[37mGET /buy_list?book_list=5ee9748f360d930a489dbb64,5ee975cf360d930a489dbcc0,5ee9772e360d930a489dbe3c,5ee973e5360d930a489dbaaa,5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 23:07:54 _internal.py[line:113] INFO  * Detected change in '/home/caisi/PycharmProjects/BookStore/views_front/products.py', reloading
+2020-12-29 23:10:20 products_model.py[line:158] INFO userinfo:{'createtime': datetime.datetime(2020, 4, 26, 0, 0), 'is_freezing': 0, 'address_default': '5fdd841d3849ba2fd78112e2', 'name': '黄彩思', 'introduce': 'kba', 'identity': '本科生', 'is_delete': 0, 'tel': '13481470145', 'birthday': datetime.date(2020, 5, 5), 'age': '20', 'avatar': '5.png', 'email': 'caisi@163.com', 'hobbies': 'ka', 'id': 5, 'password': 'pbkdf2:sha256:150000$aqaMgFu4$16f5642f9315726558e89b05dfa2949b1d8b7466ae51f7431c82e74347512266', 'gender': 'M'}
+2020-12-29 23:10:20 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:10:20] "[37mGET /buy_list?book_list=5ee9748f360d930a489dbb64,5ee975cf360d930a489dbcc0,5ee9772e360d930a489dbe3c,5ee973e5360d930a489dbaaa,5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 23:10:21 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:10:21] "[37mGET /static/images/favicon.ico HTTP/1.1[0m" 200 -
+2020-12-29 23:11:07 products_model.py[line:158] INFO userinfo:{'createtime': datetime.datetime(2020, 4, 26, 0, 0), 'is_freezing': 0, 'address_default': '5fdd841d3849ba2fd78112e2', 'name': '黄彩思', 'introduce': 'kba', 'identity': '本科生', 'is_delete': 0, 'tel': '13481470145', 'birthday': datetime.date(2020, 5, 5), 'age': '20', 'avatar': '5.png', 'email': 'caisi@163.com', 'hobbies': 'ka', 'id': 5, 'password': 'pbkdf2:sha256:150000$aqaMgFu4$16f5642f9315726558e89b05dfa2949b1d8b7466ae51f7431c82e74347512266', 'gender': 'M'}
+2020-12-29 23:11:07 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:11:07] "[37mGET /buy_list?book_list=5ee9748f360d930a489dbb64,5ee975cf360d930a489dbcc0,5ee9772e360d930a489dbe3c,5ee973e5360d930a489dbaaa,5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 23:11:07 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:11:07] "[37mGET /static/images/favicon.ico HTTP/1.1[0m" 200 -
+2020-12-29 23:11:25 products_model.py[line:158] INFO userinfo:{'createtime': datetime.datetime(2020, 4, 26, 0, 0), 'is_freezing': 0, 'address_default': '5fdd841d3849ba2fd78112e2', 'name': '黄彩思', 'introduce': 'kba', 'identity': '本科生', 'is_delete': 0, 'tel': '13481470145', 'birthday': datetime.date(2020, 5, 5), 'age': '20', 'avatar': '5.png', 'email': 'caisi@163.com', 'hobbies': 'ka', 'id': 5, 'password': 'pbkdf2:sha256:150000$aqaMgFu4$16f5642f9315726558e89b05dfa2949b1d8b7466ae51f7431c82e74347512266', 'gender': 'M'}
+2020-12-29 23:11:25 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:11:25] "[37mGET /buy_list?book_list=5ee9748f360d930a489dbb64,5ee975cf360d930a489dbcc0,5ee9772e360d930a489dbe3c,5ee973e5360d930a489dbaaa,5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 23:11:49 products_model.py[line:158] INFO userinfo:{'createtime': datetime.datetime(2020, 4, 26, 0, 0), 'is_freezing': 0, 'address_default': '5fdd841d3849ba2fd78112e2', 'name': '黄彩思', 'introduce': 'kba', 'identity': '本科生', 'is_delete': 0, 'tel': '13481470145', 'birthday': datetime.date(2020, 5, 5), 'age': '20', 'avatar': '5.png', 'email': 'caisi@163.com', 'hobbies': 'ka', 'id': 5, 'password': 'pbkdf2:sha256:150000$aqaMgFu4$16f5642f9315726558e89b05dfa2949b1d8b7466ae51f7431c82e74347512266', 'gender': 'M'}
+2020-12-29 23:11:49 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:11:49] "[37mGET /buy_list?book_list=5ee9748f360d930a489dbb64,5ee975cf360d930a489dbcc0,5ee9772e360d930a489dbe3c,5ee973e5360d930a489dbaaa,5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 23:11:50 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:11:50] "[37mGET /static/images/favicon.ico HTTP/1.1[0m" 200 -
+2020-12-29 23:11:51 products_model.py[line:158] INFO userinfo:{'createtime': datetime.datetime(2020, 4, 26, 0, 0), 'is_freezing': 0, 'address_default': '5fdd841d3849ba2fd78112e2', 'name': '黄彩思', 'introduce': 'kba', 'identity': '本科生', 'is_delete': 0, 'tel': '13481470145', 'birthday': datetime.date(2020, 5, 5), 'age': '20', 'avatar': '5.png', 'email': 'caisi@163.com', 'hobbies': 'ka', 'id': 5, 'password': 'pbkdf2:sha256:150000$aqaMgFu4$16f5642f9315726558e89b05dfa2949b1d8b7466ae51f7431c82e74347512266', 'gender': 'M'}
+2020-12-29 23:11:51 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:11:51] "[37mGET /buy_list?book_list=5ee9748f360d930a489dbb64,5ee975cf360d930a489dbcc0,5ee9772e360d930a489dbe3c,5ee973e5360d930a489dbaaa,5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 23:11:51 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:11:51] "[37mGET /static/images/favicon.ico HTTP/1.1[0m" 200 -
+2020-12-29 23:11:53 products_model.py[line:158] INFO userinfo:{'createtime': datetime.datetime(2020, 4, 26, 0, 0), 'is_freezing': 0, 'address_default': '5fdd841d3849ba2fd78112e2', 'name': '黄彩思', 'introduce': 'kba', 'identity': '本科生', 'is_delete': 0, 'tel': '13481470145', 'birthday': datetime.date(2020, 5, 5), 'age': '20', 'avatar': '5.png', 'email': 'caisi@163.com', 'hobbies': 'ka', 'id': 5, 'password': 'pbkdf2:sha256:150000$aqaMgFu4$16f5642f9315726558e89b05dfa2949b1d8b7466ae51f7431c82e74347512266', 'gender': 'M'}
+2020-12-29 23:11:53 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:11:53] "[37mGET /buy_list?book_list=5ee9748f360d930a489dbb64,5ee975cf360d930a489dbcc0,5ee9772e360d930a489dbe3c,5ee973e5360d930a489dbaaa,5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 23:11:53 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:11:53] "[37mGET /static/images/favicon.ico HTTP/1.1[0m" 200 -
+2020-12-29 23:11:54 products_model.py[line:158] INFO userinfo:{'createtime': datetime.datetime(2020, 4, 26, 0, 0), 'is_freezing': 0, 'address_default': '5fdd841d3849ba2fd78112e2', 'name': '黄彩思', 'introduce': 'kba', 'identity': '本科生', 'is_delete': 0, 'tel': '13481470145', 'birthday': datetime.date(2020, 5, 5), 'age': '20', 'avatar': '5.png', 'email': 'caisi@163.com', 'hobbies': 'ka', 'id': 5, 'password': 'pbkdf2:sha256:150000$aqaMgFu4$16f5642f9315726558e89b05dfa2949b1d8b7466ae51f7431c82e74347512266', 'gender': 'M'}
+2020-12-29 23:11:54 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:11:54] "[37mGET /buy_list?book_list=5ee9748f360d930a489dbb64,5ee975cf360d930a489dbcc0,5ee9772e360d930a489dbe3c,5ee973e5360d930a489dbaaa,5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 23:11:54 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:11:54] "[37mGET /static/images/favicon.ico HTTP/1.1[0m" 200 -
+2020-12-29 23:11:56 products_model.py[line:158] INFO userinfo:{'createtime': datetime.datetime(2020, 4, 26, 0, 0), 'is_freezing': 0, 'address_default': '5fdd841d3849ba2fd78112e2', 'name': '黄彩思', 'introduce': 'kba', 'identity': '本科生', 'is_delete': 0, 'tel': '13481470145', 'birthday': datetime.date(2020, 5, 5), 'age': '20', 'avatar': '5.png', 'email': 'caisi@163.com', 'hobbies': 'ka', 'id': 5, 'password': 'pbkdf2:sha256:150000$aqaMgFu4$16f5642f9315726558e89b05dfa2949b1d8b7466ae51f7431c82e74347512266', 'gender': 'M'}
+2020-12-29 23:11:56 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:11:56] "[37mGET /buy_list?book_list=5ee9748f360d930a489dbb64,5ee975cf360d930a489dbcc0,5ee9772e360d930a489dbe3c,5ee973e5360d930a489dbaaa,5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 23:11:56 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:11:56] "[37mGET /static/images/favicon.ico HTTP/1.1[0m" 200 -
+2020-12-29 23:11:57 products_model.py[line:158] INFO userinfo:{'createtime': datetime.datetime(2020, 4, 26, 0, 0), 'is_freezing': 0, 'address_default': '5fdd841d3849ba2fd78112e2', 'name': '黄彩思', 'introduce': 'kba', 'identity': '本科生', 'is_delete': 0, 'tel': '13481470145', 'birthday': datetime.date(2020, 5, 5), 'age': '20', 'avatar': '5.png', 'email': 'caisi@163.com', 'hobbies': 'ka', 'id': 5, 'password': 'pbkdf2:sha256:150000$aqaMgFu4$16f5642f9315726558e89b05dfa2949b1d8b7466ae51f7431c82e74347512266', 'gender': 'M'}
+2020-12-29 23:11:57 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:11:57] "[37mGET /buy_list?book_list=5ee9748f360d930a489dbb64,5ee975cf360d930a489dbcc0,5ee9772e360d930a489dbe3c,5ee973e5360d930a489dbaaa,5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 23:11:57 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:11:57] "[37mGET /static/images/favicon.ico HTTP/1.1[0m" 200 -
+2020-12-29 23:14:52 products_model.py[line:158] INFO userinfo:{'createtime': datetime.datetime(2020, 4, 26, 0, 0), 'is_freezing': 0, 'address_default': '5fdd841d3849ba2fd78112e2', 'name': '黄彩思', 'introduce': 'kba', 'identity': '本科生', 'is_delete': 0, 'tel': '13481470145', 'birthday': datetime.date(2020, 5, 5), 'age': '20', 'avatar': '5.png', 'email': 'caisi@163.com', 'hobbies': 'ka', 'id': 5, 'password': 'pbkdf2:sha256:150000$aqaMgFu4$16f5642f9315726558e89b05dfa2949b1d8b7466ae51f7431c82e74347512266', 'gender': 'M'}
+2020-12-29 23:14:52 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:14:52] "[37mGET /buy_list?book_list=5ee9748f360d930a489dbb64,5ee975cf360d930a489dbcc0,5ee9772e360d930a489dbe3c,5ee973e5360d930a489dbaaa,5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 23:14:52 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:14:52] "[37mGET /static/images/favicon.ico HTTP/1.1[0m" 200 -
+2020-12-29 23:16:04 products_model.py[line:158] INFO userinfo:{'createtime': datetime.datetime(2020, 4, 26, 0, 0), 'is_freezing': 0, 'address_default': '5fdd841d3849ba2fd78112e2', 'name': '黄彩思', 'introduce': 'kba', 'identity': '本科生', 'is_delete': 0, 'tel': '13481470145', 'birthday': datetime.date(2020, 5, 5), 'age': '20', 'avatar': '5.png', 'email': 'caisi@163.com', 'hobbies': 'ka', 'id': 5, 'password': 'pbkdf2:sha256:150000$aqaMgFu4$16f5642f9315726558e89b05dfa2949b1d8b7466ae51f7431c82e74347512266', 'gender': 'M'}
+2020-12-29 23:16:04 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:16:04] "[37mGET /buy_list?book_list=5ee9748f360d930a489dbb64,5ee975cf360d930a489dbcc0,5ee9772e360d930a489dbe3c,5ee973e5360d930a489dbaaa,5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 23:16:04 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:16:04] "[37mGET /static/images/favicon.ico HTTP/1.1[0m" 200 -
+2020-12-29 23:16:06 products_model.py[line:158] INFO userinfo:{'createtime': datetime.datetime(2020, 4, 26, 0, 0), 'is_freezing': 0, 'address_default': '5fdd841d3849ba2fd78112e2', 'name': '黄彩思', 'introduce': 'kba', 'identity': '本科生', 'is_delete': 0, 'tel': '13481470145', 'birthday': datetime.date(2020, 5, 5), 'age': '20', 'avatar': '5.png', 'email': 'caisi@163.com', 'hobbies': 'ka', 'id': 5, 'password': 'pbkdf2:sha256:150000$aqaMgFu4$16f5642f9315726558e89b05dfa2949b1d8b7466ae51f7431c82e74347512266', 'gender': 'M'}
+2020-12-29 23:16:06 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:16:06] "[37mGET /buy_list?book_list=5ee9748f360d930a489dbb64,5ee975cf360d930a489dbcc0,5ee9772e360d930a489dbe3c,5ee973e5360d930a489dbaaa,5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 23:16:06 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:16:06] "[37mGET /static/images/favicon.ico HTTP/1.1[0m" 200 -
+2020-12-29 23:19:13 products_model.py[line:158] INFO userinfo:{'createtime': datetime.datetime(2020, 4, 26, 0, 0), 'is_freezing': 0, 'address_default': '5fdd841d3849ba2fd78112e2', 'name': '黄彩思', 'introduce': 'kba', 'identity': '本科生', 'is_delete': 0, 'tel': '13481470145', 'birthday': datetime.date(2020, 5, 5), 'age': '20', 'avatar': '5.png', 'email': 'caisi@163.com', 'hobbies': 'ka', 'id': 5, 'password': 'pbkdf2:sha256:150000$aqaMgFu4$16f5642f9315726558e89b05dfa2949b1d8b7466ae51f7431c82e74347512266', 'gender': 'M'}
+2020-12-29 23:19:13 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:19:13] "[37mGET /buy_list?book_list=5ee9748f360d930a489dbb64,5ee975cf360d930a489dbcc0,5ee9772e360d930a489dbe3c,5ee973e5360d930a489dbaaa,5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 23:19:13 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:19:13] "[37mGET /static/images/favicon.ico HTTP/1.1[0m" 200 -
+2020-12-29 23:19:31 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:19:31] "[33mGET /static/css/bootstrap.min.css.map HTTP/1.1[0m" 404 -
+2020-12-29 23:20:57 products_model.py[line:158] INFO userinfo:{'createtime': datetime.datetime(2020, 4, 26, 0, 0), 'is_freezing': 0, 'address_default': '5fdd841d3849ba2fd78112e2', 'name': '黄彩思', 'introduce': 'kba', 'identity': '本科生', 'is_delete': 0, 'tel': '13481470145', 'birthday': datetime.date(2020, 5, 5), 'age': '20', 'avatar': '5.png', 'email': 'caisi@163.com', 'hobbies': 'ka', 'id': 5, 'password': 'pbkdf2:sha256:150000$aqaMgFu4$16f5642f9315726558e89b05dfa2949b1d8b7466ae51f7431c82e74347512266', 'gender': 'M'}
+2020-12-29 23:20:57 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:20:57] "[37mGET /buy_list?book_list=5ee9748f360d930a489dbb64,5ee975cf360d930a489dbcc0,5ee9772e360d930a489dbe3c,5ee973e5360d930a489dbaaa,5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 23:20:57 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:20:57] "[37mGET /static/css/address/ydui_buy_list.css HTTP/1.1[0m" 200 -
+2020-12-29 23:20:58 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:20:58] "[37mGET /static/css/index_2.css HTTP/1.1[0m" 200 -
+2020-12-29 23:20:58 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:20:58] "[37mGET /static/css/bootstrap.min.css HTTP/1.1[0m" 200 -
+2020-12-29 23:20:58 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:20:58] "[37mGET /static/js/bootstrap.min.js HTTP/1.1[0m" 200 -
+2020-12-29 23:20:58 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:20:58] "[37mGET /static/js/jquery-3.5.1.min.js HTTP/1.1[0m" 200 -
+2020-12-29 23:20:58 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:20:58] "[37mGET /static/images/zheng.png HTTP/1.1[0m" 200 -
+2020-12-29 23:20:58 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:20:58] "[37mGET /static/images/logo.jpg HTTP/1.1[0m" 200 -
+2020-12-29 23:20:58 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:20:58] "[37mGET /static/js/index_2.js HTTP/1.1[0m" 200 -
+2020-12-29 23:20:58 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:20:58] "[37mGET /static/images/icons.png HTTP/1.1[0m" 200 -
+2020-12-29 23:20:58 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:20:58] "[33mGET /static/css/bootstrap.min.css.map HTTP/1.1[0m" 404 -
+2020-12-29 23:21:00 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:21:00] "[37mGET /static/images/favicon.ico HTTP/1.1[0m" 200 -
+2020-12-29 23:21:07 products_model.py[line:158] INFO userinfo:{'createtime': datetime.datetime(2020, 4, 26, 0, 0), 'is_freezing': 0, 'address_default': '5fdd841d3849ba2fd78112e2', 'name': '黄彩思', 'introduce': 'kba', 'identity': '本科生', 'is_delete': 0, 'tel': '13481470145', 'birthday': datetime.date(2020, 5, 5), 'age': '20', 'avatar': '5.png', 'email': 'caisi@163.com', 'hobbies': 'ka', 'id': 5, 'password': 'pbkdf2:sha256:150000$aqaMgFu4$16f5642f9315726558e89b05dfa2949b1d8b7466ae51f7431c82e74347512266', 'gender': 'M'}
+2020-12-29 23:21:08 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:21:08] "[37mGET /buy_list?book_list=5ee9748f360d930a489dbb64,5ee975cf360d930a489dbcc0,5ee9772e360d930a489dbe3c,5ee973e5360d930a489dbaaa,5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 23:21:08 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:21:08] "[37mGET /static/css/address/ydui_buy_list.css HTTP/1.1[0m" 200 -
+2020-12-29 23:21:08 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:21:08] "[37mGET /static/css/index_2.css HTTP/1.1[0m" 200 -
+2020-12-29 23:21:08 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:21:08] "[37mGET /static/css/bootstrap.min.css HTTP/1.1[0m" 200 -
+2020-12-29 23:21:08 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:21:08] "[37mGET /static/js/jquery-3.5.1.min.js HTTP/1.1[0m" 200 -
+2020-12-29 23:21:08 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:21:08] "[37mGET /static/js/bootstrap.min.js HTTP/1.1[0m" 200 -
+2020-12-29 23:21:08 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:21:08] "[37mGET /static/images/zheng.png HTTP/1.1[0m" 200 -
+2020-12-29 23:21:08 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:21:08] "[37mGET /static/js/index_2.js HTTP/1.1[0m" 200 -
+2020-12-29 23:21:08 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:21:08] "[37mGET /static/images/logo.jpg HTTP/1.1[0m" 200 -
+2020-12-29 23:21:08 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:21:08] "[37mGET /static/images/icons.png HTTP/1.1[0m" 200 -
+2020-12-29 23:21:08 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:21:08] "[33mGET /static/css/bootstrap.min.css.map HTTP/1.1[0m" 404 -
+2020-12-29 23:21:08 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:21:08] "[37mGET /static/images/favicon.ico HTTP/1.1[0m" 200 -
+2020-12-29 23:22:19 products_model.py[line:158] INFO userinfo:{'createtime': datetime.datetime(2020, 4, 26, 0, 0), 'is_freezing': 0, 'address_default': '5fdd841d3849ba2fd78112e2', 'name': '黄彩思', 'introduce': 'kba', 'identity': '本科生', 'is_delete': 0, 'tel': '13481470145', 'birthday': datetime.date(2020, 5, 5), 'age': '20', 'avatar': '5.png', 'email': 'caisi@163.com', 'hobbies': 'ka', 'id': 5, 'password': 'pbkdf2:sha256:150000$aqaMgFu4$16f5642f9315726558e89b05dfa2949b1d8b7466ae51f7431c82e74347512266', 'gender': 'M'}
+2020-12-29 23:22:19 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:22:19] "[37mGET /buy_list?book_list=5ee9748f360d930a489dbb64,5ee975cf360d930a489dbcc0,5ee9772e360d930a489dbe3c,5ee973e5360d930a489dbaaa,5ee96bec360d930a489db223 HTTP/1.1[0m" 200 -
+2020-12-29 23:22:20 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:22:20] "[37mGET /static/css/index_2.css HTTP/1.1[0m" 200 -
+2020-12-29 23:22:20 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:22:20] "[37mGET /static/css/bootstrap.min.css HTTP/1.1[0m" 200 -
+2020-12-29 23:22:20 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:22:20] "[37mGET /static/css/address/ydui_buy_list.css HTTP/1.1[0m" 200 -
+2020-12-29 23:22:20 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:22:20] "[37mGET /static/js/jquery-3.5.1.min.js HTTP/1.1[0m" 200 -
+2020-12-29 23:22:20 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:22:20] "[37mGET /static/js/index_2.js HTTP/1.1[0m" 200 -
+2020-12-29 23:22:20 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:22:20] "[37mGET /static/js/bootstrap.min.js HTTP/1.1[0m" 200 -
+2020-12-29 23:22:20 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:22:20] "[37mGET /static/js/address/ydui.flexible.js HTTP/1.1[0m" 200 -
+2020-12-29 23:22:20 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:22:20] "[37mGET /static/js/address/ydui.citys.js HTTP/1.1[0m" 200 -
+2020-12-29 23:22:20 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:22:20] "[37mGET /static/js/pay.js HTTP/1.1[0m" 200 -
+2020-12-29 23:22:20 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:22:20] "[37mGET /static/js/address/ydui.js HTTP/1.1[0m" 200 -
+2020-12-29 23:22:20 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:22:20] "[37mGET /static/images/logo.jpg HTTP/1.1[0m" 200 -
+2020-12-29 23:22:20 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:22:20] "[37mGET /static/images/zheng.png HTTP/1.1[0m" 200 -
+2020-12-29 23:22:20 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:22:20] "[37mGET /static/images/icons.png HTTP/1.1[0m" 200 -
+2020-12-29 23:22:20 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:22:20] "[33mGET /static/css/bootstrap.min.css.map HTTP/1.1[0m" 404 -
+2020-12-29 23:22:21 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:22:21] "[37mGET /static/images/favicon.ico HTTP/1.1[0m" 200 -
+2020-12-29 23:22:50 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:22:50] "[37mPOST /to_pay HTTP/1.1[0m" 200 -
+2020-12-29 23:22:50 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:22:50] "[37mGET /pay?order_no=202012292322194635 HTTP/1.1[0m" 200 -
+2020-12-29 23:22:56 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:22:56] "[37mGET /static/images/pay/weixin_payQR.png HTTP/1.1[0m" 200 -
+2020-12-29 23:22:58 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:22:58] "[37mGET /order?order_no=202012292322194635 HTTP/1.1[0m" 200 -
+2020-12-29 23:23:03 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:23:03] "[35m[1mGET /userinfo/orderDetails?order_no=202012292322194635 HTTP/1.1[0m" 500 -
+2020-12-29 23:23:03 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:23:03] "[37mGET /userinfo/orderDetails?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+2020-12-29 23:23:03 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:23:03] "[37mGET /userinfo/orderDetails?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+2020-12-29 23:23:03 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:23:03] "[37mGET /userinfo/orderDetails?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+2020-12-29 23:23:03 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 23:23:03] "[37mGET /userinfo/orderDetails?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -

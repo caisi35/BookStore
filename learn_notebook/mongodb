@@ -1,2 +1,0 @@
-MongoDB批量转换数据类型
-> db.books.find({'price':{$type:2}}).forEach(function(x){x.price=parseFloat(x.price);db.books.save(x);});

@@ -26,7 +26,7 @@
                 <div class="price_m"><span>定价：</span><span class="old">￥{{ book.price_m }}</span></div>
             </div>
             <div class="button">
-                <form method="post" action="/product/add_to_cart">
+                <form method="get" action="/product/add_to_cart">
                     <div class="left">
                         <input class="book_num left" id="cut" type="button" value="-" onclick="reductionOf(this)">
                         <input class="book-num left" name="num" id="num" type="text" value="1"

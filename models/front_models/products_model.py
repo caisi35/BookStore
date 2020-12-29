@@ -1,4 +1,5 @@
 import time
+import logging
 import base64
 from datetime import timedelta, datetime
 from bson.objectid import ObjectId
@@ -13,6 +14,10 @@ from utils import (
     create_orders,
     format_time_second
 )
+from utils import (
+    Logger
+)
+Logger('products_model.log')
 
 
 def search_book_model(word, page, page_size):
@@ -149,7 +154,8 @@ def to_buy_model(user_id, books_id, is_list=True):
         sum_book = 0
         addr = {}
         try:
-            user = get_user('user_id')
+            user = get_user(user_id)
+            logging.info('userinfo:%s', user)
             if user['address_default'] is None or user['address_default'] is '':
                 addr = {}
             else:
@@ -181,7 +187,7 @@ def to_buy_model(user_id, books_id, is_list=True):
             shipping_time = datetime.now() + timedelta(days=3)
             return book_list, books_price, pay, shipping_time, addr
         except Exception as e:
-            print('========get_buy_list=========:', e)
+            logging.exception(e)
     else:
         try:
             book_num = 1
@@ -284,6 +290,7 @@ def add_card_model(user_id, book_id, num):
             to_db = db2.to_db(sql, (user_id, book_id, num))
             to_db.commit()
             db2.to_close()
+            logging.info('%s：添加[%s：%s]到购物车', user_id, book_id, num)
     except Exception as e:
         print('===============', e)
         # 发生错误回滚

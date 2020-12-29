@@ -1,0 +1,125 @@
+2020-12-29 22:12:15 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:12:15] "[35m[1mGET /cart HTTP/1.1[0m" 500 -
+2020-12-29 22:12:15 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:12:15] "[37mGET /cart?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+2020-12-29 22:12:15 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:12:15] "[37mGET /cart?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+2020-12-29 22:12:15 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:12:15] "[37mGET /cart?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+2020-12-29 22:12:15 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:12:15] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:12:15 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:12:15] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:12:55 _internal.py[line:113] INFO  * Detected change in '/home/caisi/PycharmProjects/BookStore/views_front/products.py', reloading
+2020-12-29 22:13:00 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:00] "[35m[1mGET /cart HTTP/1.1[0m" 500 -
+2020-12-29 22:13:00 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:00] "[37mGET /cart?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+2020-12-29 22:13:00 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:00] "[37mGET /cart?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+2020-12-29 22:13:00 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:00] "[37mGET /cart?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+2020-12-29 22:13:00 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:00] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:13:00 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:00] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:13:35 _internal.py[line:113] INFO  * Detected change in '/home/caisi/PycharmProjects/BookStore/utils/logger_cla.py', reloading
+2020-12-29 22:13:41 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:41] "[35m[1mGET /cart HTTP/1.1[0m" 500 -
+2020-12-29 22:13:41 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:41] "[37mGET /cart?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+2020-12-29 22:13:41 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:41] "[37mGET /cart?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+2020-12-29 22:13:41 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:41] "[37mGET /cart?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+2020-12-29 22:13:41 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:41] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:13:41 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:41] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:13:43 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:43] "[35m[1mGET /cart HTTP/1.1[0m" 500 -
+2020-12-29 22:13:43 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:43] "[37mGET /cart?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+2020-12-29 22:13:43 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:43] "[37mGET /cart?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+2020-12-29 22:13:43 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:43] "[37mGET /cart?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+2020-12-29 22:13:43 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:43] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:13:43 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:43] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[35m[1mGET /cart HTTP/1.1[0m" 500 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[37mGET /cart?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[37mGET /cart?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[37mGET /cart?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[35m[1mGET /cart HTTP/1.1[0m" 500 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[37mGET /cart?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[37mGET /cart?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[37mGET /cart?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[35m[1mGET /cart HTTP/1.1[0m" 500 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[37mGET /cart?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[37mGET /cart?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[37mGET /cart?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[35m[1mGET /cart HTTP/1.1[0m" 500 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[37mGET /cart?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[37mGET /cart?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[37mGET /cart?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[35m[1mGET /cart HTTP/1.1[0m" 500 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[37mGET /cart?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[37mGET /cart?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[37mGET /cart?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+2020-12-29 22:13:44 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:44] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:13:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:45] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:13:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:45] "[35m[1mGET /cart HTTP/1.1[0m" 500 -
+2020-12-29 22:13:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:45] "[37mGET /cart?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+2020-12-29 22:13:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:45] "[37mGET /cart?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+2020-12-29 22:13:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:45] "[37mGET /cart?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+2020-12-29 22:13:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:45] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:13:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:45] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:13:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:45] "[35m[1mGET /cart HTTP/1.1[0m" 500 -
+2020-12-29 22:13:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:45] "[37mGET /cart?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+2020-12-29 22:13:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:45] "[37mGET /cart?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+2020-12-29 22:13:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:45] "[37mGET /cart?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+2020-12-29 22:13:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:45] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:13:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:45] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:13:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:45] "[35m[1mGET /cart HTTP/1.1[0m" 500 -
+2020-12-29 22:13:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:45] "[37mGET /cart?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+2020-12-29 22:13:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:45] "[37mGET /cart?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+2020-12-29 22:13:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:45] "[37mGET /cart?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+2020-12-29 22:13:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:45] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:13:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:13:45] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:14:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:14:45] "[35m[1mGET /cart HTTP/1.1[0m" 500 -
+2020-12-29 22:14:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:14:45] "[37mGET /cart?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+2020-12-29 22:14:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:14:45] "[37mGET /cart?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+2020-12-29 22:14:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:14:45] "[37mGET /cart?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+2020-12-29 22:14:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:14:45] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:14:45 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:14:45] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:15:28 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:15:28] "[37mPOST /product/add_to_cart HTTP/1.1[0m" 200 -
+2020-12-29 22:15:28 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:15:28] "[37mGET /static/images/favicon.ico HTTP/1.1[0m" 200 -
+2020-12-29 22:15:41 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:15:41] "[35m[1mGET /cart HTTP/1.1[0m" 500 -
+2020-12-29 22:15:41 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:15:41] "[37mGET /cart?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+2020-12-29 22:15:41 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:15:41] "[37mGET /cart?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+2020-12-29 22:15:41 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:15:41] "[37mGET /cart?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+2020-12-29 22:15:41 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:15:41] "[37mGET /cart?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-12-29 22:17:00 _internal.py[line:113] INFO  * Detected change in '/home/caisi/PycharmProjects/BookStore/utils/logger_cla.py', reloading
+2020-12-29 22:17:00 _internal.py[line:113] INFO  * Restarting with stat
+2020-12-29 22:19:42 _internal.py[line:113] INFO  * Restarting with stat
+2020-12-29 22:20:10 _internal.py[line:113] INFO  * Restarting with stat
+2020-12-29 22:21:34 _internal.py[line:113] INFO  * Restarting with stat
+2020-12-29 22:22:22 _internal.py[line:113] INFO  * Restarting with stat
+2020-12-29 22:22:27 products.py[line:84] ERROR 'NoneType' object does not support item assignment
+Traceback (most recent call last):
+  File "/home/caisi/PycharmProjects/BookStore/views_front/products.py", line 80, in cart
+    books = get_user_cart(user_id)
+  File "/home/caisi/PycharmProjects/BookStore/models/front_models/products_model.py", line 261, in get_user_cart
+    b1['book_num'] = book_num
+TypeError: 'NoneType' object does not support item assignment
+2020-12-29 22:22:27 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:22:27] "[33mGET /cart HTTP/1.1[0m" 404 -
+2020-12-29 22:22:27 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:22:27] "[33mGET /static/css/images/error_bg.jpg HTTP/1.1[0m" 404 -
+2020-12-29 22:22:27 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:22:27] "[33mGET /static/css/images/error_cloud.png HTTP/1.1[0m" 404 -
+2020-12-29 22:26:55 _internal.py[line:113] INFO  * Detected change in '/home/caisi/PycharmProjects/BookStore/utils/logger_cla.py', reloading
+2020-12-29 22:26:55 _internal.py[line:113] INFO  * Restarting with stat
+2020-12-29 22:27:04 products.py[line:84] ERROR 'NoneType' object does not support item assignment
+Traceback (most recent call last):
+  File "/home/caisi/PycharmProjects/BookStore/views_front/products.py", line 80, in cart
+    books = get_user_cart(user_id)
+  File "/home/caisi/PycharmProjects/BookStore/models/front_models/products_model.py", line 261, in get_user_cart
+    b1['book_num'] = book_num
+TypeError: 'NoneType' object does not support item assignment
+2020-12-29 22:27:04 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:27:04] "[33mGET /cart HTTP/1.1[0m" 404 -
+2020-12-29 22:27:04 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:27:04] "[33mGET /static/css/images/error_bg.jpg HTTP/1.1[0m" 404 -
+2020-12-29 22:27:04 _internal.py[line:113] INFO 127.0.0.1 - - [29/Dec/2020 22:27:04] "[33mGET /static/css/images/error_cloud.png HTTP/1.1[0m" 404 -
+2020-12-29 22:29:09 _internal.py[line:113] INFO  * Detected change in '/home/caisi/PycharmProjects/BookStore/models/front_models/products_model.py', reloading
+2020-12-29 22:29:09 _internal.py[line:113] INFO  * Restarting with stat
+2020-12-29 22:29:52 _internal.py[line:113] INFO  * Detected change in '/home/caisi/PycharmProjects/BookStore/models/front_models/products_model.py', reloading
+2020-12-29 22:29:52 _internal.py[line:113] INFO  * Restarting with stat
+2020-12-29 22:31:37 _internal.py[line:113] INFO  * Restarting with stat
+2020-12-29 22:31:58 _internal.py[line:113] INFO  * Restarting with stat
+2020-12-29 22:34:14 _internal.py[line:113] INFO  * Restarting with stat
+2020-12-29 22:49:04 _internal.py[line:113] INFO  * Restarting with stat
+2020-12-29 22:51:36 _internal.py[line:113] INFO  * Restarting with stat
+2020-12-29 22:52:50 _internal.py[line:113] INFO  * Restarting with stat
+2020-12-29 23:07:54 _internal.py[line:113] INFO  * Restarting with stat
