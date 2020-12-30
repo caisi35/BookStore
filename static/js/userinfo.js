@@ -21,7 +21,7 @@ $(function () {
 function addressDelete(_id) {
     if (confirm('确认要删除？')) {
         $.ajax({
-            url: $SCRIPT_ROOT + '/userinfo/addressDelete',
+            url: $SCRIPT_ROOT + '/userInfo/addressDelete',
             type: 'post',
             dataType: 'json',
             sync: false,
@@ -43,7 +43,7 @@ function addressDelete(_id) {
 
 function addressDefault(_id) {
     $.ajax({
-        url: $SCRIPT_ROOT + '/userinfo/addressDefault',
+        url: $SCRIPT_ROOT + '/userInfo/addressDefault',
         type: 'post',
         dataType: 'json',
         data: {'_id': _id},

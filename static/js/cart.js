@@ -202,7 +202,7 @@ function to_buy() {
         }
     }
     if (is_checked) {
-        window.location.href = $SCRIPT_ROOT + '/buy_list?book_list=' + book_ids;
+        window.location.href = $SCRIPT_ROOT + '/buy_list?book_id=' + book_ids;
     }else {
         alert('您还没有选中物品呢,请选择您的物品！')
     }

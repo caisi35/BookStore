@@ -89,11 +89,12 @@ def cart():
 @login_required
 def add_numbers():
     """购物车图书数量修改"""
-    count = request.form.get('count_', 0, type=int)
+    input_count = request.form.get('count_', 0, type=int)
     method = request.form.get('method_', '', type=str)
     book_id = request.form.get('book_id', '', type=str)
     user_id = session.get('user_id')
-    count = edit_cart_num(user_id, book_id, count, method)
+    count = edit_cart_num(user_id, book_id, input_count, method)
+    logging.info('%s change cart num from %s to %s.', user_id, input_count, count)
     return jsonify(result=count)
 
 
@@ -108,13 +109,18 @@ def count_buy():
 
 
 @bp.route('/buy_list', methods=('GET', 'POST'))
+@bp.route('/buy_now', methods=('GET', 'POST'))
 @login_required
-def buy_list():
+def buy():
     """购物车选择物品下单"""
     try:
-        book_id = request.args.get('book_list')
+        book_id = request.args.get('book_id')
         user_id = session.get('user_id')
-        book_list, books_price, pay, shipping_time, addr = to_buy_model(user_id, book_id)
+        if 'buy_now' in request.url:
+            book_list, books_price, pay, shipping_time, addr = to_buy_model(user_id, book_id, is_list=False)
+        else:
+            book_list, books_price, pay, shipping_time, addr = to_buy_model(user_id, book_id)
+        logging.info('%s buy %s', user_id, book_id)
         return render_template('front/settle_pay/settle_from_list.html',
                                books=book_list,
                                books_price=books_price,
@@ -124,21 +130,6 @@ def buy_list():
     except Exception as e:
         print('========buy_list=========:', e)
         return redirect(url_for('products.cart'))
-
-
-@bp.route('/buy_now', methods=('GET', 'POST'))
-@login_required
-def buy_now():
-    """下单购买、立即购买，由于不经过购物车，到直接结算"""
-    book_id = request.args.get('book_id')
-    user_id = session.get('user_id')
-    book_list, books_price, pay, shipping_time, addr = to_buy_model(user_id, book_id, is_list=False)
-    return render_template('buyCart/buy_list.html',
-                           books=book_list,
-                           books_price=books_price,
-                           pay=pay,
-                           addr=addr,
-                           shipping_time=shipping_time)
 
 
 @bp.route('/address', methods=('POST',))
@@ -184,7 +175,7 @@ def pay():
     try:
         order_no = request.args.get('order_no')
         my_orders, images = pay_model(order_no)
-        return render_template('buyCart/pay.html', user=get_user(session.get('user_id')),
+        return render_template('front/settle_pay/pay.html', user=get_user(session.get('user_id')),
                                orders=my_orders,
                                images=images)
     except Exception as e:
@@ -200,7 +191,7 @@ def order():
         order_no = request.args.get('order_no', '')
         user_id = session.get('user_id')
         data = get_order_info(user_id, order_no)
-        return render_template('buyCart/order.html', order_no=data)
+        return render_template('front/orders_list/order.html', order_no=data)
     except Exception as e:
         print('========order=========:', e)
         return abort(403)

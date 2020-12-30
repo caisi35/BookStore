@@ -1,0 +1,99 @@
+{% extends 'front/orders_list/base_orders.html' %}
+
+{% block title %}我的订单{% endblock %}
+
+{% block css %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/userinfo.css') }}">
+{% endblock %}
+
+{% block info_content %}
+    <div class="orders-content">
+        {% if orders %}
+            <table class="table table-hover" id="table">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="checkOnly" name="checkbox_v1" value="version1"
+                               onclick="allSelect('checkbox_v1', 'checkbox1')"><label>全选</label></th>
+                    <th class="content">
+                        订单号
+                    </th>
+                    <th class="content books">
+                        物品
+                    </th>
+                    <th class="content amount-price">
+                        总价
+                    </th>
+                    <th class="content order-effective-time">
+                        时间
+                    </th>
+                    <th class="content">
+                        操作
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>
+                            <div><input class="dan_select check" type="checkbox" name="checkbox1" value="layer1"
+                                        onclick="my_func()"
+                                        onclick="singleSelect2parent('checkbox_v1', 'checkbox1')">
+                                <input type="hidden" name="order_no" value={{ order['order_no'] }}></div>
+                        </td>
+                        <td class="content book_order">
+                            <a href="{{ url_for('products.order', order_no=order.order_no) }}">{{ order.order_no }}</a>
+                        </td>
+                        <td class="books">
+                            {% for book in order.book_info %}
+                                <div class="book_img left">
+                                    <a href="{{ url_for('products.product', id=book.books['_id']) }}">
+                                        <img src={{ book.books['img_url'] }}>
+                                    </a>
+                                </div>
+
+                            {% endfor %}
+                        </td>
+                        <td class="price">
+                            {{ order.amount }}
+                        </td>
+                        <td>
+                            <span id="{{ order.order_no }}"
+                                  class="effective-time">下单时间：{{ order.create_time }}
+                            </span>
+                            <script>
+                                var newtime = new Date();
+                                var endtime = new Date("{{ order.effective_time }}");
+                                {#var endtime = new Date('2020/05/10,22:36:00');#}
+                                countDown((endtime.getTime() - newtime.getTime()) / 1000, function (msg) {
+                                    if (msg) {
+                                        var span = document.getElementById('{{ order.order_no }}');
+                                        span.innerHTML = msg;
+                                        var a = document.createElement('a');
+                                        a.href="{{ url_for('orders.orderDetails', order_no=order.order_no) }}";
+                                        a.innerText='支付';
+                                        span.appendChild(a)
+
+                                    } else {
+                                        document.getElementById('{{ order.order_no }}').innerHTML = "下单时间：{{ order.create_time }}";
+                                    }
+                                }, endtime);
+                            </script>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('products.order', order_no=order.order_no) }}">订单详情</a><br>
+                            <a href="#" onclick="deleteOrder('{{ order.order_no }}')">删除</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="btn delete-orders left"><a href="#" type="button" onclick="deleteOrders()">删除</a></div>
+        {% else %}
+            <div class="order-null">
+                <h2>您的订单为空！</h2>
+                <div class="a-link"><a href="{{ url_for('products.index') }}">点我，去购物！</a></div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,14 +1,9 @@
 {% extends 'front/base_front.html' %}
 
-
 {% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/userinfo.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index_2.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index_login.css') }}">
-    {#    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/product.css') }}">#}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/swiper2.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    <!--登录弹出框中的小图标--->
-    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
 {% endblock %}
 
 {% block header %}
@@ -52,7 +47,7 @@
     <div id="nav" class="container-fluid">
         <div class="container-fluid">
             <div class="logo left">
-                <img  src="{{ url_for('static', filename='images/logo.jpg') }}"/>
+                <img src="{{ url_for('static', filename='images/logo.jpg') }}"/>
             </div>
             <div class="col-md-offset-1 search_kw left">
                 <form class="navbar-form navbar-right" action="{{ url_for('products.search') }}" method="get">
@@ -72,7 +67,50 @@
     </div>
 {% endblock %}
 
-{% block main %}{% endblock %}
+{% block main %}
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-1 column">
+            </div>
+            <div class="col-md-3 column">
+                <div class="info-list ">
+                    <ul class="list-unstyled ">
+                        <li>
+                            <a href="{{ url_for('userinfo.userinfo') }}">我</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('orders.get_orders') }}">我的订单</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('userinfo.info') }}">我的信息</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('userinfo.address') }}">收货人信息</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-8 column right">
+                <div class="userinf_content">
+                    {% block info_content %}
+                        <div class="user-avatar left">
+                            {% if user.avatar %}
+                                <img src="{{ url_for('static', filename='images/avatar/'+user.avatar) }}"
+                                     class="userinfo-img" alt="头像">
+                            {% else %}
+                                <img src='' class="userinfo-img" alt="头像">
+                            {% endif %}
+                        </div>
+                        <div class="username left">
+                            <h3>{% if user.name %}用户名：{{ user.name }}{% else %}
+                                <a href="{{ url_for('userinfo.info') }}">去添加资料</a>{% endif %}</h3>
+                        </div>
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
 {% block servers %}
     <!--页面服务-->
@@ -193,10 +231,8 @@
 {% block js %}
     <script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/swiper2.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/index_2.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/nav_toTop.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/product.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/userinfo_in_head.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/userinfo.js') }}"></script>
 
 {% endblock %}

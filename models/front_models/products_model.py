@@ -244,15 +244,16 @@ def from_cart_buy(books, user_id):
 
 def edit_cart_num(user_id, book_id, count=0, method='delete'):
     db = ToConn()
-    sql = 'delete from cart  where user_id=%s and book_id=%s and book_num=%s and is_effe=1'
+    sql = 'delete from cart  where book_num=%s and user_id=%s and book_id=%s and is_effe=1'
     if method == 'adds':
         sql = 'update cart set book_num=%s where user_id=%s and book_id=%s and is_effe=1'
         count = count + 1
     elif method == 'reduces':
         sql = 'update  cart set book_num=%s where user_id=%s and book_id=%s and is_effe=1'
         count = count - 1
-    db.to_db(sql, (user_id, book_id, count)).commit()
+    db.to_db(sql, (count, user_id, book_id)).commit()
     db.to_close()
+    logging.info('sql:[%s]', sql)
     return count
 
 

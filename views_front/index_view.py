@@ -16,7 +16,7 @@ def book_type():
     page_size = request.values.get('page_size', 15, type=int)
     books, count = get_like_books(input_book_type, page, page_size, True)
     book_type_list = choice_book_type()
-    return render_template('products/../tests/demo_html/block/search.html',
+    return render_template('../tests/demo_html/products/../tests/demo_html/block/search.html',
                            def_url=inspect.stack()[0][3],
                            books=books,
                            key_word=input_book_type,
