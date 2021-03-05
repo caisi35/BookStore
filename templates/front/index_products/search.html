@@ -16,7 +16,9 @@
                 <li class="left">
                     <div class="container product">
                         <div class="col-md-4 column left">
-                            <img alt="140x140" src="{{ book.img_url }}"/>
+                            <a href="{{ url_for('products.product', id=book['_id']) }}">
+                                <img alt="{{ book.title }}" src="{{ book.img_url }}" title="{{ book.title }}"/>
+                            </a>
                         </div>
                         <div class="col-md-8 column left">
                             <div class="book_detail">

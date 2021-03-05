@@ -16,7 +16,7 @@ body {
 
 .book_img img {
     clear: both;
-    width: 120px;
+    width: 100px;
     margin: 10px auto;
 }
 
@@ -37,10 +37,6 @@ body {
     color: red;
     font-size: 18px;
     margin-right: 20px;
-}
-
-.info div {
-    margin-right: 30px;
 }
 
 .time {
@@ -100,7 +96,7 @@ div.title h1{
     border-radius: 100%;
     position: relative;
     background: #f4691c;
-    margin-top: 6px;
+    margin-top: 22px;
 }
 
 .u-icon-radioSB::after {
@@ -290,4 +286,9 @@ div.add_address .btn {
 input.dan_select,input.checkOnly{
     width: 15px;
     height: 15px;
+}
+
+.table>tbody>tr>td, .table>thead>tr>th{
+    text-align: center;
+    vertical-align: middle!important;
 }

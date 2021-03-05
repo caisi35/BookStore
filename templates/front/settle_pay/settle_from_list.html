@@ -16,6 +16,7 @@
                 收货人信息
             </h3>
             {% if addr %}
+                <div class="col-md-4">
                 <table class="table table-hover con_info addr_tables left" id="{{ addr['_id'] }}">
                     <span style="display: none" id="addr_id">{{ addr['_id'] }}</span>
                     <thead>
@@ -40,15 +41,16 @@
                     <tr class="info">
                         <td>
                             <div>
-                                <a href="#" class="addr_edit">编辑</a>
-                                <a href="#" class="addr_delete">删除</a>
+                                <a href="#" class="addr_edit btn btn-primary">编辑</a>
+                                <a href="#" class="addr_delete btn btn-danger">删除</a>
                             </div>
                         </td>
                     </tr>
                     </tbody>
                 </table>
+                </div>
             {% endif %}
-            <div>
+            <div class="col-md-offset-1">
                 <a type="button" href="#" class="btn btn-default left" id="new_addr">新增收货地址</a>
             </div>
             {#            增加收货人地址信息#}
@@ -100,6 +102,7 @@
         <div class="col-md-1 column">
         </div>
     </div>
+    <hr>
     {#    收货清单#}
     <div class="row clearfix">
         <div class="col-md-1 column">
@@ -178,6 +181,7 @@
                     <span>{{ addr['province'] }}</span>
                     <span>{{ addr['city'] }}</span>
                     <span>{{ addr['details'] }}</span>
+                    <span><strong>收货人：</strong></span>
                     <span>{{ addr.name }}</span>
                     <abbr title="Phone">{{ addr.tel }}</abbr>
                 </address>

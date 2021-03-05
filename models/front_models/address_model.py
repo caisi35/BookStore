@@ -69,6 +69,12 @@ def get_addr_list_model(user_id):
     return rel_list
 
 
+def get_addr_info(id):
+    rel = ToMongo().get_col('address').find({'_id': ObjectId(id)})
+    rel_list = list(rel)
+    return rel_list
+
+
 def get_user_addr_info(user_id, request):
     name = request.form.get('name')
     tel = request.form.get('tel')

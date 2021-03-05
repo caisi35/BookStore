@@ -3,7 +3,16 @@
 {% block title %}登录{% endblock %}
 
 {% block header_common %}
-  <h1>Log In</h1>
+    <h1> 登 录 </h1>
+{% endblock %}
+
+
+{% block change_nav %}
+    <ul class="left">
+        <li class="register">
+            <a href="{{ url_for('user_login_register.register') }}">未注册？去注册</a>
+        </li>
+    </ul>
 {% endblock %}
 
 {% block content %}
@@ -11,16 +20,16 @@
     <form role="form" method="post">
 
         <div class="form-group">
-            <label for="username">Username</label>
+            <label for="username">用户名</label>
             <input class="form-control" name="username" id="username" type="tel" autofocus maxlength="11"
-                   minlength="11" pattern="[0-9]{11}" required />
+                   minlength="11" pattern="[0-9]{11}" required/>
         </div>
         <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" name="password" id="password" autocomplete="off" required />
-            <input type="hidden"  name="next" value="{{ next }}"  >
+            <label for="password">密  码</label>
+            <input type="password" class="form-control" name="password" id="password" autocomplete="off" required/>
+            <input type="hidden" name="next" value="{{ next }}">
         </div>
-        <input type="submit" class="btn btn-default" value="Log In">
+        <input type="submit" class="btn btn-default" value="登 录">
     </form>
 
 {% endblock %}

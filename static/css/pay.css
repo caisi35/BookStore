@@ -95,7 +95,7 @@ button:hover {
 .poptop {
     /*width: 100%;*/
     /*height: 120px;*/
-    line-height: 120px;
+    line-height: 60px;
     text-align: center;
     border-bottom: 1px solid #F2F2F2;
     position: relative;
@@ -110,7 +110,7 @@ button:hover {
 .popbox a.close {
     position: absolute;
     right: 0;
-    top: -1px;
+    top: 120px;
     font-size: 20px;
     font-weight: bold;
     width: 36px;
@@ -153,6 +153,7 @@ button:hover {
 }
 
 .pay_QR {
+    height: 700px;
     width: 400px;
     /*border: 1px solid;*/
     /*子元素水平居中*/
@@ -162,7 +163,7 @@ button:hover {
 
 .pay_QR img {
     height: 200px;
-    margin: 15px auto;
+    margin: 0px auto;
 
 }
 
@@ -178,7 +179,7 @@ div.amount span {
     right: 0;
     bottom: 0;
     margin: auto;
-    height: 720px;
+    /*height: 720px;*/
 }
 
 button.close {
@@ -212,10 +213,6 @@ div.pay_order_no span {
     margin: 5px auto;
 }
 
-.poptop {
-    height: 100px;
-}
-
 .pay_title {
     /*border: 2px solid;*/
     margin: 11px;
@@ -226,3 +223,6 @@ div.pay_order_no span {
     /*margin: 45px auto;*/
 }
 
+#pay_title_fun {
+    margin-top: 30px;
+}

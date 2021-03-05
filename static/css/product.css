@@ -146,14 +146,76 @@ button#calculate:hover {
 }
 
 .description .desc_img img {
-    padding-top: 50px;
-    width: 40%;
+    width: 50%;
+}
+
+.description-hr {
+    border-bottom: 2px solid #666;
+}
+
+.desc_img img {
+    height: 460px;
+    width: 460px;
+}
+
+.img-user img {
+    height: 100px;
+    width: 80px;
+}
+
+#score ul {
+    width: 270px;
+    position: absolute;
+    top: 0px;
+    left: 160px;
+}
+
+#score ul.clearfix:after {
+    content: '';
+    display: table;
+    clear: both;
 
 }
 
+.score {
+    /*float: left;*/
+    /*list-style: none;*/
+    /*cursor: pointer;*/
+    width: 75px;
+    /*height: 15px;*/
+    background: url(/static/images/star/dangjia_icon_star3.png) repeat-x 0 -16px;
+}
 
+.score-em {
+    padding-left: 5px;
+}
 
+.current {
+    /*background: url(/static/images/star/star_48px.png);*/
+    height: 15px;
+    display: block;
+    background: url(/static/images/star/dangjia_icon_star3.png) repeat-x 0 0;
+}
 
+.evaluate-content {
+    height: 70px;
+    /*overflow: scroll;*/
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
+.evaluate-img img {
+    height: 100px;
+    width: 80px;
+}
 
+.evaluate-img img:hover {
+    width: 100%;
+    height: 100%
+}
 
+.evaluate{
+    height: 280px;
+    border: 1px solid #8fd19e;
+}

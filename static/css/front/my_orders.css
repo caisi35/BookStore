@@ -1,0 +1,31 @@
+.table > tbody > tr > td, .table > thead > tr > th {
+    text-align: center;
+    vertical-align: middle !important;
+}
+
+.table tr * {
+    margin: 1px;
+}
+
+.table tr th.books {
+    width: 0;
+}
+
+.orders-nav ul li a {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/*替换badge默认颜色*/
+.badge {
+    background-color: #1c7ecf;
+}
+
+.info-list li.active {
+
+    background-color: #749dcf;
+}
+
+.info-list li.active a{
+    color: white;
+}

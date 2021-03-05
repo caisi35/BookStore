@@ -20,6 +20,7 @@ def change_pwd_model(user_id, new_pw):
         conn.close()
     return rel
 
+
 def upload_avatar_model(user_id, img):
     rel = True
     s_img = secure_filename(img.filename)
@@ -49,7 +50,6 @@ def edit_userinfo_model(user_id, request):
     birthday = request.form.get('birthday')
     email = request.form.get('email')
     tel = request.form.get('tel')
-    identity = request.form.get('identity')
     identity_select = request.form.get('identity_')
     hobbies = request.form.get('hobbies')
     introduce = request.form.get('introduce')

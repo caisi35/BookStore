@@ -1,41 +1,43 @@
 {% extends 'front/user_info_manage/base_user_info.html' %}
 
+{% block title %}收货地址{% endblock %}
+
 {% block css %}
     {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/address/ydui.css') }}">
 {% endblock %}
 
-{% block info_content %}
-    <div class="address-ul left">
+{% block main_right %}
+    <div class="col-md-10 address-ul ">
         <ul>
             {% for addrss in addr %}
                 <li>
                     <input id="{{ addrss._id }}" hidden>
                     <label for="{{ addrss._id }}">
-                        <p class="left">{{ addrss.name }}</p>
-                        <p class="right">{{ addrss.tel }}</p>
-                        <p class="address-info">
+                        <p class="left"><span>收货人：</span>{{ addrss.name }} </p>
+                        <p class="right">&nbsp; &nbsp;<span>手机号：</span>{{ addrss.tel }}</p>
+                        <p class="address-info"><span>收货地址：</span>
                             <span>{{ addrss.province }}</span>
                             <span>{{ addrss.city }}</span>
                             <span>{{ addrss.district }}</span>
                             <span>{{ addrss.details }}</span>
                         </p>
                         {#                            userinfo.js文件触发控制事件#}
-                        <a href="{{ url_for('userinfo.addressChange', _id=addrss._id) }}">修改</a>
+                        <a href="{{ url_for('userinfo.address_change', _id=addrss._id) }}">修改</a>
                         <a href="#" onclick="addressDelete('{{ addrss._id }}')">删除</a>
                         <a href="#" onclick="addressDefault('{{ addrss._id }}')">设为默认地址</a>
-                    </label>
-                    {% if address_default|safe == addrss._id|safe %}
+                                            {% if address_default|safe == addrss._id|safe %}
                         <img class="address-default right"
                              src="{{ url_for('static', filename='images/something/c10.png') }}"
                              alt="默认收货地址">
                     {% endif %}
+                    </label>
+
                 </li>
             {% endfor %}
         </ul>
     </div>
-    <div class="a-link"><a href="#" id="new_addr">添加收货人信息</a></div>
-
+    <div class="a-link text-center"><a href="#" id="new_addr">添加收货人信息</a></div>
     <div class="add_address" style="display:none ">
         <div class="graybox"></div>
         <div class="popbox">
@@ -76,8 +78,8 @@
                     {% endfor %}
                 </div>
                 <div class="bottom">
-                    <button class="btn addr_close" type="reset">取消</button>
-                    <button class="btn" type="submit">提交</button>
+                    <button class="btn btn-default address-close" type="reset">取消</button>
+                    <button class="btn btn-info" type="submit">提交</button>
                 </div>
             </form>
         </div>

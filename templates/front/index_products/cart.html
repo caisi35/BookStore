@@ -8,20 +8,19 @@
 {% endblock %}
 
 {% block main %}
-    <div class="container-fluid">
-        <div class="col-md-offset-1">
+    <div class="container">
+        <div class="">
             {% if books %}
                 <div class="row clearfix">
-                    <div class="col-md-1 column">
+                    <div class="col-md-12 column">
                     </div>
-                    <div class="col-md-10 column">
-                        <div class="cart_title"><h3>购物车</h3></div>
-
+                    <div class="col-md-12 column">
+                        <div class="cart_title"><h3>我的购物车</h3></div>
                         <table class="table table-hover" id="table">
                             <thead>
                             <tr>
                                 <th><input type="checkbox" class="checkOnly" name="checkbox_v1" value="version1"
-                                           onclick="allSelect('checkbox_v1', 'checkbox1')"><span>全选</span></th>
+                                           onclick="allSelect('checkbox_v1', 'checkbox1')"><span> 全选</span></th>
                                 <th class="content">
                                     商品名称
                                 </th>
@@ -40,11 +39,12 @@
                             {% for book in books %}
                                 <tr>
                                     <td>
-                                        <div><input class="dan_select check" type="checkbox" name="checkbox1"
-                                                    value="layer1"
-                                                    onclick="my_func()"
-                                                    onclick="singleSelect2parent('checkbox_v1', 'checkbox1')">
-                                            <input type="hidden" name="book_id" value={{ book['_id'] }}></div>
+                                        <div>
+                                            <input class="dan_select check" type="checkbox" name="checkbox1"
+                                                   value="layer1"
+                                                   onclick="singleSelect2parent('checkbox_v1', 'checkbox1')">
+                                            <input type="hidden" name="book_id" value={{ book['_id'] }}>
+                                        </div>
                                     </td>
                                     <td>
                                         <div class="book_img left"><img src={{ book['img_url'] }}></div>
@@ -52,26 +52,24 @@
                                                 href="{{ url_for('products.product', id=book['_id']) }}">{{ book.title }}</a>
                                         </div>
                                     </td>
-                                    <td class="price">
-                                        {{ book.price }}
+                                    <td>
+                                        <span class="price">{{ book.price }}</span><span>￥</span>
                                     </td>
-                                    <td class="content book_num">
-                                 <span>
-                                     <input type="button" value="-" class="reduces">
-                                     <span class="span">{{ book.book_num }}</span>
-                                     <input type="button" value="+" class="adds">
-                                     <input type="hidden" name="book_id" value={{ book['_id'] }}>
-                                 </span>
+                                    <td class="content">
+                                        <span>
+                                             <input type="button" value="-" class="reduces">
+                                             <span class="span"> {{ book.book_num }} </span>
+                                             <input type="button" value="+" class="adds">
+                                             <input type="hidden" name="book_id" value={{ book['_id'] }}>
+                                        </span>
                                     </td>
                                     <td>
-                                        <span class="prices">{{ book['sum_price'] }}</span><span>￥</span>
+                                        <span class="prices">{{ book.sum_price }}</span><span>￥</span>
                                     </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
                         </table>
-                    </div>
-                    <div class="col-md-1 column">
                     </div>
                 </div>
                 <div class="to_pay right">
@@ -97,6 +95,9 @@
                     </td>
                 </tr>
             {% endif %}
+        </div>
+        <div class="col-md-12">
+            <hr>
         </div>
     </div>
 {% endblock %}

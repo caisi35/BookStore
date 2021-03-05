@@ -4,7 +4,7 @@
 {% block main %}
     <div class="container product">
         <div class="col-md-4 column left">
-            <img alt="140x140" src="{{ book.img_url }}"/>
+            <img alt="{{ book.title }}" src="{{ book.img_url }}" title="{{ book.title }}"/>
         </div>
         <div class="col-md-8 column left">
             <div class="book_detail">
@@ -46,10 +46,73 @@
                 </form>
             </div>
         </div>
-        <div class="description">
+
+        <div class="col-md-12">
+            <hr class="description-hr">
+        </div>
+
+        <div class="col-md-2 column">
+
+        </div>
+        <div class="col-md-10 column description">
+            <h3>详情</h3>
             <div class="desc_img">
-                <img src="{{ book.img_url }}" alt="{{ book.title }}">
+                <img src="{{ book.img_url }}" alt="{{ book.title }}" title="{{ book.title }}">
             </div>
+            <div>
+                <p>{{ book.subheading }}</p>
+            </div>
+            <hr>
+        </div>
+
+        <div class="col-md-offset-2 col-md-10 column">
+            <div class="text-center">
+                <h3>用户评论</h3>
+            </div>
+            <hr>
+            <div >
+                <div>
+                    <span>全部：{{ total }}</span>
+                </div>
+                <ul>
+                    {% for evaluate in evaluates %}
+                        <li>
+                            <div class="evaluate">
+                                <div class="col-md-10">
+                                    <br>
+                                    <div>
+                                        <div class="score left">
+                                            <span class="current" style="width: {{ evaluate.star * 20 }}%;"></span>
+                                        </div>
+                                        <em class="score-em">{{ evaluate.star }} 星</em>
+                                    </div>
+                                    <br>
+                                    <div class="evaluate-content">
+                                        <p>{{ evaluate.context }}</p>
+                                    </div>
+                                    <div class="evaluate-img">
+                                        <img src="{{ evaluate.img_path }}" alt="评论图片" title="评论图片">
+                                    </div>
+                                    <br>
+                                    <div class="create-time">
+                                        <span>{{ evaluate.create_time }}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 text-center">
+                                    <br>
+                                    <div class="img-user"><img src="{{ evaluate.avatar }}" alt="用户头像" title="用户头像">
+                                    </div>
+                                    <br>
+                                    <span>{{ evaluate.user_name }}</span>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <hr class="description-hr">
         </div>
     </div>
 {% endblock %}

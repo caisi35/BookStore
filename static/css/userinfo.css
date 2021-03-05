@@ -185,13 +185,13 @@ div.order-detail{
     background-color:#c9302c;
 }
 /*info******************************************info.html****************************************info*************/
-.info * {
-    margin: 10px;
-}
+/*.info * {*/
+    /*margin: 10px;*/
+/*}*/
 
 .avatar {
-    width: 125px;
-    height: 150px;
+    /*width: 125px;*/
+    /*height: 150px;*/
     border: 1px solid;
 }
 
@@ -222,6 +222,11 @@ div.order-detail{
     color: #2D2D2D;
 }
 
+#file {
+    height: 0px;
+    width: 0px;
+}
+
 /********************编辑样式**********************/
 .flash {
     margin: 1em 0;
@@ -239,7 +244,7 @@ div.order-detail{
     position: absolute;
     left: 44%;
     margin-left: -250px;
-    top: 10%;
+    top: -10%;
     z-index: 19;
 }
 
@@ -399,6 +404,10 @@ div.order-detail{
     text-decoration: none;
 }
 
+.info .button .close{
+    margin-right:80px;
+}
+
 /*****************************************上传头像图片××××××××××××××××××××××××××××××××××××××*/
 .avatar {
     position: relative;
@@ -432,13 +441,14 @@ div.order-detail{
 }
 
 .select-img {
-    margin: 0;
-    margin-top: 50px;
+    margin: 36px 0px 0px 27px;
+    /*margin-top: 32px;*/
 
 }
 
 .upload-div {
-    margin-top: 10px;
+    margin: 10px 0px 0px 39px;
+    /*margin-left: 24px;*/
     width: 70px;
     display: none;
 }
@@ -447,7 +457,7 @@ div.order-detail{
 .address-ul ul li {
     float: left;
     width: 300px;
-    margin: 30px 30px 30px 130px;
+    margin: 30px 30px 30px 30px;
     padding: 10px;
     border-radius: 3px;
     border: 2px solid #4CAF50;
@@ -465,6 +475,7 @@ div.order-detail{
 
 .address-ul ul li .address-default {
     width: 23px;
+    margin-bottom: -10px;
 }
 
 .address-ul ul li .address-default:focus {
@@ -672,3 +683,8 @@ input.dan_select, input.checkOnly {
     margin: 50px 200px;
 }
 
+.group .inputradio{
+    vertical-align: middle;
+    margin-top: -3px;
+    margin-bottom: 1px;
+}

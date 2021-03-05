@@ -63,9 +63,9 @@ function to_orders(order_no1) {
     var check_pay_order = document.getElementsByClassName('pay_input');
     for (var i = 0; i < check_pay_order.length; i++) {
         if (check_pay_order[i].checked === true) {
-            window.location.href = $SCRIPT_ROOT + 'order?order_no=' + order_no1;
+            window.location.href = $SCRIPT_ROOT + '/orders/orderDetails?order_no=' + order_no1;
         } else {
-            window.location.href = $SCRIPT_ROOT + 'order?order_no=' + order_no1;
+            window.location.href = $SCRIPT_ROOT + '/orders/orderDetails?order_no=' + order_no1;
         }
     }
 }

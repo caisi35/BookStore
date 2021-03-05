@@ -1,0 +1,107 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font: 15px "微软雅黑";
+    color: darkslategrey;
+}
+
+#score {
+    width: 600px;
+    border: 3px solid #CCC;
+    height: 50px;
+    margin: 10px auto;
+    position: relative;
+}
+
+#score > span {
+    display: inline-block;
+    width: 150px;
+    height: 50px;
+
+    line-height: 50px;
+    text-align: center;
+}
+
+#score ul {
+    width: 270px;
+    position: absolute;
+    top: 0px;
+    left: 160px;
+}
+
+#score ul.clearfix:after {
+    content: '';
+    display: table;
+    clear: both;
+
+}
+
+#score ul li {
+    float: left;
+    list-style: none;
+    cursor: pointer;
+    width: 48px;
+    height: 43px;
+    background: url(/static/images/star/star_outline_48px.png);
+}
+
+#score p {
+    float: right;
+    width: 180px;
+    height: 50px;
+    line-height: 50px;
+
+    text-align: center;
+}
+
+#tip {
+    position: absolute;
+    background: #94e24f;
+    border: 1px solid #FFA07A;
+    width: 180px;
+    height: 50px;
+    left: 160px;
+    top: 70px;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 3px;
+    display: none;
+}
+
+#tip .triangle {
+    width: 0px;
+    height: 0px;
+    border-width: 14px;
+    border-style: solid;
+    border-color: transparent transparent #94e24f transparent;
+    position: absolute;
+    left: 10px;
+    top: -28px;
+    z-index: 1;
+}
+
+#tip .triangle_outer {
+    width: 0px;
+    height: 0px;
+    border-width: 14px;
+    border-style: solid;
+    border-color: transparent transparent #FFA07A transparent;
+    position: absolute;
+    left: 10px;
+    top: -29px;
+}
+
+strong {
+    color: crimson;
+    margin: 2px;
+}
+
+#score li.current {
+    background: url(/static/images/star/star_48px.png);
+}
+
+.flash { margin: 1em 0; padding: 1em; background: #cae6f6;
+    color: red; border: 1px solid #377ba8; font-weight:bold; }

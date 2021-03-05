@@ -10,7 +10,22 @@
 {% endblock %}
 
 {% block main %}
-    <h2 class="sub-header">待处理订单列表</h2>
+    <h2 class="sub-header">
+        {% if status == 0 %}
+            待付款
+        {% elif status == 1 %}
+            待发货
+        {% elif status == 2 %}
+            待收货
+        {% elif status == 3 %}
+            待评价
+        {% elif status == 4 %}
+            交易成功
+        {% elif status == 6 %}
+            待退款
+        {% else %}
+            失效
+        {% endif %}订单列表</h2>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead class="row">
@@ -33,7 +48,7 @@
                     <td>{{ d.user_id }}</td>
                     <td>{{ d.create_time }}</td>
                     <td>{% for foo in d.books %}
-                        图书ID：{{foo.book_id}}<br>
+                        图书ID：{{ foo.book_id }}<br>
                         图书数量：{{ foo.book_num }}<br>
                     {% endfor %}
                     </td>
@@ -44,7 +59,24 @@
                     </td>
                     <td>{{ d.amount }}￥</td>
                     <td><a type="button" class="btn btn-primary" role="button"
-                           href="{{ url_for('orderAdmin.order_handle' , order_no=d.order_no) }}">处理</a></td>
+                           href="{{ url_for('orderAdmin.order_handle' , order_no=d.order_no, status=status) }}">
+                        {% if status == 0 %}
+                            确认已付款
+                        {% elif status == 1 %}
+                            确认已发货
+                        {% elif status == 2 %}
+                            订单详情（build）
+                        {% elif status == 3 %}
+                            订单详情（build）
+                        {% elif status == 4 %}
+                            交易成功（build）
+                        {% elif status == 6 %}
+                            确认已退款
+                        {% else %}
+                            失效（build）
+                        {% endif %}
+                    </a>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -71,7 +103,7 @@
                 console.log(index);
                 //https://blog.csdn.net/pengShuai007/article/details/86528992
                 var a = document.createElement('a');
-                a.setAttribute('href', '{{ def_url }}?page='+index);
+                a.setAttribute('href', '{{ def_url }}?page=' + index);
                 // 防止反复添加
                 if (document.getElementById('startTelMedicine')) {
                     document.body.removeChild(document.getElementById('startTelMedicine'));

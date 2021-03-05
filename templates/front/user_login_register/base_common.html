@@ -1,13 +1,14 @@
 {% extends 'front/base_front.html' %}
 
 {% block css %}
-{#    {{ super() }}#}
+    {#    {{ super() }}#}
     <link rel="stylesheet" href="{{ url_for('static', filename='/css/base.css') }}">
-	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 {% endblock %}
 
 {% block header %}{% endblock %}
 
+{% block nav %}{% endblock %}
 
 {% block main %}
     <div class="container">
@@ -20,21 +21,14 @@
             </div>
 
             <div class="col-md-6 column">
-                <nav>
-                    <a href="{{ url_for('products.index') }}">
-                        <img src="{{ url_for('static',filename='/images/logo.jpg') }}" class="logo left" alt="logo">
-                        <h1 class="left">BookStore</h1></a>
-                    <ul class="left">
-                        {% if g.user %}
-                            <li><span>{{ g.user['username'] }}</span></li>
-                            <li><a href="{{ url_for('user_login_register.logout') }}">Log Out</a></li>
-                        {% else %}
-                            <li class="register"><a href="{{ url_for('user_login_register.register') }}">Register</a>
-                            </li>
-                            <li><a href="{{ url_for('user_login_register.login') }}">Log In</a></li>
-                        {% endif %}
-                    </ul>
-                </nav>
+                    <nav>
+                        <a href="{{ url_for('products.index') }}">
+                            <img src="{{ url_for('static',filename='/images/logo.jpg') }}" class="logo left" alt="logo" title="返回主页">
+                            <h1 class="left">BookStore</h1></a>
+                {% block change_nav %}
+                {% endblock %}
+
+                    </nav>
 
                 <header>
                     {% block header_common %}
@@ -57,3 +51,5 @@
     </div>
 {% endblock %}
 
+{% block servers %}{% endblock %}
+{% block footer %}{% endblock %}

@@ -1,0 +1,7 @@
+# 订单状态常量
+STATUS_0 = 0
+STATUS_1 = 1
+STATUS_2 = 2
+STATUS_3 = 3
+STATUS_4 = 4
+STATUS_5 = 5

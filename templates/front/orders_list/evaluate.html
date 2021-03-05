@@ -1,0 +1,75 @@
+{% extends 'front/orders_list/base_orders.html' %}
+
+{% block title %}评价{% endblock %}
+
+{% block css %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/front/evaluate.css') }}">
+    {#    <script type="text/javascript" src="{{ url_for('static', filename='js/userinfo_in_head.js') }}"></script>#}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/fronts/deleteOrder.js') }}"></script>
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="text-center">
+            <hr>
+            <h3>- 评价 -</h3>
+        </div>
+        {% for message in get_flashed_messages() %}
+            <div class="flash"><b>{{ message }}</b></div>
+        {% endfor %}
+        <div class="col-lg-offset-3 col-md-7">
+            <form method="post" action="{{ url_for('orders.evaluate') }}" enctype="multipart/form-data">
+                <div>
+                    <div id="score">
+                        <input type="hidden" name="star" id="evaluate_star" value="" required>
+                        <span>请为我们的宝贝打分</span>
+                        <ul class="clearfix">
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                        </ul>
+                        <p><strong></strong></p>
+                        <div id="tip">
+                            <strong>1星,非常糟糕</strong>
+                            <div class="triangle"></div>
+                            <div class="triangle_outer"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" text-center" required>
+                    <textarea class="form-control" name="context" rows="5" placeholder="写出您的感受，可以帮助更多小伙伴哦～"></textarea>
+                </div>
+                <br>
+                <div class="col-md-offset-1">
+                    <label for="img">添加图片</label>
+                    <input type="file" id="img" name="img" accept="image/png, image/jpeg, image/gif, image/jpg">
+                </div>
+                <br>
+                <div class="checkbox col-md-offset-1">
+                    <input type="checkbox" id="anonymous" name="anonymous" value="1">
+                    <label for="anonymous">匿名评价</label>
+                </div>
+                {#                <div>#}
+                {#                    <div><span>物流服务评价</span></div>#}
+                {#                    <div><span>快递包装</span></div>#}
+                {#                    <div><span>送货速度</span></div>#}
+                {#                    <div><span>配送员服务</span></div>#}
+                {#                </div>#}
+                <br>
+                <input hidden name="order_no" value="{{ order_no }}">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary"> 提 交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <hr>
+{% endblock %}
+
+{% block js %}
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/fronts/evaluate.js') }}"></script>
+{% endblock %}

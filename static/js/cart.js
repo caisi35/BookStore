@@ -76,6 +76,7 @@ $(function () {
             //2.改小计
             var price = parseFloat($(this).parents("tr").find(".price").html());
             var money = (price * count).toFixed(2);
+            console.log(price);
             $(this).parents("tr").find(".prices").html(money);
             //3.改总价
             total();

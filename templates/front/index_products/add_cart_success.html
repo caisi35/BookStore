@@ -22,9 +22,12 @@
                     <div class="book left">
                         <div class="book_img left"><img src={{ book['img_url'] }}></div>
                         <div class="book_name left">
-                            <a href="{{ url_for('products.product', id=book['_id']) }}">{{ book.title }}</a></div>
+                            <h4>
+                                <a href="{{ url_for('products.product', id=book['_id']) }}">{{ book.title }}</a>
+                            </h4>
+                        </div>
                         {% if num %}
-                        <div class="num left"><p>x {{ num }}</p></div>
+                        <div class="num left"><h4><p>x {{ num }}</p></h4></div>
                         {% endif %}
                     </div>
                 </td>

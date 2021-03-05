@@ -1,0 +1,166 @@
+{% extends 'front/user_info_manage/base_user_info.html' %}
+
+{% block title %}我的订单{% endblock %}
+
+{% block css %}
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/userinfo_in_head.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/fronts/deleteOrder.js') }}"></script>
+
+{% endblock %}
+
+{% block main_right %}
+    <div class="orders-content col-md-10" ng-controller="Order">
+        {% for message in get_flashed_messages() %}
+            <div class="flash"><b>{{ message }}</b></div>
+        {% endfor %}
+        <div class="orders-nav">
+            <ul class="nav nav-tabs nav-justified ">
+                <li role="presentation" {% if active == -1 %}
+                    class="active"
+                {% endif %}><a href="{{ url_for('orders.get_orders') }}">全部</a></li>
+                <li role="presentation" {% if active == 0 %}
+                    class="active"
+                {% endif %}><a href="{{ url_for('orders.get_orders', orders_status=0) }}">待付款
+                    <span class="badge badge-primary" ng-if="total['0'] != 0">{{ "{{ total['0'] }}" }}</span>
+                </a></li>
+                <li role="presentation" {% if active == 1 %}
+                    class="active"
+                {% endif %}><a href="{{ url_for('orders.get_orders', orders_status=1) }}">待发货
+                    <span class="badge badge-primary" ng-if="total['1'] != 0">{{ "{{ total['1'] }}" }}</span></a></li>
+                <li role="presentation" {% if active == 2 %}
+                    class="active"
+                {% endif %}><a href="{{ url_for('orders.get_orders', orders_status=2) }}">待收货
+                    <span class="badge badge-primary" ng-if="total['2'] != 0">{{ "{{ total['2'] }}" }}</span></a></li>
+                <li role="presentation" {% if active == 3 %}
+                    class="active"
+                {% endif %}><a href="{{ url_for('orders.get_orders', orders_status=3) }}">待评价
+                    <span class="badge badge-primary" ng-if="total['3'] != 0">{{ "{{ total['3'] }}" }}</span></a></li>
+            </ul>
+        </div>
+        <br>
+        {% if orders %}
+            <table class="table table-hover" id="table">
+                <thead>
+                <tr>
+                    {#                    <th><input type="checkbox" class="checkOnly" name="checkbox_v1" value="version1"#}
+                    {#                               onclick="allSelect('checkbox_v1', 'checkbox1')">#}
+                    {#                        <label>全选</label>#}
+                    {#                    </th>#}
+                    {#                    <th class="content">#}
+                    {#                        订单号#}
+                    {#                    </th>#}
+                    <th class="content books">
+                        物品
+                    </th>
+                    <th class="content amount-price">
+                        总价
+                    </th>
+                    <th class="content order-effective-time">
+                        下单时间
+                    </th>
+                    <th class="content">
+                        操作
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for order in orders %}
+                    <tr>
+                        {#                        <td>#}
+                        {#                            <div><input class="dan_select check" type="checkbox" name="checkbox1" value="layer1"#}
+                        {#                                        onclick="singleSelect2parent('checkbox_v1', 'checkbox1')">#}
+                        {#                                <input type="hidden" name="order_no" value={{ order['order_no'] }}></div>#}
+                        {#                        </td>#}
+                        {#                        <td class="content book_order">#}
+                        {#                            <a href="{{ url_for('orders.orderDetails', order_no=order.order_no) }}">{{ order.order_no }}</a>#}
+                        {#                        </td>#}
+                        <td class="books">
+                            {% for book in order.book_info %}
+                                <div class="book_img left" id="{{ book.books._id }}">
+                                    <a href="{{ url_for('products.product', id=book.books['_id']) }}">
+                                        <img src="{{ book.books['img_url'] }}" alt="{{ book.books['title'] }}"
+                                             title="{{ book.books['title'] }}">
+                                    </a>
+                                    <span style="display: none" class="book-info right" id="{{ book.books._id }}span">
+                                        <span>{{ book.books['title'] }}</span>
+                                        <br><br>
+                                        <span>{{ book.books['price'] }}￥ <strong> x </strong> {{ book.book_num }}</span>
+                                    </span>
+                                </div>
+                                <script>
+                                    var li_id = document.getElementById('{{ book.books._id }}');
+                                    var span_id = document.getElementById('{{ book.books._id }}span');
+                                    showmouseevent(li_id, span_id)
+                                </script>
+                            {% endfor %}
+                        </td>
+                        <td class="price">
+                            {{ order.amount }}￥
+                        </td>
+                        <td>
+                            <span id="{{ order.order_no }}"
+                                  class="effective-time">{{ order.create_time }}
+                            </span>
+                            <script>
+                                var newtime = new Date();
+                                var endtime = new Date("{{ order.effective_time }}");
+                                {#var endtime = new Date('2020/05/10,22:36:00');#}
+                                countDown((endtime.getTime() - newtime.getTime()) / 1000, function (msg) {
+                                    if (msg && '{{ order.status }}' === '0') {
+                                        var span = document.getElementById('{{ order.order_no }}');
+                                        span.innerHTML = msg;
+                                        var a = document.createElement('a');
+                                        a.href = "{{ url_for('orders.orderDetails', order_no=order.order_no) }}";
+                                        a.innerText = '支付';
+                                        span.appendChild(a)
+
+                                    } else {
+                                        document.getElementById('{{ order.order_no }}').innerHTML = "{{ order.create_time }}";
+                                    }
+                                }, endtime);
+                            </script>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('orders.orderDetails', order_no=order.order_no) }}"
+                               class="btn btn-default">{% if order.status == 6 %}退款进度{% else %}订单详情{% endif %}</a><br>
+                            {% if order.status == 5 %}
+                                <a href="#" onclick="deleteOrder('{{ order.order_no }}')" class="btn btn-danger">删除</a>
+                            {% elif order.status == 0 %}
+                                <a href="{{ url_for('orders.cancel', order_no=order.order_no) }}"
+                                   class="btn btn-default">取消交易</a>
+                            {% elif order.status == 4 %}
+                                <a href="#" onclick="deleteOrder('{{ order.order_no }}')" class="btn btn-danger">删除订单（交易成功）</a>
+                            {% elif order.status == 2 %}
+                                <a href="{{ url_for('orders.refund', order_no=order.order_no) }}" class="btn btn-info">申请退款</a>
+                                <br>
+                                <a href="{{ url_for('orders.receive', order_no=order.order_no) }}" class="btn btn-info">确认收货</a>
+                            {% elif order.status == 3 %}
+                                <a href="{{ url_for('orders.refund', order_no=order.order_no) }}" class="btn btn-info">申请退款</a>
+                                <br>
+                                <a href="{{ url_for('orders.evaluate', order_no=order.order_no) }}" class="btn btn-info">去评价</a>
+                            {% elif order.status == 6 %}
+                                {#                                <a href="{{ url_for('orders.orderDetails', order_no=order.order_no) }}"#}
+                                {#                                   class="btn btn-default">退款进度</a>#}
+                            {% else %}
+                                <a href="{{ url_for('orders.refund', order_no=order.order_no) }}" class="btn btn-info">申请退款</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {#            <div class="btn delete-orders left"><a href="#" type="button" onclick="deleteOrders()">删除</a></div>#}
+        {% else %}
+            <div class="order-null">
+                <h2>您还没有相关订单！</h2>
+                <div class="a-link"><a href="{{ url_for('products.index') }}">点我，去购物！</a></div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/fronts/my_orders_check.js') }}"></script>
+{% endblock %}

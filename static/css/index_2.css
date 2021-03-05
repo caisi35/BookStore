@@ -205,7 +205,7 @@ body {
     margin: 0px 30px 0px 30px;
 }
 #book ul li {
-
+    height: 307px;
     width: 190px;
     /*border: 1px solid #000;*/
     float: left;
@@ -323,7 +323,7 @@ body {
 
 #serve ul {
     width: 1100px;
-    margin: 0px 0px 0px 80px;
+    margin: 0px 0px 0px 20px;
     height: 100px;
     border-bottom: 2px solid #666;
     /*background-color: black;*/
@@ -338,7 +338,7 @@ body {
 #after_sale ul {
     padding-top: 14px;
     margin-top: 1px;
-    margin-left: 50px;
+    /*margin-left: 50px;*/
 }
 
 #after_sale ul li {
@@ -446,13 +446,13 @@ body {
 }
 
 #book_new .new_book_main {
-    width: 1214px;
-    /*height: 850px;*/
-    margin: 10px auto;
+    width: 1140px;
+    height: 850px;
+    /*margin: 10px auto;*/
 }
 
 #book_new .new_book_left {
-    width: 770px;
+    width: 730px;
     height: 754px;
     border: 1px solid #00925F;
     background-color: white;
@@ -460,7 +460,7 @@ body {
 
 #book_new .new_book_left ul li {
     float: left;
-    width: 170px;
+    width: 160px;
     overflow: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
@@ -659,4 +659,12 @@ span#message{
     /*span标签居中显示*/
     text-align: center;
     display:block;
+}
+
+.book_type_nav{
+    width: 45%;
+    height: 55px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

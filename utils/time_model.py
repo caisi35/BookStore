@@ -1,6 +1,8 @@
 import time
 import datetime
 
+ORDER_EFFECTIVE_TIME = 60 * 60 * 24
+
 
 def get_dawn_timestamp():
     day_time = int(time.mktime(datetime.date.today().timetuple()))
@@ -26,5 +28,16 @@ def format_time_second(input_time):
     return out_time
 
 
+def get_30_day_before_timestamp():
+    time_diff = 60 * 60 * 24 * 30
+    now_time = get_now()
+    return now_time - time_diff
+
+
+def format_m_d(timestamp):
+    first = format_time_second(timestamp)
+    return first[5:10]
+
+
 if __name__ == '__main__':
-    print(format_time_second(int(time.time())))
+    print(get_now())

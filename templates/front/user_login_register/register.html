@@ -3,7 +3,13 @@
 {% block title %}注册{% endblock %}
 
 {% block header_common %}
-    <h1>Register</h1>
+    <h1> 注 册 </h1>
+{% endblock %}
+
+{% block change_nav %}
+    <ul class="left">
+            <li><a href="{{ url_for('user_login_register.login') }}">已有帐号？去登录</a></li>
+    </ul>
 {% endblock %}
 
 {% block content %}
@@ -11,19 +17,19 @@
     <form role="form" method="post">
 
         <div class="form-group">
-            <label for="username">Username</label>
+            <label for="username">手机号</label>
             <input class="form-control" name="username" id="username" type="tel" autofocus pattern="[0-9]{11}"
                    minlength="11" maxlength="11" required/>
         </div>
         <div class="form-group">
-            <label for="password">Password</label>
+            <label for="password">密 码</label>
             <input type="password" class="form-control" name="password" id="password" minlength="6" required/>
         </div>
         <div class="form-group">
-            <label for="password">Confirm Your Password</label>
+            <label for="password">确认密码</label>
             <input type="password" class="form-control" name="password_again" id="password_again" required/>
         </div>
-        <input type="submit" class="btn btn-default" value="Register">
+        <input type="submit" class="btn btn-default" value="提 交">
     </form>
 
 {% endblock %}

@@ -1,0 +1,53 @@
+/*-------------------------------*/
+/*     Sidebar nav styles        */
+/*www.htmleaf.com/jQuery/Menu-Navigation/201610124098.html*/
+/*-------------------------------*/
+.sidebar-nav li {
+  display: inline-block;
+  line-height: 20px;
+  position: relative;
+  width: 100%;
+}
+
+/*.sidebar-nav li:before {*/
+  /*background-color: #428bca;*/
+  /*content: '';*/
+  /*height: 100%;*/
+  /*left: 0;*/
+  /*position: absolute;*/
+  /*top: 0;*/
+  /*-webkit-transition: width 0.2s ease-in;*/
+  /*transition: width 0.2s ease-in;*/
+  /*width: 3px;*/
+  /*z-index: -1;*/
+/*}*/
+
+.sidebar-nav li:hover:before {
+  -webkit-transition: width 0.2s ease-in;
+  transition: width 0.2s ease-in;
+  width: 100%;
+      background-color: #428bca;
+
+}
+.sidebar-nav ul li a {
+  color: #337ab7;
+  display: block;
+  padding: 10px 15px 10px 30px;
+  text-decoration: none;
+}
+
+.sidebar-nav li.open:hover before {
+  -webkit-transition: width 0.2s ease-in;
+  transition: width 0.2s ease-in;
+  width: 100%;
+}
+.sidebar-nav .dropdown-menu {
+  /*background-color: #428bca;*/
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 100%;
+}

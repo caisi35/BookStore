@@ -14,6 +14,7 @@ Date.prototype.Format = function (fmt) { //author: meizz
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 };
+
 // 时间格式化
 function countDown(maxtime, fn, endtime) {
     var timer = setInterval(function () {
@@ -22,7 +23,7 @@ function countDown(maxtime, fn, endtime) {
                 hour = Math.floor((maxtime % 86400) / 3600),
                 minutes = Math.floor((maxtime % 3600) / 60),
                 seconds = Math.floor(maxtime % 60),
-                msg = day + "天" + hour + "时" + minutes + "分" + seconds + "秒" + '<br>';
+                msg = hour + "时" + minutes + "分" + seconds + "秒" + '<br>';
             fn(msg);
             --maxtime;
         } else {
@@ -38,14 +39,16 @@ function showmouseevent(btn, box) {
     box.onmouseover = btn.onmouseover = function () {
         if (timer) clearTimeout(timer);
         box.style.display = 'block';
-        box.style.position='relative';
-        btn.style.border='1px solid';
-        btn.style.backgroundColor='white';
-        box.style.width='200px'
+        box.style.position = 'relative';
+        btn.style.border = '1px solid';
+        btn.style.backgroundColor = 'white';
+        box.style.width = '200px'
     };
     box.onmouseout = btn.onmouseout = function () {
         timer = setTimeout(function () {
             box.style.display = 'none';
+            btn.style.border = '0px solid';
+
         }, 400);
     }
 }

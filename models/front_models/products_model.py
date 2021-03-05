@@ -17,7 +17,36 @@ from utils import (
 from utils import (
     Logger
 )
-Logger('products_model.log')
+# Logger('./products_model.log')
+
+
+def get_evaluate(book_id):
+    mydb = ToMongo()
+    evaluates = mydb.get_col('evaluate').find_one({'_id': ObjectId(book_id)})
+    lit = []
+    try:
+        eval_comment = evaluates.get('comment')
+    except AttributeError:
+        return [], 0
+    for evaluate in eval_comment:
+        print(evaluate)
+        dit = {}
+        # dit['order_no'] = evaluate['order_no']
+        dit['star'] = evaluate['star']
+        dit['context'] = evaluate['context']
+        avatar_path = './static/images/avatar/' + get_user_avatar(evaluate['user_id'])
+        dit['avatar'] = avatar_path
+        dit['user_name'] = evaluate['user_name']
+        dit['img_path'] = evaluate['img_path']
+        dit['create_time'] = format_time_second(evaluate['create_time'])
+        lit.append(dit)
+    return lit, len(evaluates.get('comment'))
+
+
+def get_user_avatar(user_id):
+    mydb = ToConn()
+    user_info = mydb.get_db('select avatar from users where id=%s', (user_id, )).fetchone()
+    return user_info.get('avatar')
 
 
 def search_book_model(word, page, page_size):
@@ -325,3 +354,8 @@ def index_model():
     book_top2 = list(mydb.get_col('books').find().sort("sales", -1).limit(5))
 
     return books, new_books, book_top, book_top2
+
+
+if __name__ == '__main__':
+    print(get_evaluate('5ee986fa360d930a489dcf60'))
+    # print(get_user_avatar(5))

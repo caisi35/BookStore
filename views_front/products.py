@@ -20,6 +20,7 @@ from models.front_models import (
     pay_model,
     get_order_info,
     search_book_model,
+    get_evaluate,
 )
 from views_front.user import login_required
 from utils import (
@@ -47,11 +48,19 @@ def index():
 def product(id):
     """展示product图书详情页"""
     book = get_book(id)
+    evaluates, total = get_evaluate(id)
     book_type_list = choice_book_type()
     return render_template('front/index_products/product.html',
                            book=book,
                            book_type_list=book_type_list,
+                           evaluates= evaluates,
+                           total=total,
                            )
+
+
+@bp.route('/evaluate')
+def evaluate():
+    return 'a'
 
 
 @bp.route('/product/add_to_cart', methods=['GET'])
@@ -128,7 +137,7 @@ def buy():
                                addr=addr,
                                shipping_time=shipping_time)
     except Exception as e:
-        print('========buy_list=========:', e)
+        logging.error('buy find error: %s', e)
         return redirect(url_for('products.cart'))
 
 
@@ -138,10 +147,10 @@ def address():
     """添加与修改收货人信息"""
     try:
         user_id = session.get('user_id')
-        update_addr(request, user_id)
+        update_addr(user_id, request)
         return redirect(request.referrer)
     except Exception as e:
-        print('========address=========:', e)
+        logging.error('"address" route find error: %s', e)
     return redirect(url_for('products.buy_list'))
 
 
@@ -183,18 +192,18 @@ def pay():
         return abort(403)
 
 
-@bp.route('/order', methods=('GET', 'POST'))
-@login_required
-def order():
-    """订单号"""
-    try:
-        order_no = request.args.get('order_no', '')
-        user_id = session.get('user_id')
-        data = get_order_info(user_id, order_no)
-        return render_template('front/orders_list/order.html', order_no=data)
-    except Exception as e:
-        print('========order=========:', e)
-        return abort(403)
+# @bp.route('/order', methods=('GET', 'POST'))
+# @login_required
+# def order():
+#     """订单号"""
+#     try:
+#         order_no = request.args.get('order_no', '')
+#         user_id = session.get('user_id')
+#         data = get_order_info(user_id, order_no)
+#         return render_template('front/orders_list/../demo/demo_html/order.html', order_no=data)
+#     except Exception as e:
+#         print('========order=========:', e)
+#         return abort(403)
 
 
 @bp.route('/search', methods=('GET',))

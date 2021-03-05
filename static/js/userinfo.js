@@ -93,7 +93,7 @@ $(function () {
     $('#new_addr').click(function () {
         $('.add_address').show();
     });
-    $('.close,#cancel').click(function () {
+    $('.close,#cancel,.address-close').click(function () {
         $('.add_address').hide();
     })
 });

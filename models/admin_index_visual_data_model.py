@@ -5,6 +5,12 @@ from models.db import (
     ToMongo
 )
 
+from utils import (
+    get_30_day_before_timestamp,
+    format_time_second,
+    format_m_d,
+)
+
 
 def get_sales_data():
     """获取销售量sales的数据"""
@@ -89,23 +95,25 @@ def get_price():
 def get_visits():
     """获取访问量"""
     col = ToMongo().get_col('visits')
-    # 获取30天的时间差
-    date = (datetime.datetime.now() - datetime.timedelta(days=30))
+    # 获取29天的时间差
+    date = (datetime.datetime.now() - datetime.timedelta(days=29))
     # 查询大于时间差的数据
-    data = list(col.find({'date': {'$gte': date}}))
+    before_30_day = get_30_day_before_timestamp()
+    data = list(col.find({'date': {'$gte': before_30_day}}))
     # https://blog.csdn.net/qq_42184799/article/details/86311804
     # collections.OrderedDict()字典按插入顺序排序
     day_list = collections.OrderedDict()
     # 获取时间列表['04-25', '04-26', '04-27', '04-28']
-    for i in range(0, 31):
+    for i in range(0, 30):
         day = date.strftime("%m-%d")
         day_list[day] = 0
         date = date + datetime.timedelta(days=1)
 
     for d in data:
-        d_farmat = d['date'].strftime("%m-%d")
+        d_farmat = format_m_d(d['date'])
         if d_farmat in day_list:
             day_list[d_farmat] = len(d['users_id'])
+
     x = []
     y = []
     for k, v in day_list.items():
@@ -126,3 +134,4 @@ def get_keyword():
         key.append(k)
         value.append(v)
     return key, value
+

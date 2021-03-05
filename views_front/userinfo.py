@@ -14,6 +14,7 @@ from models.front_models import (
     delete_addr_model,
     set_default_addr_model,
     edit_addr_model,
+    get_addr_info,
 )
 from utils import Logger
 
@@ -28,7 +29,8 @@ def userinfo():
     try:
         user = get_user(session.get('user_id'))
         return render_template('front/user_info_manage/base_user_info.html',
-                               user=user)
+                               user=user,
+                               active_nav='me')
     except Exception as e:
         print('============userinfo============', e)
         return redirect(request.referrer)
@@ -49,7 +51,9 @@ def info():
                 flash('修改错误！')
         user_info = get_user(user_id)
         logging.info('%s info:[%s]', user_id, user_info)
-        return render_template('front/user_info_manage/info.html', user=user_info)
+        return render_template('front/user_info_manage/info.html',
+                               user=user_info,
+                               active_nav='info')
     except Exception as e:
         print('============info============', e)
         return redirect(url_for('userinfo.userinfo'))
@@ -65,8 +69,9 @@ def inputAvatar():
         result = upload_avatar_model(user_id, img)
         if not result:
             flash("提交失败，请重试！")
-        return render_template('../tests/demo_html/userinfo/info.html',
-                               user=get_user(user_id))
+        return render_template('front/user_info_manage/info.html',
+                               user=get_user(user_id),
+                               active_nav='info')
     except Exception as e:
         print('============inputAcatar============', e)
         # 出错，重定向到userinfo页
@@ -91,7 +96,8 @@ def changePW():
             if not change_pwd_model(user_id, new_pw):
                 flash("修改失败，请重试！")
         session.clear()
-        return render_template('front/user_login_register/login.html', next=request.referrer)
+        return render_template('front/user_login_register/login.html',
+                               next=request.referrer)
     except Exception as e:
         print('============change_pw============', e)
         flash("修改失败，请重试！")
@@ -113,7 +119,8 @@ def address():
         address_default = get_user(user_id)['address_default']
         return render_template('front/user_info_manage/address.html',
                                addr=list(result),
-                               address_default=address_default)
+                               address_default=address_default,
+                               active_nav='address')
     except Exception as e:
         print('============address============', e)
         return redirect(request.referrer)
@@ -148,23 +155,25 @@ def addressDefault():
     return jsonify(result=False)
 
 
-@bp.route('/addressChange', methods=('POST', 'GET'))
+@bp.route('/address_change', methods=('POST', 'GET'))
 @login_required
-def addressChange():
+def address_change():
     """编辑更改收货人地址"""
     try:
         user_id = session.get('user_id')
         if request.method == 'POST':
             rel, result = edit_addr_model(user_id, request)
             if rel:
-                return render_template('../tests/demo_html/userinfo/address.html', addr=result)
+                return redirect(url_for('userinfo.address'))
             else:
                 flash('修改失败，请重试！')
                 return redirect(request.url)
 
         _id = request.args.get('_id')
-        result = get_addr_list_model(user_id)
-        return render_template('../tests/demo_html/userinfo/addressChange.html', addr=result)
+        result = get_addr_info(_id)
+        return render_template('front/user_info_manage/address_change.html',
+                               addr=result,
+                               active_nav='address')
     except IndexError as e:
         print('============addressChange IndexError============', e)
         flash("修改失败，请正确选择地址！")

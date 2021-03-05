@@ -4,6 +4,7 @@ from pyecharts import (
     Pie,
     Bar,
 )
+
 from .admin_index_visual_data_model import (
     get_keyword,
     get_visits,
@@ -11,6 +12,7 @@ from .admin_index_visual_data_model import (
     get_hits_data,
     get_sales_data,
 )
+
 
 
 def keyword_wordcloud():
@@ -28,7 +30,6 @@ def visits_pie_rose():
     """
     pie = Pie('访问量', width='100%')
     x, y = get_visits()
-
     # abel_formatter -> str
     # 模板变量有
     # {a}, {b}，{c}，{d}，{e}，分别表示系列名，数据名，数据值等

@@ -4,191 +4,14 @@
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index_2.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index_login.css') }}">
-    {#    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/product.css') }}">#}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/product.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/swiper2.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <!--登录弹出框中的小图标--->
     <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
 {% endblock %}
 
-{% block header %}
-    <!--页面头部-->
-    <div id="header">
-        <div class="container-fluid">
-            <div class="col-md-12">
-                <div class="header_left left">
-                    <div class="address"><a>送至：</a></div>
-                </div>
-                <ul class="right">
-                    {% if session['user_id'] %}
-                        <li>
-                            {% if session['user_name'] != None %}
-                                <a href="{{ url_for('userinfo.userinfo') }}"><span>Hi~，</span>{{ session['user_name'] }}
-                                </a>
-                            {% else %}
-                                <a href="{{ url_for('userinfo.userinfo') }}"><span>Hi~，</span>您还为未命名</a>
-                            {% endif %}
-                        </li>
-                    {% else %}
-                        <li>
-                            <a id="index_login" href="#">登录</a>
-                        </li>
-                    {% endif %}
-                    <li><a href="{{ url_for('products.cart') }}">购物车</a></li>
-                    <li><a href="{{ url_for('admin.admin') }}">后台管理</a></li>
-                    <li class="{% if not session['user_id'] %}customer_s{% endif %}"><a
-                            href="{{ url_for('building.building') }}">客户服务</a></li>
-                    {% if session['user_id'] %}
-                        <li class="customer_s"><a href="{{ url_for('user_login_register.logout') }}">退出登录</a></li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-    </div>
-{% endblock %}
-
-<!--导航栏-->
-{% block nav %}
-    <div id="nav" class="container-fluid">
-        <div class="container-fluid">
-            <div class="logo left">
-                <img  src="{{ url_for('static', filename='images/logo.jpg') }}"/>
-            </div>
-            <div class="col-md-offset-1 search_kw left">
-                <form class="navbar-form navbar-right" action="{{ url_for('products.search') }}" method="get">
-                    <input type="text" class="form-control"
-                           value="{% if key_word and search %}{{ key_word }}{% endif %}"
-                           name="word" placeholder="请输入搜索关键字...">
-                    <input type="submit" class="form-control" value="搜  索">
-                </form>
-            </div>
-            <ul class="right">
-                <li><a href="{{ url_for('index') }}">首页</a></li>
-                {% for book_type in book_type_list %}
-                    <li><a href="{{ url_for('index_view.book_type', book_type=book_type) }}">{{ book_type }}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-{% endblock %}
-
 {% block main %}{% endblock %}
-
-{% block servers %}
-    <!--页面服务-->
-    <div id="serve">
-        <div class="container">
-            <ul>
-                <li>
-                    <dl>
-                        <dt><img src="{{ url_for('static', filename='images/zheng.png') }}"></dt>
-                        <dd class="dd1">正规渠道</dd>
-                        <dd class="dd2">正品保障</dd>
-                    </dl>
-                </li>
-                <li>
-                    <dl>
-                        <dt><img src="{{ url_for('static', filename='images/zheng.png') }}"></dt>
-                        <dd class="dd1">正规渠道</dd>
-                        <dd class="dd2">正品保障</dd>
-                    </dl>
-                </li>
-                <li>
-                    <dl>
-                        <dt><img src="{{ url_for('static', filename='images/zheng.png') }}"></dt>
-                        <dd class="dd1">正规渠道</dd>
-                        <dd class="dd2">正品保障</dd>
-                    </dl>
-                </li>
-                <li>
-                    <dl>
-                        <dt><img src="{{ url_for('static', filename='images/zheng.png') }}"></dt>
-                        <dd class="dd1">正规渠道</dd>
-                        <dd class="dd2">正品保障</dd>
-                    </dl>
-                </li>
-                <li>
-                    <dl>
-                        <dt><img src="{{ url_for('static', filename='images/zheng.png') }}"></dt>
-                        <dd class="dd1">正规渠道</dd>
-                        <dd class="dd2">正品保障</dd>
-                    </dl>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <!--售后服务-->
-    <div id="after_sale">
-        <div class="container">
-            <ul>
-                <li>
-                    <ol>
-                        <li><a href="{{ url_for('building.building') }}">关于我们</a></li>
-                        <li><a href="{{ url_for('building.building') }}">关于图书</a></li>
-                        <li><a href="{{ url_for('building.building') }}">新闻中心</a></li>
-                        <li><a href="{{ url_for('building.building') }}">人才招聘</a></li>
-                    </ol>
-                </li>
-                <li>
-                    <ol>
-                        <li><a href="{{ url_for('building.building') }}">关于我们</a></li>
-                        <li><a href="{{ url_for('building.building') }}">关于图书</a></li>
-                        <li><a href="{{ url_for('building.building') }}">新闻中心</a></li>
-                        <li><a href="{{ url_for('building.building') }}">人才招聘</a></li>
-                    </ol>
-                </li>
-                <li>
-                    <ol>
-                        <li><a href="{{ url_for('building.building') }}">关于我们</a></li>
-                        <li><a href="{{ url_for('building.building') }}">关于图书</a></li>
-                        <li><a href="{{ url_for('building.building') }}">新闻中心</a></li>
-                        <li><a href="{{ url_for('building.building') }}">人才招聘</a></li>
-                    </ol>
-                </li>
-                <li>
-                    <ol>
-                        <li><a href="{{ url_for('building.building') }}">关于我们</a></li>
-                        <li><a href="{{ url_for('building.building') }}">关于图书</a></li>
-                        <li><a href="{{ url_for('building.building') }}">新闻中心</a></li>
-                        <li><a href="{{ url_for('building.building') }}">人才招聘</a></li>
-                    </ol>
-                </li>
-                <li>
-                    <ol>
-                        <li><span class="xl"></span> <a href="{{ url_for('building.building') }}">新浪微博</a></li>
-                        <li><span class="tx"></span><a href="{{ url_for('building.building') }}">腾讯微博</a></li>
-                        <li><span class="rr"></span><a href="{{ url_for('building.building') }}">人人网</a></li>
-                        <li><span class="qq"></span><a href="{{ url_for('building.building') }}">QQ空间</a></li>
-                    </ol>
-                </li>
-                <li>
-                    <ol>
-                        <li><a href="{{ url_for('building.building') }}">关于我们</a></li>
-                        <li><a href="{{ url_for('building.building') }}">关于图书</a></li>
-                        <li><a href="{{ url_for('building.building') }}">新闻中心</a></li>
-                        <li><a href="{{ url_for('building.building') }}">人才招聘</a></li>
-                    </ol>
-                </li>
-            </ul>
-        </div>
-    </div>
-{% endblock %}
-
-<!--页面底部-->
-{% block footer %}
-    <div id="footer">
-        <div class="container-fluid">
-            <ul>
-                <li><img src="{{ url_for('static', filename='images/logo.jpg') }}"></li>
-                <li><span>@2017-2021  贺州市</span></li>
-                <li><a class="footer_last_li" href="{{ url_for('building.building') }}">版权说明</a></li>
-                <li><a href="{{ url_for('building.building') }}">版权说明</a></li>
-                <li><a href="{{ url_for('building.building') }}">版权说明</a></li>
-                <li><a href="{{ url_for('building.building') }}">版权说明</a></li>
-            </ul>
-        </div>
-    </div>
-{% endblock %}
 
 {% block js %}
     <script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
@@ -198,5 +21,8 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/nav_toTop.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/product.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+{#    <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>#}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/angular.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/fronts/get_book_type.js') }}"></script>
 
 {% endblock %}

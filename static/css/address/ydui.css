@@ -8,9 +8,9 @@
 *, *:before, *:after { box-sizing: border-box; outline: none; }
 html, body { height: 100%; }
 body { background-color: #F5F5F5; font-size: 12px; -webkit-font-smoothing: antialiased; font-family: arial, sans-serif; }
-body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td, iframe { margin: 0; padding: 0; }
+body, h1, h2, h3, h4, h5, h6, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td, iframe { padding: 0; }
 img, article, aside, details, figcaption, figure, footer, header, menu, nav, section, summary, time, mark, audio, video { display: block; margin: 0; padding: 0; }
-h1, h2, h3, h4, h5, h6 { font-size: 100%; }
+/*h1, h2, h3, h4, h5, h6 { font-size: 100%; }*/
 fieldset, img { border: 0; }
 address, caption, cite, dfn, em, th, var, i, em { font-style: normal; font-weight: normal; }
 ol, ul { list-style: none; }
@@ -73,3 +73,7 @@ table { border-collapse: collapse; border-spacing: 0; }
 .cityselect-item-box > a span { -webkit-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1; display: block; }
 .cityselect-item-box > a.crt { color: #F23030; }
 .cityselect-item-box > a.crt:after { display: block; content: '\E600'; font-family: 'YDUI-INLAY'; }
+
+.popbox{
+ left: 0%;
+}

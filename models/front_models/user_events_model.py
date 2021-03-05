@@ -49,14 +49,13 @@ def user_register_model(username, password, password_again):
 
 def add_visits(user_id):
     """访问量加1函数"""
-    new_time = get_now() + get_day_time()
     dawn_timestamp = get_dawn_timestamp()
     last_date = ToMongo().get_col('visits').aggregate([{'$group': {'_id': '$_id', 'day': {'$last': '$date'}}}])
     date_list = list(last_date)
     # 不为空
     if date_list:
         # 同一天加入
-        if date_list[0]['day'] + get_day_time() >= new_time:
+        if date_list[0]['day'] == get_dawn_timestamp():
             ToMongo().update('visits', {'_id': date_list[0]['_id']}, {'$addToSet': {'users_id': user_id}})
         else:
             # 不是同一天，插入新的文档

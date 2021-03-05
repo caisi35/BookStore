@@ -1,7 +1,7 @@
 from .user_events_model import (
-user_register_model,
-user_login_model,
-add_visits,
+    user_register_model,
+    user_login_model,
+    add_visits,
 )
 
 from .address_model import (
@@ -10,6 +10,7 @@ from .address_model import (
     delete_addr_model,
     set_default_addr_model,
     edit_addr_model,
+    get_addr_info,
 )
 
 from .userinf_model import (
@@ -33,6 +34,7 @@ from .products_model import (
     pay_model,
     get_order_info,
     search_book_model,
+    get_evaluate,
 )
 
 from .orders_model import (
@@ -40,4 +42,10 @@ from .orders_model import (
     user_delete_order,
     delete_orders_model,
     get_order_details_model,
+    get_badge_model,
+    cancel_model,
+    refund_model,
+    evaluate_model,
+    update_status,
+    update_status_user_id,
 )
