@@ -4,6 +4,7 @@ from bson.code import Code
 
 
 class ToConn:
+    """mysql  Ver 15.1 Distrib 10.0.24-MariaDB, for debian-linux-gnu (x86_64) using readline 5.2"""
     def __init__(self):
         self.connection = pymysql.connect(
             host='localhost',
@@ -80,9 +81,20 @@ class ToConn:
 
 
 class ToMongo:
+    """
+    MongoDB shell version v4.0.22
+    git version: 1741806fb46c161a1d42870f6e98f5100d196315
+    OpenSSL version: OpenSSL 1.0.2g  1 Mar 2016
+    allocator: tcmalloc
+    modules: none
+    build environment:
+        distmod: ubuntu1604
+        distarch: x86_64
+        target_arch: x86_64
+    """
     def __init__(self):
         myclient = pymongo.MongoClient("mongodb://localhost:27017/")
-        self.mydb = myclient['products']
+        self.mydb = myclient['bookstore']
 
     def get_col(self, col):
         """

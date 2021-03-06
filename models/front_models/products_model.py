@@ -21,6 +21,7 @@ from utils import (
 
 
 def get_evaluate(book_id):
+    """获取评论信息"""
     mydb = ToMongo()
     evaluates = mydb.get_col('evaluate').find_one({'_id': ObjectId(book_id)})
     lit = []
@@ -44,12 +45,14 @@ def get_evaluate(book_id):
 
 
 def get_user_avatar(user_id):
+    """获取评论用户的头像"""
     mydb = ToConn()
     user_info = mydb.get_db('select avatar from users where id=%s', (user_id, )).fetchone()
     return user_info.get('avatar')
 
 
 def search_book_model(word, page, page_size):
+    """搜索图书"""
     # 如果输入不为空
     if word:
         # 添加关键字数据到数据库，用与绘制词云图
@@ -63,6 +66,7 @@ def search_book_model(word, page, page_size):
 
 
 def get_order_info(user_id, order_no):
+    """获取订单信息"""
     mydb = ToMongo()
     myorder = mydb.get_col('order').find_one({'order_no': order_no, 'user_id': user_id})
     data = {'order_no': myorder.get('order_no'),
@@ -72,6 +76,7 @@ def get_order_info(user_id, order_no):
 
 
 def pay_model(order_no):
+    """订单支付"""
     mydb = ToMongo()
     images = []
     weixin_image = base64.b64encode(mydb.get_img('weixin.gif')).decode('utf-8')
@@ -84,6 +89,7 @@ def pay_model(order_no):
 
 
 def to_pay_model(user_id, amount, book_ids):
+    """去支付"""
     create_time = int(time.time())
     order_no = create_orders()
     books = []
@@ -110,7 +116,9 @@ def to_pay_model(user_id, amount, book_ids):
          "address": address,
          "orders_status": 0,
          "pay_status": 0,
-         "exp_status": 0, }
+         "exp_status": 0,
+         "logistics": [],  # 物流信息
+         }
     mydb = ToMongo()
     result = mydb.insert('order', v)
     if result:
@@ -134,6 +142,7 @@ def to_pay_model(user_id, amount, book_ids):
 
 
 def delete_addr(user_id, _id):
+    """删除收货地址"""
     conn = ToConn().to_execute()
     cur = conn.cursor()
     cur.execute('update users set address_default=null where id=%s and address_default = %s', (user_id, _id))
@@ -145,6 +154,7 @@ def delete_addr(user_id, _id):
 
 
 def update_addr(user_id, request):
+    """更形收货地址"""
     name = request.form.get('name')
     tel = request.form.get('tel')
     address_list = request.form.get('address').strip().split(' ')
@@ -258,6 +268,7 @@ def to_buy_model(user_id, books_id, is_list=True):
 
 
 def from_cart_buy(books, user_id):
+    """购物车"""
     book_list = []
     for book_id in books:
         db = ToConn()
@@ -272,6 +283,7 @@ def from_cart_buy(books, user_id):
 
 
 def edit_cart_num(user_id, book_id, count=0, method='delete'):
+    """编辑购物车数量"""
     db = ToConn()
     sql = 'delete from cart  where book_num=%s and user_id=%s and book_id=%s and is_effe=1'
     if method == 'adds':
@@ -287,6 +299,7 @@ def edit_cart_num(user_id, book_id, count=0, method='delete'):
 
 
 def get_user_cart(user_id):
+    """获取购物物品信息"""
     db = ToConn()
     sql = 'select book_id, book_num from cart where user_id=%s and is_effe=1'
     result = db.get_db(sql, (user_id,)).fetchall()
@@ -301,6 +314,7 @@ def get_user_cart(user_id):
 
 
 def add_card_model(user_id, book_id, num):
+    """添加到购物车"""
     try:
         db = ToConn()
         # 查处用户的购物车是否有添加的物品
@@ -346,6 +360,7 @@ def get_book(id):
 
 
 def index_model():
+    """主页内容"""
     mydb = ToMongo()
     # 轮播
     books = list(mydb.get_col('books').find().limit(15))

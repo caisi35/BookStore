@@ -53,6 +53,7 @@ def get_order_details_model(order_no, user_id):
 
 
 def delete_orders_model(user_id, orders_no):
+    """用户删除多个订单"""
     rel = False
     db = ToMongo()
     count = 0
@@ -66,6 +67,7 @@ def delete_orders_model(user_id, orders_no):
 
 
 def user_delete_order(user_id, order_no):
+    """用户删除单个订单"""
     rel = False
     result = ToMongo().delete('order', {'order_no': order_no, 'user_id': user_id})
     if result.deleted_count:
@@ -75,6 +77,7 @@ def user_delete_order(user_id, order_no):
 
 
 def format_query(user_id, status):
+    """格式化获取订单查询语句"""
     query = {'user_id': user_id,
              'is_effective': 1,
              'orders_status': {'$in': status},
@@ -85,6 +88,7 @@ def format_query(user_id, status):
 
 
 def get_orders(user_id, status):
+    """获取用户订单信息"""
     query = format_query(user_id, status)
     result = ToMongo().get_col('order').find(query).sort('order_no', -1)
     orders = []
@@ -146,6 +150,7 @@ def update_status_to_5():
 
 
 def cancel_model(order_no, user_id):
+    """用户取消订单"""
     mydb = ToMongo()
     query = {'order_no': order_no,
              'user_id': user_id}
@@ -155,6 +160,7 @@ def cancel_model(order_no, user_id):
 
 
 def refund_model(order_no, user_id):
+    """用户申请退款"""
     mydb = ToMongo()
     query = {'order_no': order_no,
              'user_id': user_id}
@@ -164,6 +170,7 @@ def refund_model(order_no, user_id):
 
 
 def save_img(order_no, img):
+    """保存用户评论上传的图片"""
     s_img = secure_filename(img.filename)
     img_suffix = s_img.split('.')[-1]
     # 用户id+时间戳+后缀
@@ -174,6 +181,7 @@ def save_img(order_no, img):
 
 
 def get_book_id(order_no):
+    """获取订单的图书id"""
     mydb = ToMongo()
     books = mydb.get_col('order').find_one({'order_no': order_no})
     book_ids = []
@@ -246,12 +254,14 @@ def evaluate_model(user_id, user_name, request):
 
 
 def update_status(order_no):
+    """更新订单状态为交易完成"""
     mydb = ToMongo()
     result = mydb.update('order', {'order_no': order_no}, {'$set': {'orders_status': 4}})
     return result.modified_count
 
 
 def update_status_user_id(order_no, user_id):
+    """更新订单状态为待评论"""
     mydb = ToMongo()
     result = mydb.update('order', {'order_no': order_no, 'user_id': user_id}, {'$set': {'orders_status': 3}})
     return result.modified_count
