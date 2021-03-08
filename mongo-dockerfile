@@ -1,0 +1,9 @@
+# https://blog.csdn.net/weixin_44807848/article/details/108120323
+
+FROM mongo
+
+ENV AUTO_RUN_DIR /docker-entrypoint-initdb.d
+COPY ./mongo-setup.sh $AUTO_RUN_DIR
+RUN chmod 777 $AUTO_RUN_DIR/mongo-setup.sh
+
+# RUN mongorestore -h localhost --authenticationDatabase admin -u root -p root -d bookstore --dir /code/script/data/booksotre

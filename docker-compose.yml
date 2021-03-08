@@ -1,27 +1,26 @@
-version: '3'
+version: '2.0'
 
 services:
 
   mysql:
     image: mysql
-    restart: always
-    command: ['--default-authentication-plugin=mysql_native_password',
-              mysql -uroot -proot bookstore < '/code/script/data/bookstore.sql
-      ]
+#    restart: always
+    command: '--default-authentication-plugin=mysql_native_password'
     volumes:
       - ./script/data:/code/scropt/data
+      - ./script/data/mysql/init:/docker-entrypoint-initdb.d/
     environment:
       MYSQL_ROOT_PASSWORD: 'root'
 
   mongo:
     image: mongo
-    restart: always
+#    restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
     volumes:
-      - ./scropt/data/bookstore:/code/script/data/booksotre/
-    command: mongorestore -u root -p root -d bookstore --dir /code/script/data/bookstore/
+      - ./script/data/bookstore:/code/script/data/booksotre/
+#    command: ["mongorestore", "-u", "root", "-p", "root", "-d", "bookstore", "--dir", "/code/script/data/bookstore/"]
 
 
   nginx:
@@ -38,11 +37,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: uwsgi --http 127.0.0.1:8000 --module app:create_app()
+    command: 'uwsgi --http 127.0.0.1:8000 --module app:create_app()'
     volumes:
       - .:/code
     ports:
-      - "8080:8080"
+      - "8000:8000"
     links:
       - mysql
       - nginx

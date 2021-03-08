@@ -7,7 +7,7 @@ class ToConn:
     """mysql  Ver 15.1 Distrib 10.0.24-MariaDB, for debian-linux-gnu (x86_64) using readline 5.2"""
     def __init__(self):
         self.connection = pymysql.connect(
-            host='localhost',
+            host='mysql',
             user='root',
             password='root',
             db='bookstore',
@@ -93,7 +93,7 @@ class ToMongo:
         target_arch: x86_64
     """
     def __init__(self):
-        myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+        myclient = pymongo.MongoClient(host="mongo", port=27017, username='root', password='root')
         self.mydb = myclient['bookstore']
 
     def get_col(self, col):
