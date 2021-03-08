@@ -1,5 +1,0 @@
-2.跳转页面后刷新重新提交问题：提交的方法为POST，提交成功跳转页面后，再次刷新有提示是否提价。
->目前解决的方法是使用GET方法。
-
-1.MongoDB批量转换数据类型
-> db.books.find({'price':{$type:2}}).forEach(function(x){x.price=parseFloat(x.price);db.books.save(x);});

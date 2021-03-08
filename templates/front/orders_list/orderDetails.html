@@ -13,7 +13,7 @@
     <div class="container">
         <div class="text-center">
             <hr>
-        <h3>订单详情</h3>
+            <h3>订单详情</h3>
         </div>
         <div class="order-details">
             {% if order_details %}
@@ -24,7 +24,7 @@
                     <span>{{ order_details.address.details }}</span>
                     <strong><span>&nbsp;&nbsp;&nbsp;收货人：</span></strong>
                     <span>{{ order_details.address.name }}</span>
-                    <spam>{{ order_details.address.tel }}</spam>
+                    <span>{{ order_details.address.tel }}</span>
                 </div>
                 <div class="info">
                     <p><strong>订单号：</strong>{{ order_details.order_no }}</p>
@@ -45,6 +45,14 @@
                         {% else %}
                             已失效
                         {% endif %}</p>
+                    <div>
+                        <strong>物流信息：</strong>
+                        <ul>
+                            {% for logistics in  order_details.logistics %}
+                                <li> | {{ logistics.create_time }} —— {{ logistics.info }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
                 <div class="books">
                     <ul>

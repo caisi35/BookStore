@@ -17,6 +17,16 @@ def get_badge_model(user_id):
     return badge
 
 
+def format_logistics(logistics):
+    lit = []
+    for logi in logistics:
+        create_time = format_time_second(logi.get('create_time'))
+        info = logi.get('info')
+        lit.append({'create_time': create_time,
+                    'info': info})
+    return lit
+
+
 def get_order_details_model(order_no, user_id):
     """获取订单详情"""
     update_status_to_5()  # 更新订单状态
@@ -30,6 +40,7 @@ def get_order_details_model(order_no, user_id):
     is_effective = cur['is_effective']
     address = cur['address']
     status = cur['orders_status']
+    logistics = format_logistics(cur['logistics'])
     book_list = []
     for book in cur['books']:
         book_dict = {}
@@ -49,6 +60,7 @@ def get_order_details_model(order_no, user_id):
     order_dict['is_effective'] = is_effective
     order_dict['address'] = address
     order_dict['status'] = status
+    order_dict['logistics'] = logistics
     return order_dict
 
 

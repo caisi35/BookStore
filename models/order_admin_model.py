@@ -35,7 +35,7 @@ def orders_query_model(page, page_size, order_status):
     elif order_status == 5:
         # 失效订单
         query = {"$and": [{'create_time': {'$lt': get_before_day()}},
-                         {'orders_status': {"$nin": [1, 2, 3, 4]}}]}
+                          {'orders_status': {"$nin": [1, 2, 3, 4]}}]}
     elif order_status == 6:
         query = {'$and': [{'orders_status': order_status},
                           {'is_effective': 1}]}
@@ -76,16 +76,22 @@ def uptate_status_inc(order_no, status, msg):
     conn = ToMongo()
     new = {"$inc": {'orders_status': 1}}
     if status == 0:
-        new = [{"$inc": {'orders_status': 1}},
-                          {"$addToSet": {'create_time': get_now(),
-                                         'info': '商品已经下单'}}]
+        new = {"$inc": {'orders_status': 1},
+               "$addToSet": {'logistics':
+                                 {'create_time': get_now(),
+                                  'info': '商品已经下单'}}
+               }
     elif status == 1:
-        new = [{"$inc": {'orders_status': 1}},
-                          {"$addToSet": {'create_time': get_now(),
-                                         'info': '包裹正在等待揽收'}}]
+        new = {"$inc": {'orders_status': 1},
+               "$addToSet": {'logistics':
+                                 {'create_time': get_now(),
+                                  'info': '包裹正在等待揽收'}
+                             }
+               }
     result = conn.update('order',
                          {'order_no': order_no, 'orders_status': status},
-                         new)
+                         new,
+                         is_one=False)
     if result.modified_count:
         pass
     else:
