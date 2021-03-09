@@ -4,7 +4,6 @@ services:
 
   mysql:
     image: mysql
-#    restart: always
     command: '--default-authentication-plugin=mysql_native_password'
     volumes:
       - ./script/data:/code/scropt/data
@@ -14,14 +13,12 @@ services:
 
   mongo:
     image: mongo
-#    restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
     volumes:
       - ./script/data/bookstore:/code/script/data/booksotre/
-#    command: ["mongorestore", "-u", "root", "-p", "root", "-d", "bookstore", "--dir", "/code/script/data/bookstore/"]
-
+      - ./mongo-setup.sh:/docker-entrypoint-initdb.d/
 
   nginx:
     image: nginx

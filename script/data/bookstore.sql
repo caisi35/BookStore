@@ -16,6 +16,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Database bookstore
+--
+
+CREATE DATABASE bookstore DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+--
 -- Table structure for table `admin`
 --
 
