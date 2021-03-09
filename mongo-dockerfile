@@ -2,8 +2,18 @@
 
 FROM mongo
 
-ENV AUTO_RUN_DIR /docker-entrypoint-initdb.d
-COPY ./mongo-setup.sh $AUTO_RUN_DIR
-RUN chmod 777 $AUTO_RUN_DIR/mongo-setup.sh
+RUN mkdir -p ./home/mongodb && touch ./home/mongodb/.dbshell && chown -R 999:999 ./home/mongodb
 
-# RUN mongorestore -h localhost --authenticationDatabase admin -u root -p root -d bookstore --dir /code/script/data/booksotre
+
+ENV WORKSPACE /usr/local/work
+ENV AUTO_RUN_DIR /docker-entrypoint-initdb.d
+ENV INSTALL_MONGO_SHELL mongo-setup.sh
+
+RUN mkdir -p $WORKSPACE
+
+COPY ./script/data/bookstore $WORKSPACE/bookstore
+COPY ./script/data/mongo/init/$INSTALL_MONGO_SHELL $AUTO_RUN_DIR/
+
+RUN chmod a+x $AUTO_RUN_DIR/$INSTALL_MONGO_SHELL
+
+
