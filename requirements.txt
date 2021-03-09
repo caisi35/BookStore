@@ -7,3 +7,4 @@ lxml==4.5.0
 Flask==1.1.2
 beautifulsoup4==4.9.3
 uwsgi
+pyecharts-snapshot==0.2.0
