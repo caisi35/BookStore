@@ -9,3 +9,5 @@ COPY requirements.txt /bookstore/requirements.txt
 RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
 
 COPY . /bookstore
+
+CMD ["uwsgi", "uwsgi.ini"]
