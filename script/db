@@ -61,7 +61,7 @@ alter table admin
 -- 数据库名：products
 -- 集合：books,images,order,address
 数据库导出：mongodump -d bookstore -o /home/caisi/PycharmProjects/BookStore/script/data/
-数据库导入（未测试）：mongorestore -d bookstore --dir /home/caisi/PycharmProjects/BookStore/script/data/bookstore/
+数据库导入（未测试）：mongorestore -h localhost --authenticationDatabase admin -u root -p root -d bookstore --dir $WORKSPACE/bookstores
 ******books集合 保存图书信息******
 books{
     _id         默认图书id
