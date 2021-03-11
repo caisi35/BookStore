@@ -30,7 +30,8 @@ def format_logistics(logistics):
 def get_order_details_model(order_no, user_id):
     """获取订单详情"""
     update_status_to_5()  # 更新订单状态
-    cur = ToMongo().get_col('order').find_one({'user_id': user_id, 'order_no': order_no})
+    db_conn = ToMongo()
+    cur = db_conn.get_col('order').find_one({'user_id': user_id, 'order_no': order_no})
     create_time = cur['create_time']
     effective_time = create_time + ORDER_EFFECTIVE_TIME
     is_processed = cur['is_processed']
@@ -61,6 +62,7 @@ def get_order_details_model(order_no, user_id):
     order_dict['address'] = address
     order_dict['status'] = status
     order_dict['logistics'] = logistics
+    db_conn.close_conn()
     return order_dict
 
 
@@ -75,16 +77,19 @@ def delete_orders_model(user_id, orders_no):
     if count == len(orders_no):
         # 删除成功
         rel = True
+    db.close_conn()
     return rel
 
 
 def user_delete_order(user_id, order_no):
     """用户删除单个订单"""
     rel = False
-    result = ToMongo().delete('order', {'order_no': order_no, 'user_id': user_id})
+    db_conn = ToMongo()
+    result = db_conn.delete('order', {'order_no': order_no, 'user_id': user_id})
     if result.deleted_count:
         # 删除成功
         rel = True
+    db_conn.close_conn()
     return rel
 
 
@@ -102,7 +107,8 @@ def format_query(user_id, status):
 def get_orders(user_id, status):
     """获取用户订单信息"""
     query = format_query(user_id, status)
-    result = ToMongo().get_col('order').find(query).sort('order_no', -1)
+    db_conn = ToMongo()
+    result = db_conn.get_col('order').find(query).sort('order_no', -1)
     orders = []
     result = list(result)
     for order in result:
@@ -124,6 +130,7 @@ def get_orders(user_id, status):
                        'book_info': book_info,
                        'effective_time': format_time_second(effective_time),
                        })
+    db_conn.close_conn()
     return orders
 
 
@@ -158,6 +165,7 @@ def update_status_to_5():
     new = {'$set': {'orders_status': 5}}
     mydb = ToMongo()
     result = mydb.update('order', query, new, is_one=False)
+    mydb.close_conn()
     return result.modified_count
 
 
@@ -168,6 +176,7 @@ def cancel_model(order_no, user_id):
              'user_id': user_id}
     new = {'$set': {'orders_status': 5}}
     rel = mydb.update('order', query, new)
+    mydb.close_conn()
     return rel.modified_count
 
 
@@ -178,6 +187,7 @@ def refund_model(order_no, user_id):
              'user_id': user_id}
     new = {'$set': {'orders_status': 6}}
     rel = mydb.update('order', query, new)
+    mydb.close_conn()
     return rel.modified_count
 
 
@@ -199,6 +209,7 @@ def get_book_id(order_no):
     book_ids = []
     for book in books.get('books'):
         book_ids.append(book.get('book_id'))
+    mydb.close_conn()
     return book_ids
 
 
@@ -262,6 +273,7 @@ def evaluate_model(user_id, user_name, request):
     if len(id_list) != len(book_ids):
         # print(id_list)
         rlt['error'] = '评论失败，请重试！'
+    mydb.close_conn()
     return rlt
 
 
@@ -269,6 +281,7 @@ def update_status(order_no):
     """更新订单状态为交易完成"""
     mydb = ToMongo()
     result = mydb.update('order', {'order_no': order_no}, {'$set': {'orders_status': 4}})
+    mydb.close_conn()
     return result.modified_count
 
 
@@ -276,6 +289,7 @@ def update_status_user_id(order_no, user_id):
     """更新订单状态为待评论"""
     mydb = ToMongo()
     result = mydb.update('order', {'order_no': order_no, 'user_id': user_id}, {'$set': {'orders_status': 3}})
+    mydb.close_conn()
     return result.modified_count
 
 

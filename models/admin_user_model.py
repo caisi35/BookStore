@@ -10,27 +10,31 @@ from models.db import (
 
 def user_activate_model(id):
     rel = True
-    conn = ToConn().to_execute()
-    cur = conn.cursor()
+    conn = ToConn()
+    to_exec = conn.to_execute()
+    cur = to_exec.cursor()
     result = cur.execute('update users set is_freezing=0 where id=%s', (id,))
     if result:
-        conn.commit()
+        to_exec.commit()
     else:
         rel = False
-        conn.rollback()
+        to_exec.rollback()
+    conn.to_close()
     return rel
 
 
 def freezing_user_model(id):
     rel = True
-    conn = ToConn().to_execute()
-    cur = conn.cursor()
+    conn = ToConn()
+    to_exec = conn.to_execute()
+    cur = to_exec.cursor()
     result = cur.execute('update users set is_freezing=1 where id=%s', (id,))
     if result:
-        conn.commit()
+        to_exec.commit()
     else:
         rel = False
-        conn.rollback()
+        to_exec.rollback()
+    conn.to_close()
     return rel
 
 
@@ -44,53 +48,61 @@ def get_pwd():
 
 def reset_user_pad(id):
     rel = {'result': False}
-    conn = ToConn().to_execute()
-    cur = conn.cursor()
+    conn = ToConn()
+    to_exec = conn.to_execute()
+    cur = to_exec.cursor()
     pwd = get_pwd()
     result = cur.execute('update users set password=%s where id=%s', (generate_password_hash(pwd), id))
     if result:
         rel = {'result': True, 'password': pwd}
-        conn.commit()
+        to_exec.commit()
     else:
-        conn.rollback()
+        to_exec.rollback()
+    conn.to_close()
     return rel
 
 
 def restores_user_model(user_id):
     rel = 'admin.user_trash'
-    conn = ToConn().to_execute()
-    result = conn.cursor().execute('update users set is_delete=0 where id=%s', (user_id,))
+    conn = ToConn()
+    to_exec = conn.to_execute()
+    result = to_exec.cursor().execute('update users set is_delete=0 where id=%s', (user_id,))
     if result:
-        conn.commit()
+        to_exec.commit()
     else:
-        conn.rollback()
+        to_exec.rollback()
         rel = 'admin.user_trash'
+    conn.to_close()
     return rel
 
 
 def delete_user_trach(id):
     rel = True
-    conn = ToConn().to_execute()
-    cur = conn.cursor()
+    conn = ToConn()
+    to_exec = conn.to_execute()
+    cur = to_exec.cursor()
     result = cur.execute('delete from users where id=%s', (id,))
     if result:
-        conn.commit()
+        to_exec.commit()
     else:
         rel = False
-        conn.rollback()
+        to_exec.rollback()
+    conn.to_close()
     return rel
 
 
 def add_user_trach(id):
     rel = True
-    conn = ToConn().to_execute()
-    cur = conn.cursor()
+    conn = ToConn()
+    to_exec = conn.to_execute()
+    cur = to_exec.cursor()
     result = cur.execute('update users set is_delete=1 where id=%s', (id,))
     if result:
-        conn.commit()
+        to_exec.commit()
     else:
         rel = False
-        conn.rollback()
+        to_exec.rollback()
+    conn.to_close()
     return rel
 
 

@@ -5,19 +5,21 @@ from models import ToConn
 
 def change_pwd_model(user_id, new_pw):
     rel = True
-    conn = ToConn().to_execute()
-    cur = conn.cursor()
+    conn = ToConn()
+    to_exec = conn.to_execute()
+    cur = to_exec.cursor()
     sql = 'update users set password=%s where id=%s'
     result = cur.execute(sql, (generate_password_hash(new_pw), user_id))
     if result:
         # 修改成功，提交
-        conn.commit()
-        conn.close()
+        to_exec.commit()
+        to_exec.close()
     else:
         # 失败，回滚
         rel =False
-        conn.rollback()
-        conn.close()
+        to_exec.rollback()
+        to_exec.close()
+    conn.to_close()
     return rel
 
 
@@ -29,16 +31,18 @@ def upload_avatar_model(user_id, img):
     filepath = './static/images/avatar/' + str(user_id) + '.' + str(img_suffix)
     filename = filepath.split('/')[-1]
     img.save(filepath)
-    conn = ToConn().to_execute()
-    cur = conn.cursor()
+    conn = ToConn()
+    to_exec = conn.to_execute()
+    cur = to_exec.cursor()
     result = cur.execute('update users set avatar=%s where id=%s', (filename, user_id))
     if result:
-        conn.commit()
-        conn.close()
+        to_exec.commit()
+        to_exec.close()
     else:
         rel = False
-        conn.rollback()
-        conn.close()
+        to_exec.rollback()
+        to_exec.close()
+    conn.to_close()
     return rel
 
 
@@ -53,17 +57,19 @@ def edit_userinfo_model(user_id, request):
     identity_select = request.form.get('identity_')
     hobbies = request.form.get('hobbies')
     introduce = request.form.get('introduce')
-    conn = ToConn().to_execute()
-    cur = conn.cursor()
+    conn = ToConn()
+    to_exec = conn.to_execute()
+    cur = to_exec.cursor()
     sql = 'update users set name=%s,gender=%s,age=%s,birthday=%s,email=%s,tel=%s,identity=%s,hobbies=%s,' \
           'introduce=%s where id=%s'
     result = cur.execute(sql, (name, gender, age, birthday, email, tel, identity_select, hobbies,
                                introduce, user_id))
     if result:
-        conn.commit()
-        conn.close()
+        to_exec.commit()
+        to_exec.close()
     else:
         rel = False
-        conn.rollback()
-        conn.close()
+        to_exec.rollback()
+        to_exec.close()
+    conn.to_close()
     return rel

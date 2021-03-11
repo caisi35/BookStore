@@ -1,9 +1,8 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import ToMongo, ToConn
 from utils import (
-    get_now,
     get_dawn_timestamp,
-    get_day_time)
+)
 
 
 def user_login_model(username, password):
@@ -49,17 +48,18 @@ def user_register_model(username, password, password_again):
 
 def add_visits(user_id):
     """访问量加1函数"""
+    db_conn = ToMongo()
     dawn_timestamp = get_dawn_timestamp()
-    last_date = ToMongo().get_col('visits').aggregate([{'$group': {'_id': '$_id', 'day': {'$last': '$date'}}}])
+    last_date = db_conn.get_col('visits').aggregate([{'$group': {'_id': '$_id', 'day': {'$last': '$date'}}}])
     date_list = list(last_date)
     # 不为空
     if date_list:
         # 同一天加入
         if date_list[0]['day'] == get_dawn_timestamp():
-            ToMongo().update('visits', {'_id': date_list[0]['_id']}, {'$addToSet': {'users_id': user_id}})
+            db_conn.update('visits', {'_id': date_list[0]['_id']}, {'$addToSet': {'users_id': user_id}})
         else:
             # 不是同一天，插入新的文档
-            ToMongo().insert('visits', {'date': dawn_timestamp, 'users_id': [user_id]})
+            db_conn.insert('visits', {'date': dawn_timestamp, 'users_id': [user_id]})
     else:
         # 为空也插入
-        ToMongo().insert('visits', {'date': dawn_timestamp, 'users_id': [user_id]})
+        db_conn.insert('visits', {'date': dawn_timestamp, 'users_id': [user_id]})

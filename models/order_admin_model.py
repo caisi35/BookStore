@@ -3,14 +3,6 @@ from utils.time_model import (
     get_before_day,
     get_now,
 )
-from utils.constant import (
-    STATUS_0,
-    STATUS_1,
-    STATUS_2,
-    STATUS_3,
-    STATUS_4,
-    STATUS_5
-)
 
 
 def orders_query_model(page, page_size, order_status):
@@ -39,9 +31,11 @@ def orders_query_model(page, page_size, order_status):
     elif order_status == 6:
         query = {'$and': [{'orders_status': order_status},
                           {'is_effective': 1}]}
-    order = ToMongo().get_col('order').find(query).sort('create_time', -1).skip((page - 1) * page_size).limit(page_size)
-    total = ToMongo().get_col('order').find(query).count()
+    db_conn = ToMongo()
+    order = db_conn.get_col('order').find(query).sort('create_time', -1).skip((page - 1) * page_size).limit(page_size)
+    total = db_conn.get_col('order').find(query).count()
     order_list = list(order)
+    db_conn.close_conn()
     return order_list, total
 
 
@@ -70,6 +64,7 @@ def handle_refund(order_no, status, msg):
         pass
     else:
         msg.update({'error': '更新失败'})
+    conn.close_conn()
 
 
 def uptate_status_inc(order_no, status, msg):
@@ -96,6 +91,7 @@ def uptate_status_inc(order_no, status, msg):
         pass
     else:
         msg.update({'error': '更新失败'})
+    conn.close_conn()
 
 
 if __name__ == '__main__':

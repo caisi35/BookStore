@@ -7,14 +7,14 @@ from models.db import (
 
 from utils import (
     get_30_day_before_timestamp,
-    format_time_second,
     format_m_d,
 )
 
 
 def get_sales_data():
     """获取销售量sales的数据"""
-    data = ToMongo().get_col('books').find({'sales': {'$gt': 0}}).sort('sales', -1).limit(10)
+    my_conn = ToMongo()
+    data = my_conn.get_col('books').find({'sales': {'$gt': 0}}).sort('sales', -1).limit(10)
     data_x = []
     data_y = []
     for i in data:
@@ -25,7 +25,8 @@ def get_sales_data():
 
 def get_hits_data():
     """获取点击量hits的数据"""
-    data = ToMongo().get_col('books').find({'hits': {'$gt': 0}}).sort('hits', -1).limit(10)
+    db_conn = ToMongo()
+    data = db_conn.get_col('books').find({'hits': {'$gt': 0}}).sort('hits', -1).limit(10)
     data_x = []
     data_y = []
     for i in data:
@@ -64,7 +65,8 @@ def get_price():
     pipeline = [
         {'$group': {'_id': "", 'max': {'$max': '$price'}, 'min': {'$min': '$price'}}},
     ]
-    max_min = list(ToMongo().get_col('books').aggregate(pipeline))
+    db_conn = ToMongo()
+    max_min = list(db_conn.get_col('books').aggregate(pipeline))
     max = float(max_min[0]['max'])
     min = max_min[0]['min']
     list_n = get_n_avg(min, max)
@@ -74,10 +76,10 @@ def get_price():
         # print(i[0],i[1])
         if i[1] != max:
             qurey = [{'$match': {'price': {'$gte': i[0], '$lt': i[1]}}}, {'$sort': {'price': -1}}]
-            r = ToMongo().get_col('books').aggregate(qurey)
+            r = db_conn.get_col('books').aggregate(qurey)
         else:
             qurey = [{'$match': {'price': {'$gte': i[0], '$lte': i[1]}}}, {'$sort': {'price': -1}}]
-            r = ToMongo().get_col('books').aggregate(qurey)
+            r = db_conn.get_col('books').aggregate(qurey)
         r = list(r)
         book_num.append(len(r))
 
@@ -89,12 +91,14 @@ def get_price():
             except:
                 pass
         sales_num.append(sales)
+    db_conn.close_conn()
     return book_num, sales_num, list_n
 
 
 def get_visits():
     """获取访问量"""
-    col = ToMongo().get_col('visits')
+    db_conn = ToMongo()
+    col = db_conn.get_col('visits')
     # 获取29天的时间差
     date = (datetime.datetime.now() - datetime.timedelta(days=29))
     # 查询大于时间差的数据
@@ -119,6 +123,7 @@ def get_visits():
     for k, v in day_list.items():
         x.append(k)
         y.append(v)
+    db_conn.close_conn()
     return x, y
 
 
@@ -127,7 +132,8 @@ def get_keyword():
     获取搜索关键词数据
     :return:
     """
-    kw = ToMongo().get_col('keyword').find({}, {'_id': 0})
+    db_conn = ToMongo()
+    kw = db_conn.get_col('keyword').find({}, {'_id': 0})
     key = []
     value = []
     for k, v in list(kw)[0].items():

@@ -7,20 +7,24 @@ from .db import (
 
 
 def off_shelf_book_model(book_id, is_restores=False):
+    my_conn = ToMongo()
     book = get_book_for_id(book_id)
     if not is_restores:
-        result = ToMongo().insert('trash', book)
-        ds = ToMongo().delete('books', {'_id': ObjectId(book_id)})
+        result = my_conn.insert('trash', book)
+        ds = my_conn.delete('books', {'_id': ObjectId(book_id)})
     else:
-        result = ToMongo().insert('books', book)
-        ds = ToMongo().delete('trash', {'_id': ObjectId(book_id)})
+        result = my_conn.insert('books', book)
+        ds = my_conn.delete('trash', {'_id': ObjectId(book_id)})
+    my_conn.close_conn()
     return result, ds
 
 
 def book_off_shelf(book_id, is_off_shelf=1):
-    result = ToMongo().update('books',
+    my_conn = ToMongo()
+    result = my_conn.update('books',
                               {'_id': ObjectId(book_id)},
                               {'$set': {'is_off_shelf': is_off_shelf}})
+    my_conn.close_conn()
     return result
 
 
@@ -38,16 +42,20 @@ def edit_book_model(request):
     v = {
         '$set': {'title': title, 'author': author, 'subheading': subheading, 'price': price, 'price_m': price_m,
                  'press': press, 'pub_time': pub_time, 'img_url': img_url}}
-    result = ToMongo().update('books', q, v).modified_count
+    my_conn = ToMongo()
+    result = my_conn.update('books', q, v).modified_count
+    my_conn.close_conn()
     return result
 
 
 def get_book_for_id(id, inserted_id=False):
+    my_conn = ToMongo()
     if inserted_id:
-        book = ToMongo().get_col('books').find({'_id': id.inserted_id})
+        book = my_conn.get_col('books').find({'_id': id.inserted_id})
         book_format = list(book)
     else:
-        book_format = ToMongo().get_col('books').find_one({'_id': ObjectId(id)})
+        book_format = my_conn.get_col('books').find_one({'_id': ObjectId(id)})
+    my_conn.close_conn()
     return book_format
 
 
@@ -75,23 +83,28 @@ def add_book_model(request):
          'pub_time': pub_time,
          'img_url': img_url,
          }
-    result = ToMongo().insert('books', v)
+    my_conn = ToMongo()
+    result = my_conn.insert('books', v)
     return result
 
 
 def get_books_total(page, page_size, is_off_shelf=0):
-    books = ToMongo().get_col('books').find({'is_off_shelf': is_off_shelf}).skip((page - 1) * page_size).limit(
+    my_conn = ToMongo()
+    books = my_conn.get_col('books').find({'is_off_shelf': is_off_shelf}).skip((page - 1) * page_size).limit(
         page_size)
-    total = ToMongo().get_col('books').find({'is_off_shelf': is_off_shelf}).count()
+    total = my_conn.get_col('books').find({'is_off_shelf': is_off_shelf}).count()
+    my_conn.close_conn()
     return list(books), total
 
 
 def get_trash_books_total(page, page_size):
-    books = ToMongo().get_col('trash').find().skip((page - 1) * page_size).limit(page_size)
-    total = ToMongo().get_col('trash').find().count()
+    my_conn = ToMongo()
+    books = my_conn.get_col('trash').find().skip((page - 1) * page_size).limit(page_size)
+    total = my_conn.get_col('trash').find().count()
     return list(books), total
 
 
 def trash_delete_book(book_id):
-    result = ToMongo().delete('trash', {'_id': ObjectId(book_id)})
+    my_conn = ToMongo()
+    result = my_conn.delete('trash', {'_id': ObjectId(book_id)})
     return result

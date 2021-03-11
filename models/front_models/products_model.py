@@ -41,6 +41,7 @@ def get_evaluate(book_id):
         dit['img_path'] = evaluate['img_path']
         dit['create_time'] = format_time_second(evaluate['create_time'])
         lit.append(dit)
+    mydb.close_conn()
     return lit, len(evaluates.get('comment'))
 
 
@@ -54,14 +55,16 @@ def get_user_avatar(user_id):
 def search_book_model(word, page, page_size):
     """搜索图书"""
     # 如果输入不为空
+    db_conn = ToMongo()
     if word:
         # 添加关键字数据到数据库，用与绘制词云图
-        ToMongo().update('keyword', {'_id': 'keyword'}, {'$inc': {word: 1}})
+        db_conn.update('keyword', {'_id': 'keyword'}, {'$inc': {word: 1}})
         books, count = get_like_books(word, page, page_size)
     # 如果输入为空，则显示点击量前十的
     else:
-        books = ToMongo().get_col('books').find().sort('hits', -1).skip((page - 1) * page_size).limit(page_size)
-        count = ToMongo().get_col('books').find().count()
+        books = db_conn.get_col('books').find().sort('hits', -1).skip((page - 1) * page_size).limit(page_size)
+        count = db_conn.get_col('books').find().count()
+    db_conn.close_conn()
     return books, count
 
 
@@ -72,6 +75,7 @@ def get_order_info(user_id, order_no):
     data = {'order_no': myorder.get('order_no'),
             'amount': myorder.get('amount'),
             'create_time': format_time_second(myorder.get('create_time'))}
+    mydb.close_conn()
     return data
 
 
@@ -85,6 +89,7 @@ def pay_model(order_no):
     images.append({'data': zhifubao_image, 'name': '支付宝支付'})
     my_orders = mydb.get_col('order').find({"is_effective": 1, 'order_no': order_no})
     my_orders = list(my_orders)
+    mydb.close_conn()
     return my_orders, images
 
 
@@ -95,7 +100,8 @@ def to_pay_model(user_id, amount, book_ids):
     books = []
     # 获取收货地址,写入订单号详情
     address_cur = ToConn().get_db('select address_default from users where id=%s', (user_id,)).fetchone()
-    address = ToMongo().get_col('address').find_one(
+    db_conn = ToMongo()
+    address = db_conn.get_col('address').find_one(
         {'user_id': user_id, '_id': ObjectId(address_cur['address_default'])})
 
     for book_id in book_ids:
@@ -119,8 +125,7 @@ def to_pay_model(user_id, amount, book_ids):
          "exp_status": 0,
          "logistics": [],  # 物流信息
          }
-    mydb = ToMongo()
-    result = mydb.insert('order', v)
+    result = db_conn.insert('order', v)
     if result:
         db = ToConn()
         conn = db.to_execute()
@@ -136,8 +141,9 @@ def to_pay_model(user_id, amount, book_ids):
             conn.commit()  # 事务提交
             # 销量加1
             for book_id in book_ids:
-                ToMongo().update('books', {'_id': ObjectId(book_id)}, {'$inc': {'sales': 1}})
+                db_conn.update('books', {'_id': ObjectId(book_id)}, {'$inc': {'sales': 1}})
         db.to_close()
+    db_conn.close_conn()
     return order_no
 
 
@@ -145,13 +151,14 @@ def delete_addr(user_id, _id):
     """删除收货地址"""
     conn = ToConn().to_execute()
     cur = conn.cursor()
+    db_conn = ToMongo()
     cur.execute('update users set address_default=null where id=%s and address_default = %s', (user_id, _id))
-    result = ToMongo().delete(col='address', doc={'_id': ObjectId(_id)}).raw_result
+    result = db_conn.delete(col='address', doc={'_id': ObjectId(_id)}).raw_result
     if result['ok'] == 1:
         conn.commit()
     else:
         conn.rollback()
-
+    db_conn.close_conn()
 
 def update_addr(user_id, request):
     """更形收货地址"""
@@ -179,10 +186,11 @@ def update_addr(user_id, request):
     else:
         conn.rollback()
         conn.close()
-
+    mydb.close_conn()
 
 def to_buy_model(user_id, books_id, is_list=True):
     """结算"""
+    db_conn = ToMongo()
     if is_list:
         book_id_list = list(books_id.split(','))
         book_list = []
@@ -198,7 +206,7 @@ def to_buy_model(user_id, books_id, is_list=True):
             if user['address_default'] is None or user['address_default'] is '':
                 addr = {}
             else:
-                address = ToMongo().get_col('address').find({'_id': ObjectId(user['address_default'])})
+                address = db_conn.get_col('address').find({'_id': ObjectId(user['address_default'])})
                 for a in address:
                     addr['name'] = a['name']
                     addr['tel'] = a['tel']
@@ -224,8 +232,10 @@ def to_buy_model(user_id, books_id, is_list=True):
             pay = {'amount_pay': round(sum_price + freight - discount, 2), 'sum_book': sum_book,
                    'freight': freight}
             shipping_time = datetime.now() + timedelta(days=3)
+            db_conn.close_conn()
             return book_list, books_price, pay, shipping_time, addr
         except Exception as e:
+            db_conn.close_conn()
             logging.exception(e)
     else:
         try:
@@ -248,7 +258,7 @@ def to_buy_model(user_id, books_id, is_list=True):
             if user['address_default'] is None or user['address_default'] is '':
                 addr = {}
             else:
-                address = ToMongo().get_col('address').find({'_id': ObjectId(user['address_default'])})
+                address = db_conn.get_col('address').find({'_id': ObjectId(user['address_default'])})
                 for a in address:
                     addr['name'] = a['name']
                     addr['tel'] = a['tel']
@@ -262,8 +272,10 @@ def to_buy_model(user_id, books_id, is_list=True):
             pay = {'amount_pay': round(sum_price + freight - discount, 2), 'sum_book': sum_book,
                    'freight': freight}
             shipping_time = datetime.now() + timedelta(days=3)
+            db_conn.close_conn()
             return book_list, books_price, pay, shipping_time, addr
         except Exception as e:
+            db_conn.close_conn()
             print('========get_buy=========:', e)
 
 
@@ -355,7 +367,8 @@ def get_book(id):
     mycol = mydb.get_col('books')
     book = mycol.find_one({'_id': ObjectId(id)})
     # 添加点击量
-    ToMongo().update('books', {'_id': ObjectId(id)}, {'$inc': {'hits': 1}})
+    mydb.update('books', {'_id': ObjectId(id)}, {'$inc': {'hits': 1}})
+    mydb.close_conn()
     return book
 
 
@@ -367,7 +380,7 @@ def index_model():
     new_books = list(mydb.get_col('books').find().skip(15).limit(12))
     book_top = list(mydb.get_col('books').find().sort("price", -1).limit(5))
     book_top2 = list(mydb.get_col('books').find().sort("sales", -1).limit(5))
-
+    mydb.close_conn()
     return books, new_books, book_top, book_top2
 
 

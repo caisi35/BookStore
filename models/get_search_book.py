@@ -23,6 +23,8 @@ def get_like_books(word, page, page_size, book_type=None):
                                 }).count()
         for book in books:
             book_list.append(book)
+        mydb.close_conn()
         return book_list, count
     except Exception as e:
+        mydb.close_conn()
         print('========get_like_books=========', e)

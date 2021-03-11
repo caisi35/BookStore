@@ -63,8 +63,10 @@ class ToConn:
         关闭链接
         :return:
         """
-        self.connection.cursor().close()
-        self.connection.close()
+        if self.connection.cursor():
+            self.connection.cursor().close()
+        if self.connection:
+            self.connection.close()
 
     def get_cart(self, user_id):
         """
@@ -94,8 +96,11 @@ class ToMongo:
         target_arch: x86_64
     """
     def __init__(self):
-        myclient = pymongo.MongoClient(host=MONGODB_HOST, port=27017, username='root', password=MONGODB_PASSWORD)
-        self.mydb = myclient['bookstore']
+        self.myclient = pymongo.MongoClient(host=MONGODB_HOST, port=27017)
+        self.mydb = self.myclient['bookstore']
+
+    def close_conn(self):
+        self.myclient.close()
 
     def get_col(self, col):
         """
@@ -107,6 +112,7 @@ class ToMongo:
             result = self.mydb[col]
             return result
         except Exception as e:
+            self.myclient.close()
             print('===============get_col===============\n', e)
 
     def update(self, col, query, new, is_one=True):
@@ -126,6 +132,7 @@ class ToMongo:
                 result = mycol.update_many(query, new)
             return result
         except Exception as e:
+            self.myclient.close()
             print('==============update================\n', e)
 
     def insert(self, col, value):
@@ -143,6 +150,7 @@ class ToMongo:
                 result = mycol.insert_many(value)
             return result
         except Exception as e:
+            self.myclient.close()
             print('==============insert================\n', e)
 
     def delete(self, col, doc, is_one=True):
@@ -161,6 +169,7 @@ class ToMongo:
                 result = mycol.delete_many(doc)
             return result
         except Exception as e:
+            self.myclient.close()
             print('==============delete================\n', e)
 
     def get_all_collections(self):
@@ -218,6 +227,7 @@ class ToMongo:
                 dList.append(d)
             return dList
         except Exception as e:
+            self.myclient.close()
             print('==============fuzzy_search================\n', e)
 
     def insert_img(self, filename, data):
@@ -253,4 +263,5 @@ class ToMongo:
             #     file.close()
             return img.get('data')
         except Exception as e:
+            self.myclient.close()
             print('==============get_img================\n', e)

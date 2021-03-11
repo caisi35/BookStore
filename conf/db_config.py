@@ -1,5 +1,5 @@
-MYSQL_HOST = 'mysql'
+MYSQL_HOST = 'localhost'
 MYSQL_PASSWORD = 'root'
 
-MONGODB_HOST = 'mongo'
+MONGODB_HOST = 'localhost'
 MONGODB_PASSWORD = 'root'
