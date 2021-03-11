@@ -132,3 +132,8 @@ dmypy.json
 
 demo
 .docker-compose.yml.sw*
+
+db.py
+models/db.py
+/models/db.py
+./models/db.py
