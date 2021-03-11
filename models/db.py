@@ -2,14 +2,15 @@ import pymysql.cursors
 import pymongo
 from bson.code import Code
 
+from conf.db_config import *
 
 class ToConn:
     """mysql  Ver 15.1 Distrib 10.0.24-MariaDB, for debian-linux-gnu (x86_64) using readline 5.2"""
     def __init__(self):
         self.connection = pymysql.connect(
-            host='mysql',
+            host=MYSQL_HOST,
             user='root',
-            password='root',
+            password=MYSQL_PASSWORD,
             db='bookstore',
             charset='utf8mb4',
             cursorclass=pymysql.cursors.DictCursor
@@ -93,7 +94,7 @@ class ToMongo:
         target_arch: x86_64
     """
     def __init__(self):
-        myclient = pymongo.MongoClient(host="mongo", port=27017, username='root', password='root')
+        myclient = pymongo.MongoClient(host=MONGODB_HOST, port=27017, username='root', password=MONGODB_PASSWORD)
         self.mydb = myclient['bookstore']
 
     def get_col(self, col):
