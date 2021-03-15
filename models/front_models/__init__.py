@@ -40,7 +40,6 @@ from .products_model import (
 from .orders_model import (
     get_user_orders_model,
     user_delete_order,
-    delete_orders_model,
     get_order_details_model,
     get_badge_model,
     cancel_model,

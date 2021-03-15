@@ -47,10 +47,16 @@
                     <td>{{ d.order_no }}</td>
                     <td>{{ d.user_id }}</td>
                     <td>{{ d.create_time }}</td>
-                    <td>{% for foo in d.books %}
-                        图书ID：{{ foo.book_id }}<br>
-                        图书数量：{{ foo.book_num }}<br>
-                    {% endfor %}
+                    <td>
+                        {% for foo in d.books %}
+                            图书ID：{{ foo.book_id }}<br>
+                            图书数量：{{ foo.book_num }}
+                            <button class="btn btn-primary" type="button"
+                                    data-toggle="collapse" data-target="#{{ foo.book_id }}"
+                                    aria-expanded="false" aria-controls="collapseExample">
+                                <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+                            </button><br>
+                        {% endfor %}
                     </td>
                     <td>
                         收货人：{{ d.address.name }}<br>
@@ -82,7 +88,30 @@
             </tbody>
         </table>
     </div>
-
+    {% for book in books %}
+        <div class="collapse" id="{{ book.book._id }}">
+            <div class="well col-md-12">
+                <div class="col-md-1">
+                    <img src="{{ book.book.img_url }}" style="height: 100px">
+                </div>
+                <div class="col-md-3">
+                    <p>{{ book.book.title }}</p>
+                    <p>售价：{{ book.book.price }}￥</p>
+                    <p style="text-decoration:line-through">原价：{{ book.book.price_m }}￥</p>
+                </div>
+                <div class="col-md-3">
+                    <p>{{ book.book.ISBN }}</p>
+                    <p>种类：{{ book.book.category }}</p>
+                    <p>类型：{{ book.book.type }}</p>
+                </div>
+                <div class="col-md-3">
+                    <p>出版社{{ book.book.press }}</p>
+                    <p>{{ book.book.pub_time }}</p>
+                    <p>作者：{{ book.book.author }}</p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
     <div id="pages">
     </div>
 

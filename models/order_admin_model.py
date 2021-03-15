@@ -1,3 +1,4 @@
+from bson.objectid import ObjectId
 from models.db import ToMongo
 from utils.time_model import (
     get_before_day,
@@ -26,8 +27,7 @@ def orders_query_model(page, page_size, order_status):
                           {'is_effective': 1}]}
     elif order_status == 5:
         # 失效订单
-        query = {"$and": [{'create_time': {'$lt': get_before_day()}},
-                          {'orders_status': {"$nin": [1, 2, 3, 4]}}]}
+        query = {"$or": [{'orders_status': order_status}]}
     elif order_status == 6:
         query = {'$and': [{'orders_status': order_status},
                           {'is_effective': 1}]}
@@ -35,8 +35,15 @@ def orders_query_model(page, page_size, order_status):
     order = db_conn.get_col('order').find(query).sort('create_time', -1).skip((page - 1) * page_size).limit(page_size)
     total = db_conn.get_col('order').find(query).count()
     order_list = list(order)
+    books = []
+    for order in order_list:
+        for book in order.get('books'):
+            id = book.get('book_id')
+            book_num = book.get('book_num')
+            book = db_conn.get_col('books').find_one({'_id': ObjectId(id)})
+            books.append({'book': book, 'num': book_num})
     db_conn.close_conn()
-    return order_list, total
+    return order_list, total, books
 
 
 def order_handle_model(order_no, status, msg):

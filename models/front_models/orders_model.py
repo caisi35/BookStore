@@ -9,6 +9,9 @@ from models import (
 from models import get_book_for_id
 
 
+AUTO_RECEIVE = 15*60*60*24
+
+
 def get_badge_model(user_id):
     status = [[0], [1], [2], [3]]
     badge = {}
@@ -66,27 +69,27 @@ def get_order_details_model(order_no, user_id):
     return order_dict
 
 
-def delete_orders_model(user_id, orders_no):
-    """用户删除多个订单"""
-    rel = False
-    db = ToMongo()
-    count = 0
-    for order_no in orders_no:
-        result = db.delete('order', {'order_no': order_no, 'user_id': user_id}).deleted_count
-        count += result
-    if count == len(orders_no):
-        # 删除成功
-        rel = True
-    db.close_conn()
-    return rel
+# def delete_orders_model(user_id, orders_no):
+#     """用户删除多个订单"""
+#     rel = False
+#     db = ToMongo()
+#     count = 0
+#     for order_no in orders_no:
+#         result = db.delete('order', {'order_no': order_no, 'user_id': user_id}).deleted_count
+#         count += result
+#     if count == len(orders_no):
+#         # 删除成功
+#         rel = True
+#     db.close_conn()
+#     return rel
 
 
 def user_delete_order(user_id, order_no):
     """用户删除单个订单"""
     rel = False
     db_conn = ToMongo()
-    result = db_conn.delete('order', {'order_no': order_no, 'user_id': user_id})
-    if result.deleted_count:
+    result = db_conn.update('order', {'order_no': order_no, 'user_id': user_id}, {'$set': {'is_effective': 0}})
+    if result.modified_count:
         # 删除成功
         rel = True
     db_conn.close_conn()
@@ -119,6 +122,11 @@ def get_orders(user_id, status):
         effective_time = order['create_time'] + ORDER_EFFECTIVE_TIME
         books = order['books']
         book_info = []
+        # 15天自动确认收货
+        if status == 2 and create_time + AUTO_RECEIVE < get_now():
+            rel = update_status_user_id(order_no, user_id)
+            if rel.modified_count:
+                status = 3
         for book in books:
             book_num = book['book_num']
             # 图书下架后get_book查询不到信息，会抛出错误

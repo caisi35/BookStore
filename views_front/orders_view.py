@@ -6,7 +6,6 @@ from views_front.user import login_required
 from models.front_models import (
     get_user_orders_model,
     user_delete_order,
-    delete_orders_model,
     get_order_details_model,
     get_badge_model,
     cancel_model,
