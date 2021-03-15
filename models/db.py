@@ -96,7 +96,10 @@ class ToMongo:
         target_arch: x86_64
     """
     def __init__(self):
-        self.myclient = pymongo.MongoClient(host=MONGODB_HOST, port=27017)
+        if DEPLOY:
+            self.myclient = pymongo.MongoClient(host=MONGODB_HOST, port=27017, username='root', password=MONGODB_PASSWORD)
+        else:
+            self.myclient = pymongo.MongoClient(host=MONGODB_HOST, port=27017)
         self.mydb = self.myclient['bookstore']
 
     def close_conn(self):
