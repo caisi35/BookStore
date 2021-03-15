@@ -25,12 +25,13 @@ def get_evaluate(book_id):
     mydb = ToMongo()
     evaluates = mydb.get_col('evaluate').find_one({'_id': ObjectId(book_id)})
     lit = []
+    star_dict = {'praise': 0, 'negative': 0, 'mid': 0}
     try:
         eval_comment = evaluates.get('comment')
     except AttributeError:
-        return [], 0
+        return [], 0, star_dict
     for evaluate in eval_comment:
-        print(evaluate)
+        # print(evaluate)
         dit = {}
         # dit['order_no'] = evaluate['order_no']
         dit['star'] = evaluate['star']
@@ -41,8 +42,23 @@ def get_evaluate(book_id):
         dit['img_path'] = evaluate['img_path']
         dit['create_time'] = format_time_second(evaluate['create_time'])
         lit.append(dit)
+    evaluates_details = get_evaluates_details(mydb, book_id, star_dict)
     mydb.close_conn()
-    return lit, len(evaluates.get('comment'))
+    return lit, len(evaluates.get('comment')), star_dict
+
+
+def get_evaluates_details(db, id, star_dict):
+    r = db.get_col('evaluate').find_one({'_id': ObjectId(id)})
+    for i in r.get('comment'):
+        print(i)
+        if i.get('star') in [4, 5]:
+            star_dict['praise'] += 1
+        elif i.get('star') in [1, 2]:
+            star_dict['negative'] += 1
+        else:
+            star_dict['mid'] += 1
+    print(star_dict)
+    return star_dict
 
 
 def get_user_avatar(user_id):
@@ -93,17 +109,15 @@ def pay_model(order_no):
     return my_orders, images
 
 
-def to_pay_model(user_id, amount, book_ids):
+def to_pay_model(user_id, amount, book_ids, addr_id):
     """去支付"""
     create_time = int(time.time())
     order_no = create_orders()
     books = []
     # 获取收货地址,写入订单号详情
-    address_cur = ToConn().get_db('select address_default from users where id=%s', (user_id,)).fetchone()
     db_conn = ToMongo()
     address = db_conn.get_col('address').find_one(
-        {'user_id': user_id, '_id': ObjectId(address_cur['address_default'])})
-
+        {'user_id': user_id, '_id': ObjectId(addr_id)})
     for book_id in book_ids:
         db = ToConn()
         sql = 'select book_num from cart where user_id=%s and book_id=%s and is_effe=1'
@@ -160,6 +174,7 @@ def delete_addr(user_id, _id):
         conn.rollback()
     db_conn.close_conn()
 
+
 def update_addr(user_id, request):
     """更形收货地址"""
     name = request.form.get('name')
@@ -187,6 +202,7 @@ def update_addr(user_id, request):
         conn.rollback()
         conn.close()
     mydb.close_conn()
+
 
 def to_buy_model(user_id, books_id, is_list=True):
     """结算"""
@@ -385,5 +401,5 @@ def index_model():
 
 
 if __name__ == '__main__':
-    print(get_evaluate('5ee986fa360d930a489dcf60'))
+    print(get_evaluate('5ee97dc6360d930a489dc564'))
     # print(get_user_avatar(5))

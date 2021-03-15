@@ -48,19 +48,15 @@ def index():
 def product(id):
     """展示product图书详情页"""
     book = get_book(id)
-    evaluates, total = get_evaluate(id)
+    evaluates, total, evaluates_details = get_evaluate(id)
     book_type_list = choice_book_type()
     return render_template('front/index_products/product.html',
                            book=book,
                            book_type_list=book_type_list,
                            evaluates= evaluates,
                            total=total,
+                           evaluates_details=evaluates_details
                            )
-
-
-@bp.route('/evaluate')
-def evaluate():
-    return 'a'
 
 
 @bp.route('/product/add_to_cart', methods=['GET'])
@@ -173,8 +169,9 @@ def to_pay():
     """结算页面的去支付方法"""
     amount = request.form.get('amount_pay', 0.0, float)
     book_ids = request.form.getlist('books[]')
+    addr_id = request.form.get('addr_id')
     user_id = session.get('user_id')
-    order_no = to_pay_model(user_id, amount, book_ids)
+    order_no = to_pay_model(user_id, amount, book_ids, addr_id)
     return jsonify(result=order_no)
 
 

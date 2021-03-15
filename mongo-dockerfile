@@ -11,7 +11,7 @@ ENV INSTALL_MONGO_SHELL mongo-setup.sh
 
 RUN mkdir -p $WORKSPACE
 
-COPY ./script/data/bookstore $WORKSPACE/bookstore
+COPY ./script/data/mongo/init/bookstore $WORKSPACE/bookstore
 COPY ./script/data/mongo/init/$INSTALL_MONGO_SHELL $AUTO_RUN_DIR/
 
 RUN chmod a+x $AUTO_RUN_DIR/$INSTALL_MONGO_SHELL

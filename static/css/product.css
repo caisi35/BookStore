@@ -216,6 +216,6 @@ button#calculate:hover {
 }
 
 .evaluate{
-    height: 280px;
+    /*height: 200px;*/
     border: 1px solid #8fd19e;
 }

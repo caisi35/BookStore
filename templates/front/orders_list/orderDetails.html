@@ -80,7 +80,13 @@
                 </div>
 
                 <div class="info delete right">
-                    <a onclick="deleteOrder('{{ order_details.order_no }}')" class="btn btn-default">删除订单</a>
+                    {% if order_details.status in [4, 5, 6] %}
+                        <a onclick="deleteOrder('{{ order_details.order_no }}')" class="btn btn-default">删除订单</a>
+                    {% elif order_details.status == 0 %}
+                        <a href="{{ url_for('orders.cancel', order_no=order_details.order_no) }}" class="btn btn-default">取消交易</a>
+                    {% else %}
+                        <a href="{{ url_for('orders.refund', order_no=order_details.order_no) }}" class="btn btn-info">申请退款</a>
+                    {% endif %}
                 </div>
                 <div class="info right create-time">
                     <span id="{{ order_details.order_no }}"

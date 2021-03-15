@@ -69,15 +69,18 @@
             <div class="text-center">
                 <h3>用户评论</h3>
             </div>
-            <hr>
+{#            <hr>#}
             <div >
-                <div>
-                    <span>全部：{{ total }}</span>
-                </div>
+                <span class="col-md-2 col-md-offset-1">全部：{{ total }}</span>
+                <span class="col-md-2">好评：{{ evaluates_details.get('praise') }}</span>
+                <span class="col-md-2">中评：{{ evaluates_details.get('mid') }}</span>
+                <span class="col-md-2">差评：{{ evaluates_details.get('negative') }}</span>
+            </div>
+            <div class="col-md-12">
                 <ul>
                     {% for evaluate in evaluates %}
                         <li>
-                            <div class="evaluate">
+                            <div class="col-md-12 evaluate">
                                 <div class="col-md-10">
                                     <br>
                                     <div>
@@ -91,12 +94,15 @@
                                         <p>{{ evaluate.context }}</p>
                                     </div>
                                     <div class="evaluate-img">
+                                        {% if evaluate.img_path %}
                                         <img src="{{ evaluate.img_path }}" alt="评论图片" title="评论图片">
+                                        {% endif %}
                                     </div>
                                     <br>
                                     <div class="create-time">
                                         <span>{{ evaluate.create_time }}</span>
                                     </div>
+                                    <br>
                                 </div>
                                 <div class="col-md-2 text-center">
                                     <br>

@@ -34,7 +34,7 @@
                            onclick="javascrip:return confirm('您确定要将该物品上架？')">上架</a>
                         <a type="button" class="btn btn-danger" role="button"
                            href="/admin/bookAdmin/off_shelf_book_trash?book_id={{book['_id'] }}"
-                           onclick="javascrip:return confirm('您确定要将该物品加入回收站？')">加入回收站</a>
+                           onclick="javascrip:return confirm('您确定要将该物品删除？')">删除</a>
                     </td>
                     {% for message in get_flashed_messages() %}
                         <td class="flash text-center"><b>{{ message }}</b></td>

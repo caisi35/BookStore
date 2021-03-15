@@ -3,7 +3,7 @@
 {% block title %}回收站{% endblock %}
 
 {% block main %}
-    <h2 class="sub-header">回收站列表</h2>
+    <h2 class="sub-header">已删除列表</h2>
     {% if books %}
         <div class="table-responsive">
             <table class="table table-striped">
@@ -31,10 +31,10 @@
                         <td>
                             <a type="button" class="btn btn-primary" role="button"
                                href="{{ url_for('bookAdmin.off_shelf_book_trash' , book_id=book['_id']) }}"
-                               onclick="javascrip:return confirm('您确定要将该物品还原？')">还原</a>
+                               onclick="javascrip:return confirm('您确定要还原？')">还原</a>
                             <a type="button" class="btn btn-danger" role="button"
                                href="{{ url_for('bookAdmin.trash_delete' , book_id=book['_id']) }}"
-                               onclick="javascrip:return confirm('您确定要将该物品删除？')">删除</a>
+                               onclick="javascrip:return confirm('您确定要永久删除？')">永久删除</a>
                         </td>
                         {% for message in get_flashed_messages() %}
                             <td class="flash text-center"><b>{{ message }}</b></td>
@@ -67,10 +67,10 @@
                         <td>
                             <a type="button" class="btn btn-primary" role="button"
                                href="{{ url_for('userAdmin.restores_user' , user_id=user.id) }}"
-                               onclick="javascrip:return confirm('您确定要将该物品还原？')">还原</a>&nbsp;&nbsp;
+                               onclick="javascrip:return confirm('您确定要还原？')">还原</a>&nbsp;&nbsp;
                             &nbsp;
                             <button type="button" class="btn btn-danger" onclick="deleteUser('{{ user.id }}')">
-                                删除
+                                永久删除
                             </button>
                         </td>
                     </tr>

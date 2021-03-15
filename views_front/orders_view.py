@@ -98,6 +98,7 @@ def deleteOrder():
 @bp.route('/cancel')
 @login_required
 def cancel():
+    """取消订单"""
     order_no = request.args.get('order_no')
     user_id = session.get('user_id')
     result = cancel_model(order_no, user_id)
@@ -109,6 +110,7 @@ def cancel():
 @bp.route('/refund')
 @login_required
 def refund():
+    """退款申请"""
     order_no = request.args.get('order_no')
     user_id = session.get('user_id')
     result = refund_model(order_no, user_id)
@@ -120,6 +122,7 @@ def refund():
 @bp.route('/evaluate', methods=['GET', 'POST'])
 @login_required
 def evaluate():
+    """评论"""
     if request.method == 'GET':
         order_no = request.args.get('order_no')
         return render_template('front/orders_list/evaluate.html',
@@ -149,6 +152,7 @@ def evaluate():
 @bp.route('/receive', methods=['GET', 'POST'])
 @login_required
 def receive():
+    """确认收货"""
     user_id = session.get('user_id')
     order_no = request.args.get('order_no')
     try:

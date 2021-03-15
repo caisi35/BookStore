@@ -15,7 +15,7 @@ from models import (
 )
 
 bp = Blueprint('admin', __name__, url_prefix='/admin')
-REMOTE_HOST = "/static/assets/js"
+REMOTE_HOST = "/static/js/assets/js"
 
 
 @bp.route('/', methods=('GET', 'POST'))

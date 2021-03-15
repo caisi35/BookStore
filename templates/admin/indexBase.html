@@ -17,12 +17,10 @@
     {% for jsfile_name in script_list_bar %}
         <script src="{{ url_for('static', filename='/assets/js/'+jsfile_name+'.js') }}"></script>
     {% endfor %}
-    {% for jsfile_name in script_list_kw_wc %}
-        <script src="{{ host }}/{{ jsfile_name }}.js"></script>
-    {% endfor %}
+    <script src="{{url_for('static', filename='js/admin/echarts.min.js') }}"></script>
+    <script src="{{url_for('static', filename='js/admin/echarts-wordcloud.min.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/pagination.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/dropdown_nav.css') }}">
-
     <script src="{{ url_for('static', filename='js/pagination.js') }}"></script>
 {#    <link rel="stylesheet" href="https://www.jq22.com/demo/Bootstrapcbcd201908172252/css/style.css">#}
     {#    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>#}
@@ -84,7 +82,7 @@
                         <li class="{% if status == 0 %}active{% endif %}">
                             <a href="{{ url_for('orderAdmin.order_admin', status=0) }}">待付款订单</a>
                         </li>
-                        <li class="{% if status == 0 %}active{% endif %}">
+                        <li class="{% if status == 6 %}active{% endif %}">
                             <a href="{{ url_for('orderAdmin.order_admin', status=6) }}">待退款订单</a>
                         </li>
                         <li class="{% if status == 2 %}active{% endif %}">
