@@ -40,6 +40,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - .:/code
+      - /etc/localtime:/etc/localtime
     expose:
       - 8000
     links:
