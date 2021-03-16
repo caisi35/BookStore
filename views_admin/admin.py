@@ -1,4 +1,5 @@
 import traceback
+import logging
 from flask import (
     Blueprint,
     render_template,
@@ -13,8 +14,11 @@ from models import (
     hits_bar,
     sales_bar,
 )
+from utils import Logger
 
 bp = Blueprint('admin', __name__, url_prefix='/admin')
+
+Logger('admin_index_DV.log')
 REMOTE_HOST = "/static/js/assets/js"
 
 
@@ -29,20 +33,20 @@ def admin():
         sales = sales_bar()
         inte_sales_bar = inte_sales_stack()
         kw_wc = keyword_wordcloud()
-
-        return render_template('admin/indexBase.html',
-                               page_active="index",
-                               myvisitsscatter=visitsscatter.render_embed(),
-                               myvisits_pie=visits_pie.render_embed(),
-                               myhitsbar=bar.render_embed(),
-                               script_list_bar=bar.get_js_dependencies(),
-                               mysalesbar=sales.render_embed(),
-                               myinte_sales=inte_sales_bar.render_embed(),
-                               mykw_wc=kw_wc.render_embed(),
-                               script_list_kw_wc=kw_wc.get_js_dependencies(),
-                               host=REMOTE_HOST,
-                               )
     except Exception as e:
-        print('==============Admin data visual=================', e)
         traceback.print_exc()
+        logging.exception('admin index DV [Exception]:%s', e)
         return 'Error:' + str(e)
+    return render_template('admin/indexBase.html',
+                           page_active="index",
+                           myvisitsscatter=visitsscatter.render_embed(),
+                           myvisits_pie=visits_pie.render_embed(),
+                           myhitsbar=bar.render_embed(),
+                           script_list_bar=bar.get_js_dependencies(),
+                           mysalesbar=sales.render_embed(),
+                           myinte_sales=inte_sales_bar.render_embed(),
+                           mykw_wc=kw_wc.render_embed(),
+                           script_list_kw_wc=kw_wc.get_js_dependencies(),
+                           host=REMOTE_HOST,
+                           )
+
