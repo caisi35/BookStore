@@ -18,7 +18,6 @@ from models.front_models import (
     delete_addr,
     to_pay_model,
     pay_model,
-    get_order_info,
     search_book_model,
     get_evaluate,
 )
@@ -189,40 +188,24 @@ def pay():
         return abort(403)
 
 
-# @bp.route('/order', methods=('GET', 'POST'))
-# @login_required
-# def order():
-#     """订单号"""
-#     try:
-#         order_no = request.args.get('order_no', '')
-#         user_id = session.get('user_id')
-#         data = get_order_info(user_id, order_no)
-#         return render_template('front/orders_list/../demo/demo_html/order.html', order_no=data)
-#     except Exception as e:
-#         print('========order=========:', e)
-#         return abort(403)
-
-
 @bp.route('/search', methods=('GET',))
 def search():
     """搜索功能"""
+    word = request.values.get('word')
+    page = request.values.get('page', 0, type=int)
+    page_size = request.values.get('page_size', 15, type=int)
     try:
-        word = request.values.get('word')
-        page = request.values.get('page', 1, type=int)
-        page_size = request.values.get('page_size', 15, type=int)
         books, count = search_book_model(word, page, page_size)
-        book_type_list = choice_book_type()
-        return render_template('front/index_products/search.html',
-                               def_url=inspect.stack()[0][3],
-                               books=books,
-                               key_word=word,
-                               active_page=page,
-                               total=count,
-                               page_size=page_size,
-                               page_count=5,
-                               book_type_list=book_type_list,
-                               search=True,
-                               )
     except Exception as e:
-        print('=========search=========', e)
+        logging.exception('front -> products -> search -> search_book_model [Exception]:%s', e)
         return redirect('/')
+    return render_template('front/index_products/search.html',
+                           def_url=inspect.stack()[0][3],
+                           books=books,
+                           key_word=word,
+                           active_page=page,
+                           total=count,
+                           page_size=page_size,
+                           page_count=5,
+                           search=True,
+                           )

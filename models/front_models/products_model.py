@@ -70,15 +70,15 @@ def get_user_avatar(user_id):
 
 def search_book_model(word, page, page_size):
     """搜索图书"""
-    # 如果输入不为空
     db_conn = ToMongo()
+    # 如果输入不为空
     if word:
         # 添加关键字数据到数据库，用与绘制词云图
         db_conn.update('keyword', {'_id': 'keyword'}, {'$inc': {word: 1}})
         books, count = get_like_books(word, page, page_size)
     # 如果输入为空，则显示点击量前十的
     else:
-        books = db_conn.get_col('books').find().sort('hits', -1).skip((page - 1) * page_size).limit(page_size)
+        books = db_conn.get_col('books').find().sort('hits', -1).skip(page * page_size).limit(page_size)
         count = db_conn.get_col('books').find().count()
     db_conn.close_conn()
     return books, count
