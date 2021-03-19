@@ -44,4 +44,5 @@ from .admin_user_model import (
 from .admin_login_model import (
     admin_login_model,
     clear_user_count,
+    admin_register,
 )

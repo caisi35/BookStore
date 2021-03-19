@@ -16,6 +16,8 @@ create table users
   password   varchar(128)                        not null,      comment 用户手密码
   createtime timestamp default CURRENT_TIMESTAMP null,          comment 用户注册时间
   address_default varchar(24) null,                             comment 用户默认收货人信息对应mongodb数据库的_id
+  is_delete  int                                 0              comment 已删除
+
   constraint email
     unique (email),
   constraint tel
@@ -73,6 +75,7 @@ books{
     title       图书标题名
     subheading  简介
     author      作者
+    is_off_shelf    已下架
 }
 ******images集合 保存图片数据******
 images{
@@ -118,4 +121,12 @@ address{
     details         备注
 }
 
-
+******admin 保存管理员信息******
+admin{
+        'email': email,
+        'password': generate_password_hash(password),
+        'is_effective': 1,
+        'last_signIn_time': 0,
+        'create_time': get_now(),
+        'sign_count': 0
+}

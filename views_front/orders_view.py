@@ -101,7 +101,7 @@ def cancel():
     order_no = request.args.get('order_no')
     user_id = session.get('user_id')
     result = cancel_model(order_no, user_id)
-    if result:
+    if not result:
         flash('错误，请重试！')
     return redirect(request.referrer)
 

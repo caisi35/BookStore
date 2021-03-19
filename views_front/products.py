@@ -2,7 +2,7 @@ import inspect
 import logging
 from werkzeug.exceptions import abort
 from flask import (
-    Blueprint, redirect, render_template, request, url_for, session, jsonify
+    Blueprint, redirect, render_template, request, url_for, session, jsonify, flash
 )
 from models.choice_type import choice_book_type
 from models.front_models import (
@@ -95,7 +95,10 @@ def add_numbers():
     """购物车图书数量修改"""
     input_count = request.form.get('count_', 0, type=int)
     method = request.form.get('method_', '', type=str)
-    book_id = request.form.get('book_id', '', type=str)
+    if method == 'deletes':
+        book_id = request.form.getlist('book_id[]')
+    else:
+        book_id = request.form.get('book_id', '', type=str)
     user_id = session.get('user_id')
     count = edit_cart_num(user_id, book_id, input_count, method)
     logging.info('%s change cart num from %s to %s.', user_id, input_count, count)
@@ -132,6 +135,7 @@ def buy():
                                addr=addr,
                                shipping_time=shipping_time)
     except Exception as e:
+        flash('有已下架图书？请删除后重试～')
         logging.error('buy find error: %s', e)
         return redirect(url_for('products.cart'))
 

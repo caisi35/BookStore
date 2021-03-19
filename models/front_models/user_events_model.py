@@ -9,7 +9,7 @@ def user_login_model(username, password):
     db = ToConn()
     error = None
     user = db.get_db(
-        'select * from users where tel = %s', (username,)
+        'select * from users where tel = %s and is_delete = 0', (username,)
     ).fetchone()
     if user is None:
         error = 'Incorrect username or password'

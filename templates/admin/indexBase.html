@@ -14,15 +14,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <link href="/static/css/admin/dashboard.css" rel="stylesheet">
-    {% for jsfile_name in script_list_bar %}
-        <script src="{{ url_for('static', filename='/assets/js/'+jsfile_name+'.js') }}"></script>
-    {% endfor %}
-    <script src="{{url_for('static', filename='js/admin/echarts.min.js') }}"></script>
-    <script src="{{url_for('static', filename='js/admin/echarts-wordcloud.min.js') }}"></script>
+    {#    {% for jsfile_name in script_list_bar %}#}
+    {#        <script src="{{ url_for('static', filename='/js/admin/js/'+jsfile_name+'.js') }}"></script>#}
+    {#    {% endfor %}#}
+    <script src="{{ url_for('static', filename='js/admin/echarts.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/admin/echarts-wordcloud.min.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/pagination.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/dropdown_nav.css') }}">
     <script src="{{ url_for('static', filename='js/pagination.js') }}"></script>
-{#    <link rel="stylesheet" href="https://www.jq22.com/demo/Bootstrapcbcd201908172252/css/style.css">#}
+    {#    <link rel="stylesheet" href="https://www.jq22.com/demo/Bootstrapcbcd201908172252/css/style.css">#}
     {#    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>#}
 </head>
 <body>
@@ -69,12 +69,13 @@
 
             <ul class="nav nav-sidebar sidebar-nav">
 
-{#                <li class="{% if page_active == 'process' %}#}
-{#                    active#}
-{#                {% endif %}" role="presentation"><a href="{{ url_for('orderAdmin.process') }}" data-toggle="collapse"#}
-{#                                                    data-target="#list">订单管理</a></li>#}
+                {#                <li class="{% if page_active == 'process' %}#}
+                {#                    active#}
+                {#                {% endif %}" role="presentation"><a href="{{ url_for('orderAdmin.process') }}" data-toggle="collapse"#}
+                {#                                                    data-target="#list">订单管理</a></li>#}
                 <li class="dropdown {% if is_order %}open{% endif %} {% if page_active == 'order_admin' %}active{% endif %}">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-fw fa-plus"></i> 订单管理 <span class="caret"></span> </a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-fw fa-plus"></i> 订单管理
+                        <span class="caret"></span> </a>
                     <ul class="dropdown-menu nav-sidebar" role="menu">
                         <li class="{% if status == 1 %}active{% endif %}">
                             <a href="{{ url_for('orderAdmin.order_admin', status=1) }}">待发货订单</a>
@@ -129,6 +130,9 @@
 
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             {% block main %}
+                {% for message in get_flashed_messages() %}
+                    <div class="alert alert-warning text-center"><b>{{ message }}</b></div>
+                {% endfor %}
                 <h1 class="page-header">可视化</h1>
                 <div class="row placeholders">
                     <div class="col-xs-12 col-sm-12 col-md-12 placeholder">

@@ -104,6 +104,27 @@ $(function () {
             countAll();//最后的总数量
         });
     });
+    $(".delete-book").each(function () {//点击删除的按钮
+        $(this).click(function () {
+            if (confirm("您确定要移除物品？")) {
+                // 获取所有book id
+                var book_ids = new Array();
+                var inputs = document.getElementsByName("checkbox1");
+                var is_checked = false;
+                for (var i = 0; i < inputs.length; i++) {
+                    if (inputs[i].checked === true) {
+                        book_ids.push($(inputs[i]).next().val());
+                        is_checked = true;
+                    }
+                }
+                count = adds(0, 'deletes', book_id = book_ids);
+                console.log(count);
+                if (count){
+                    window.location.reload();
+                }
+            }
+        });
+    });
     // {#当刷新页面后统计选中着的total countAll#}
     window.onload = function () {
         //合计
@@ -204,7 +225,7 @@ function to_buy() {
     }
     if (is_checked) {
         window.location.href = $SCRIPT_ROOT + '/buy_list?book_id=' + book_ids;
-    }else {
+    } else {
         alert('您还没有选中物品呢,请选择您的物品！')
     }
 }

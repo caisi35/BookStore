@@ -4,7 +4,7 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 
-from views_admin.signIn import admin_login_required
+from views_admin.signIn import admin_login_required, admin_auth
 from models import (
     get_books_total,
     add_book_model,
@@ -24,7 +24,7 @@ bp = Blueprint('bookAdmin', __name__, url_prefix='/admin/bookAdmin')
 
 
 @bp.route('/', methods=('GET', 'POST'))
-@admin_login_required
+@admin_auth(auth_list=['book_admin', 'admin'])
 def bookAdmin():
     """加载图书管理页"""
     page = request.args.get('page', 1, int)
@@ -46,7 +46,7 @@ def bookAdmin():
 
 
 @bp.route('/add_book', methods=('GET', 'POST'))
-@admin_login_required
+@admin_auth(auth_list=['book_admin', 'admin'])
 def add_book():
     """添加图书"""
     if request.method == 'POST':
@@ -71,7 +71,7 @@ def add_book():
 
 
 @bp.route('/search_book', methods=('GET',))
-@admin_login_required
+@admin_auth(auth_list=['book_admin', 'admin'])
 def search_book():
     """搜索模糊匹配功能"""
     page_size = 20
@@ -93,7 +93,7 @@ def search_book():
 
 
 @bp.route('/bookDetails', methods=('GET', 'POST'))
-@admin_login_required
+@admin_auth(auth_list=['book_admin', 'admin'])
 def bookDetails():
     """图书详情"""
     book_id = request.args.get('book_id', '')
@@ -107,7 +107,7 @@ def bookDetails():
 
 
 @bp.route('/editBook', methods=('GET', 'POST'))
-@admin_login_required
+@admin_auth(auth_list=['book_admin', 'admin'])
 def editBook():
     """编辑图书"""
     if request.method == 'POST':
@@ -139,7 +139,7 @@ def editBook():
 
 
 @bp.route('/off_shelf', methods=('GET', 'POST'))
-@admin_login_required
+@admin_auth(auth_list=['book_admin', 'admin'])
 def off_shelf():
     """将图书下架"""
     book_id = request.args.get('book_id')
@@ -154,7 +154,7 @@ def off_shelf():
 
 
 @bp.route('/off_shelf_books', methods=('GET', 'POST'))
-@admin_login_required
+@admin_auth(auth_list=['book_admin', 'admin'])
 def off_shelf_books():
     """已下架的图书"""
     page = request.args.get('page', 1, int)
@@ -176,7 +176,7 @@ def off_shelf_books():
 
 
 @bp.route('/on_shelf', methods=('GET', 'POST'))
-@admin_login_required
+@admin_auth(auth_list=['book_admin', 'admin'])
 def on_shelf():
     """将已经下架的图书重新上架"""
     book_id = request.args.get('book_id')
@@ -192,7 +192,7 @@ def on_shelf():
 
 @bp.route('/off_shelf_book_trash', methods=('GET', 'POST'))
 @bp.route('/restores', methods=('GET', 'POST'))
-@admin_login_required
+@admin_auth(auth_list=['book_admin', 'admin'])
 def off_shelf_book_trash():
     """下架的图书删除"""
     book_id = request.args.get('book_id')
@@ -223,7 +223,7 @@ def off_shelf_book_trash():
 
 
 @bp.route('/book_trash', methods=('GET', 'POST'))
-@admin_login_required
+@admin_auth(auth_list=['book_admin', 'admin'])
 def book_trash():
     """已删除图书"""
     page = request.args.get('page', 1, int)
@@ -246,7 +246,7 @@ def book_trash():
 
 
 @bp.route('/trash_delete', methods=('GET', 'POST'))
-@admin_login_required
+@admin_auth(auth_list=['book_admin', 'admin'])
 def trash_delete():
     """删除图书"""
     book_id = request.args.get('book_id')

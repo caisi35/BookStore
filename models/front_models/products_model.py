@@ -78,8 +78,8 @@ def search_book_model(word, page, page_size):
         books, count = get_like_books(word, page, page_size)
     # 如果输入为空，则显示点击量前十的
     else:
-        books = db_conn.get_col('books').find().sort('hits', -1).skip(page * page_size).limit(page_size)
-        count = db_conn.get_col('books').find().count()
+        books = db_conn.get_col('books').find({'is_off_shelf': 0}).sort('hits', -1).skip(page * page_size).limit(page_size)
+        count = db_conn.get_col('books').find({'is_off_shelf': 0}).count()
     db_conn.close_conn()
     return books, count
 
@@ -176,7 +176,7 @@ def delete_addr(user_id, _id):
 
 
 def update_addr(user_id, request):
-    """更形收货地址"""
+    """更换收货地址"""
     name = request.form.get('name')
     tel = request.form.get('tel')
     address_list = request.form.get('address').strip().split(' ')
@@ -313,6 +313,7 @@ def from_cart_buy(books, user_id):
 def edit_cart_num(user_id, book_id, count=0, method='delete'):
     """编辑购物车数量"""
     db = ToConn()
+    query = (count, user_id, book_id)
     sql = 'delete from cart  where book_num=%s and user_id=%s and book_id=%s and is_effe=1'
     if method == 'adds':
         sql = 'update cart set book_num=%s where user_id=%s and book_id=%s and is_effe=1'
@@ -320,7 +321,11 @@ def edit_cart_num(user_id, book_id, count=0, method='delete'):
     elif method == 'reduces':
         sql = 'update  cart set book_num=%s where user_id=%s and book_id=%s and is_effe=1'
         count = count - 1
-    db.to_db(sql, (count, user_id, book_id)).commit()
+    elif method == 'deletes':
+        sql = 'delete from cart where user_id=%s and is_effe=1 and book_id in %s'
+        query = (user_id, book_id)
+        count = 1
+    db.to_db(sql, query).commit()
     db.to_close()
     logging.info('sql:[%s]', sql)
     return count
@@ -334,7 +339,7 @@ def get_user_cart(user_id):
     books = []
     for book_id in result:
         book_num = book_id.get('book_num')
-        b1 = get_book(book_id.get('book_id'))
+        b1 = get_book(book_id.get('book_id'), False)
         b1['book_num'] = book_num
         b1['sum_price'] = round((int(book_num) * float(b1.get('price'))), 2)
         books.append(b1)
@@ -377,11 +382,14 @@ def get_user(id):
     return user
 
 
-def get_book(id):
+def get_book(id, query_off_shelf=True):
     """获取图书信息"""
     mydb = ToMongo()
     mycol = mydb.get_col('books')
-    book = mycol.find_one({'_id': ObjectId(id)})
+    if query_off_shelf:
+        book = mycol.find_one({'_id': ObjectId(id), 'is_off_shelf': 0})
+    else:
+        book = mycol.find_one({'_id': ObjectId(id)})
     # 添加点击量
     mydb.update('books', {'_id': ObjectId(id)}, {'$inc': {'hits': 1}})
     mydb.close_conn()
@@ -392,10 +400,10 @@ def index_model():
     """主页内容"""
     mydb = ToMongo()
     # 轮播
-    books = list(mydb.get_col('books').find().limit(15))
-    new_books = list(mydb.get_col('books').find().skip(15).limit(12))
-    book_top = list(mydb.get_col('books').find().sort("price", -1).limit(5))
-    book_top2 = list(mydb.get_col('books').find().sort("sales", -1).limit(5))
+    books = list(mydb.get_col('books').find({'is_off_shelf': 0}).limit(15))
+    new_books = list(mydb.get_col('books').find({'is_off_shelf': 0}).skip(15).limit(12))
+    book_top = list(mydb.get_col('books').find({'is_off_shelf': 0}).sort("price", -1).limit(5))
+    book_top2 = list(mydb.get_col('books').find({'is_off_shelf': 0}).sort("sales", -1).limit(5))
     mydb.close_conn()
     return books, new_books, book_top, book_top2
 

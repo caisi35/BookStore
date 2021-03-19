@@ -8,7 +8,7 @@ from flask import (
     redirect,
 )
 
-from views_admin.signIn import admin_login_required
+from views_admin.signIn import admin_login_required, admin_auth
 from models import (
     orders_query_model,
     order_handle_model,
@@ -22,7 +22,7 @@ bp = Blueprint('orderAdmin', __name__, url_prefix='/admin/orderAdmin')
 
 
 @bp.route('/', methods=("GET",))
-@admin_login_required
+@admin_auth(auth_list=['order_admin', 'admin'])
 def order_admin():
     page = request.args.get('page', 1, int)
     page_size = 15
@@ -47,13 +47,13 @@ def order_admin():
 
 
 @bp.route('/search_order', methods=["GET"])
-@admin_login_required
+@admin_auth(auth_list=['order_admin', 'admin'])
 def search_order():
     return 's'
 
 
 @bp.route('/order_handle', methods=["GET", "POST"])
-@admin_login_required
+@admin_auth(auth_list=['order_admin', 'admin'])
 def order_handle():
     order_no = request.args.get('order_no')
     status = request.args.get('status', 1, int)
