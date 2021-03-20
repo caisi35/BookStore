@@ -5,7 +5,32 @@ from werkzeug.security import generate_password_hash
 
 from models.db import (
     ToConn,
+    ToMongo,
 )
+
+ADMIN_ROLE = ['admin', 'book_admin', 'order_admin', 'user_admin']
+
+
+def auth_admin_model(role, email, status):
+    """
+    更改管理员权限
+    :param role: 管理员角色
+    :param email:  管理员登录邮箱
+    :param status:  提交前的状态
+    :return:  更过后的状态或结果
+    """
+    if status == 'on' and role in ADMIN_ROLE:  # status为授权状态‘on’，其操作是撤销权限
+        query = {'$pull': {'auth': role}}
+        status = 'off'
+    elif status == 'off' and role in ADMIN_ROLE:    # status为'off'无权限，接下来将授予权限
+        query = {'$push': {'auth': role}}
+        status = 'on'
+    else:
+        return False
+    my_db = ToMongo()
+    my_db.update('admin', {'email': email}, query)
+    result = {'status': status}
+    return result
 
 
 def user_activate_model(id):
@@ -117,3 +142,18 @@ def get_users_total(page, page_size, is_delete=0):
                             (is_delete, (page - 1) * page_size, page_size)).fetchall()
     total = ToConn().get_db('select count(*) from users where is_delete=%s', (is_delete,)).fetchone().get('count(*)')
     return users, total
+
+
+def get_admin_account(page, page_size):
+    my_db = ToMongo()
+    result = my_db.get_col('admin').find().skip(page * page_size).limit(page_size)
+    total = my_db.get_col('admin').find().count()
+    return {'data': {'user': list(result), 'total': total, 'role': ADMIN_ROLE}}
+
+
+def admin_search_model(page, page_size, word):
+    my_db = ToMongo()
+    query = [{'email': {'$regex': word}}]
+    result = my_db.get_col('admin').find({'$or': query}).skip(page * page_size).limit(page_size)
+    total = my_db.get_col('admin').find({'$or': query}).count()
+    return {'data': {'user': list(result), 'total': total, 'role': ADMIN_ROLE}}

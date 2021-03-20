@@ -6,6 +6,9 @@ from utils import Logger, get_now
 FROZEN_TIME = 60*5
 
 
+
+
+
 def clear_user_count(admin):
     conn = ToMongo()
     result = conn.update('admin', {'email': admin.get('email')}, {'$set': {'sign_count': 0}})

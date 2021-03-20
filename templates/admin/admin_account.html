@@ -1,0 +1,80 @@
+{% extends 'admin/indexBase.html' %}
+
+{% block title %}用户管理{% endblock %}
+
+
+{% block search %}
+    <form class="navbar-form navbar-right" method="get" action="{{ url_for('userAdmin.admin_search') }}">
+        <input type="text" class="form-control" name="word" placeholder="Search...Administrators">
+        <input type="submit" class="form-control" value="搜索">
+    </form>
+{% endblock %}
+
+{% block main %}
+
+    <h2 class="sub-header">管理员列表</h2>
+    <div class="table-responsive">
+        <table class="table table-striped text-center">
+            <thead class="text-center">
+            <tr>
+                <th>#</th>
+                <th class="text-center">EMAIL</th>
+                {% for rol in role %}
+                    <th class="text-center">{{ rol | upper }}</th>
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{% if user.email == None %}{% else %}{{ user.email }}{% endif %}</td>
+                    {% for rol in role %}
+                        <td><label class="toggle toggle-positive" onclick="submit_auth('{{ rol }}', '{{ user.email }}')">
+                            <input type="checkbox" {% if rol in user.auth %}checked value="on"{% else %}value="off"{% endif %} id="{{ user.email }}{{ rol }}">
+                            <div class="track">
+                                <div class="handle">
+                                </div>
+                            </div>
+                        </label></td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div id="pages">
+
+    </div>
+    <script>
+        new Pagination({
+            element: '#pages',
+            type: 1,
+            pageIndex: {{ active_page }},   //默认活动页
+            pageSize: {{ page_size }},	//一页数量
+            pageCount: {{ page_count }},   //显示页数
+            total: {{ total }},      //总数
+            jumper: true,
+            singlePageHide: false,
+            prevText: '上一页',
+            nextText: '下一页',
+            disabled: false,
+            currentChange: function (index) {
+                console.log(index);
+                //https://blog.csdn.net/pengShuai007/article/details/86528992
+                var a = document.createElement('a');
+                a.setAttribute('href', '/admin/admin_account?page=' + index);
+                // 防止反复添加
+                if (document.getElementById('startTelMedicine')) {
+                    document.body.removeChild(document.getElementById('startTelMedicine'));
+                }
+                document.body.appendChild(a);
+                a.click();
+            }
+        });
+    </script>
+{% endblock %}
+
+{% block js_bottom %}
+    <script src="{{ url_for('static', filename='js/admin/admin_bottom.js') }}"></script>
+{% endblock %}

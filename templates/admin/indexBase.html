@@ -22,6 +22,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/pagination.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/dropdown_nav.css') }}">
     <script src="{{ url_for('static', filename='js/pagination.js') }}"></script>
+
+    <link href="{{ url_for('static',filename='css/ionic.css') }}" rel="stylesheet">
     {#    <link rel="stylesheet" href="https://www.jq22.com/demo/Bootstrapcbcd201908172252/css/style.css">#}
     {#    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>#}
 </head>
@@ -46,6 +48,7 @@
                 <li><a href="{{ url_for('bookAdmin.bookAdmin') }}">图书管理</a></li>
                 <li><a href="{{ url_for('userAdmin.userAdmin') }}">用户管理</a></li>
                 <li><a href="{{ url_for('products.index') }}">前台页面</a></li>
+                <li><a>{{ session['admin_email'] }}</a></li>
                 <li><a href="{{ url_for('signIn.admin_logout') }}">退出</a></li>
             </ul>
             {% block search %}
@@ -116,6 +119,9 @@
                 <li class={% if page_active == 'userAdmin' %}
                     "active"
                 {% endif %}><a href="{{ url_for('userAdmin.userAdmin') }}">用户管理</a></li>
+                <li class={% if page_active == 'admin_account' %}
+                    "active"
+                {% endif %}><a href="{{ url_for('userAdmin.admin_account') }}">管理员账户</a></li>
             </ul>
             <ul class="nav nav-sidebar">
                 {#                <li><a href="">回收站</a></li>#}
@@ -174,7 +180,8 @@
 <script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
 <script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-{#<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>#}
+<script src="{{ url_for('static',filename='js/ionic.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/admin/swith_button.js') }}"></script>
 
 {% block js_bottom %}
     <script src="{{ url_for('static', filename='js/admin/admin_bottom.js') }}"></script>

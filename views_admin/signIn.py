@@ -22,6 +22,7 @@ bp = Blueprint('signIn', __name__, url_prefix='/admin')
 
 @bp.route('/admin_login', methods=('GET', 'POST'))
 def admin_login():
+    """后台管理员登录"""
     if request.method == 'POST':
         email = request.form.get('email', '')
         password = request.form.get('password', '')
@@ -53,6 +54,7 @@ def admin_login():
 
 
 def register(email, password, auth_list):
+    """管理员注册函数"""
     if len(password) < 8:
         return
     admin_id = admin_register(email, password, auth_list)
@@ -61,6 +63,7 @@ def register(email, password, auth_list):
 
 @bp.route('/admin_logout')
 def admin_logout():
+    """退出登录"""
     session.clear()
     return redirect(url_for('signIn.admin_login'))
 
@@ -75,6 +78,7 @@ def admin_login_required(view):
 
 
 def admin_auth(auth_list=list, *args, **kwargs):
+    """权限管理装饰器"""
     def admin_auth_m(func):
         @functools.wraps(func)
         def wrapped_view(*args, **kwargs):
@@ -83,7 +87,7 @@ def admin_auth(auth_list=list, *args, **kwargs):
             else:
                 if not set(auth_list) & set(session.get('auth')):
                     flash('此菜单 [{}] 您没有权限访问！'.format(request.path))
-                    return redirect(url_for('admin.admin'))
+                    return redirect(request.referrer)
             return func(*args, **kwargs)
         return wrapped_view
     return admin_auth_m

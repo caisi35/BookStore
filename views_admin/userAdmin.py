@@ -19,8 +19,11 @@ from models import (
     reset_user_pad,
     freezing_user_model,
     user_activate_model,
+    get_admin_account,
+    auth_admin_model,
+    admin_search_model,
 )
-from views_admin.signIn import admin_login_required
+from views_admin.signIn import admin_auth
 from utils import Logger
 
 Logger('userAdmin.log')
@@ -28,8 +31,61 @@ Logger('userAdmin.log')
 bp = Blueprint('userAdmin', __name__, url_prefix='/admin/userAdmin')
 
 
+@bp.route('/admin_search')
+@admin_auth(['admin'])
+def admin_search():
+    page = request.args.get('page', 0, int)
+    page_size = 20
+    page_view = 5
+    word = request.args.get('word', '')
+    try:
+        result = admin_search_model(page, page_size, word).get('data')
+    except Exception as e:
+        logging.exception('admin userAdmin [Exception]: %s', e)
+        return abort(404) + str(e)
+    return render_template('admin/admin_account.html',
+                           page_active="admin_account",
+                           users=result.get('user'),
+                           role=result.get('role'),
+                           active_page=page,
+                           total=result.get('total'),
+                           page_size=page_size,
+                           page_count=page_view,
+                           )
+
+
+@bp.route('/admin_account', methods=['GET', 'POST'])
+@admin_auth(['admin'])
+def admin_account():
+    """管理员帐号管理"""
+    if request.method == 'POST':
+        role = request.form.get('role', '')
+        email =request.form.get('email', '')
+        status = request.form.get('status', '')
+        result = auth_admin_model(role, email, status)
+        logging.info('USER ADMIN admin_account RESULT:%s', result)
+        return jsonify(result)
+    page = request.args.get('page', 0, int)
+    page_size = 20
+    page_view = 5
+    try:
+        result = get_admin_account(page, page_size).get('data')
+    except Exception as e:
+        logging.exception('admin userAdmin [Exception]: %s', e)
+        return abort(404) + str(e)
+    return render_template('admin/admin_account.html',
+                           page_active="admin_account",
+                           users=result.get('user'),
+                           role=result.get('role'),
+                           active_page=page,
+                           total=result.get('total'),
+                           page_size=page_size,
+                           page_count=page_view,
+                           )
+
+
 @bp.route('/', methods=('GET', 'POST'))
-@admin_login_required
+@admin_auth(['user_admin'])
 def userAdmin():
     """加载用户管理页"""
     page = request.args.get('page', 1, int)
@@ -51,7 +107,7 @@ def userAdmin():
 
 
 @bp.route('/search')
-@admin_login_required
+@admin_auth(['user_admin'])
 def search():
     """搜索模糊匹配users表中的name、tel、email字段"""
     word = request.args.get('kw')
@@ -66,7 +122,7 @@ def search():
 
 
 @bp.route('/add_trash', methods=('GET', 'POST'))
-@admin_login_required
+@admin_auth(['user_admin'])
 def add_trash():
     """将账户加入回收站"""
     id = request.form.get('id', '')
@@ -79,7 +135,7 @@ def add_trash():
 
 
 @bp.route('/delete_user', methods=('GET', 'POST'))
-@admin_login_required
+@admin_auth(['user_admin'])
 def delete_user():
     """删除账户"""
     id = request.form.get('id', '')
@@ -92,7 +148,7 @@ def delete_user():
 
 
 @bp.route('/user_trash', methods=('GET', 'POST'))
-@admin_login_required
+@admin_auth(['user_admin'])
 def user_trash():
     """已删除用户"""
     page = request.args.get('page', 1, int)
@@ -115,7 +171,7 @@ def user_trash():
 
 
 @bp.route('/restores_user', methods=('GET', 'POST'))
-@admin_login_required
+@admin_auth(['user_admin'])
 def restores_user():
     """还原被冻结-用户"""
     user_id = request.args.get('user_id')
@@ -128,7 +184,7 @@ def restores_user():
 
 
 @bp.route('/reset_pwd', methods=('GET', 'POST'))
-@admin_login_required
+@admin_auth(['user_admin'])
 def reset_pwd():
     """重置用户密码"""
     id = request.form.get('id', '')
@@ -141,7 +197,7 @@ def reset_pwd():
 
 
 @bp.route('/freezing', methods=('GET', 'POST'))
-@admin_login_required
+@admin_auth(['user_admin'])
 def freezing():
     """冻结账户"""
     id = request.form.get('id', '')
@@ -154,7 +210,7 @@ def freezing():
 
 
 @bp.route('/activate_user', methods=('GET', 'POST'))
-@admin_login_required
+@admin_auth(['user_admin'])
 def activate_user():
     """激活冻结的账户"""
     id = request.form.get('id', '')
