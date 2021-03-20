@@ -30,13 +30,21 @@
                     <td>{{ loop.index }}</td>
                     <td>{% if user.email == None %}{% else %}{{ user.email }}{% endif %}</td>
                     {% for rol in role %}
-                        <td><label class="toggle toggle-positive" onclick="submit_auth('{{ rol }}', '{{ user.email }}')">
-                            <input type="checkbox" {% if rol in user.auth %}checked value="on"{% else %}value="off"{% endif %} id="{{ user.email }}{{ rol }}">
-                            <div class="track">
-                                <div class="handle">
-                                </div>
-                            </div>
-                        </label></td>
+                        {% if session.get('admin_email') == user.email and rol == 'admin' %}
+                            <td></td>
+                        {% else %}
+                            <td>
+                                <label class="toggle toggle-positive"
+                                       onclick="submit_auth('{{ rol }}', '{{ user.email }}')">
+                                    <input type="checkbox" {% if rol in user.auth %}checked value="on"
+                                           {% else %}value="off"{% endif %} id="{{ user.email }}{{ rol }}">
+                                    <div class="track">
+                                        <div class="handle">
+                                        </div>
+                                    </div>
+                                </label>
+                            </td>
+                        {% endif %}
                     {% endfor %}
                 </tr>
             {% endfor %}
