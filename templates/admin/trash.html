@@ -67,8 +67,7 @@
                         <td>
                             <a type="button" class="btn btn-primary" role="button"
                                href="{{ url_for('userAdmin.restores_user' , user_id=user.id) }}"
-                               onclick="javascrip:return confirm('您确定要还原？')">还原</a>&nbsp;&nbsp;
-                            &nbsp;
+                               onclick="javascrip:return confirm('您确定要还原？')">还原</a>&nbsp;&nbsp;&nbsp;
                             <button type="button" class="btn btn-danger" onclick="deleteUser('{{ user.id }}')">
                                 永久删除
                             </button>

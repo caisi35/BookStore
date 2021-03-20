@@ -17,8 +17,8 @@
             <div class="col-md-3 text-center">
                 <img src="" alt="图书封面" id="show" style="height: 250px">
                 <br><br>
-                <label class="btn btn-info fileinput-button" for="file" >上传图片</label>
-                    <input type="file" name="img" id="file"  onchange="changepic(this)" formenctype="multipart/form-data"
+                <label class="btn btn-info fileinput-button" for="file">上传图片</label>
+                <input type="file" name="img" id="file" onchange="changepic(this)" formenctype="multipart/form-data"
                        accept="image/png, image/jpeg, image/gif, image/jpg">
             </div>
             <div class="col-md-8">
@@ -50,6 +50,11 @@
                 </div>
                 <br>
                 <div class="input-group">
+                    <span class="input-group-addon">库存：</span>
+                    <input type="text" name="stock" class="form-control" required>
+                </div>
+                <br>
+                <div class="input-group">
                     <span class="input-group-addon">出版社：</span>
                     <input type="text" name="press" class="form-control" required>
                 </div>
@@ -59,10 +64,10 @@
                     <input type="date" name="pub_time" class="form-control" required>
                 </div>
                 <br>
-{#                <div class="input-group">#}
-{#                    <span class="input-group-addon">封面链接：</span>#}
-{#                    <input type="text" name="img_url" class="form-control">#}
-{#                </div>#}
+                {#                <div class="input-group">#}
+                {#                    <span class="input-group-addon">封面链接：</span>#}
+                {#                    <input type="text" name="img_url" class="form-control">#}
+                {#                </div>#}
                 <br>
                 <div>
                     <button type="submit" class="btn btn-primary">提交</button>&nbsp;&nbsp;&nbsp;&nbsp;

@@ -63,7 +63,7 @@ def reset_user_pad(id):
 
 
 def restores_user_model(user_id):
-    rel = 'admin.user_trash'
+    rel = 'userAdmin.user_trash'
     conn = ToConn()
     to_exec = conn.to_execute()
     result = to_exec.cursor().execute('update users set is_delete=0 where id=%s', (user_id,))
@@ -71,7 +71,7 @@ def restores_user_model(user_id):
         to_exec.commit()
     else:
         to_exec.rollback()
-        rel = 'admin.user_trash'
+        rel = 'userAdmin.user_trash'
     conn.to_close()
     return rel
 

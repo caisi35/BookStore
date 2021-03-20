@@ -17,6 +17,8 @@ from utils import (
 from utils import (
     Logger
 )
+
+
 # Logger('./products_model.log')
 
 
@@ -64,7 +66,7 @@ def get_evaluates_details(db, id, star_dict):
 def get_user_avatar(user_id):
     """获取评论用户的头像"""
     mydb = ToConn()
-    user_info = mydb.get_db('select avatar from users where id=%s', (user_id, )).fetchone()
+    user_info = mydb.get_db('select avatar from users where id=%s', (user_id,)).fetchone()
     return user_info.get('avatar')
 
 
@@ -78,7 +80,8 @@ def search_book_model(word, page, page_size):
         books, count = get_like_books(word, page, page_size)
     # 如果输入为空，则显示点击量前十的
     else:
-        books = db_conn.get_col('books').find({'is_off_shelf': 0}).sort('hits', -1).skip(page * page_size).limit(page_size)
+        books = db_conn.get_col('books').find({'is_off_shelf': 0}).sort('hits', -1).skip(page * page_size).limit(
+            page_size)
         count = db_conn.get_col('books').find({'is_off_shelf': 0}).count()
     db_conn.close_conn()
     return books, count
@@ -231,7 +234,6 @@ def to_buy_model(user_id, books_id, is_list=True):
                     addr['district'] = a['district']
                     addr['details'] = a['details']
                     addr['_id'] = user['address_default']
-
             for book_id in book_id_list:
                 db = ToConn()
                 sql = 'select book_num from cart where user_id=%s and book_id=%s and is_effe=1'
@@ -240,6 +242,8 @@ def to_buy_model(user_id, books_id, is_list=True):
                 mydb['_id'] = book_id
                 mydb['book_num'] = int(book_num['book_num'])
                 mydb['sum_price'] = round(float(mydb['price']) * float(book_num['book_num']), 2)
+                if int(book_num.get('book_num')) > mydb.get('stock'):
+                    return {'error': '{} 没有这么多库存啦～'.format(mydb.get('title'))}
                 book_list.append(mydb)
                 sum_price = sum_price + round(float(mydb['price']) * float(book_num['book_num']), 2)
                 sum_book = sum_book + int(book_num['book_num'])
@@ -249,7 +253,7 @@ def to_buy_model(user_id, books_id, is_list=True):
                    'freight': freight}
             shipping_time = datetime.now() + timedelta(days=3)
             db_conn.close_conn()
-            return book_list, books_price, pay, shipping_time, addr
+            return {'book_list': book_list, 'books_price': books_price, 'pay': pay, 'shipping_time': shipping_time, 'addr': addr}
         except Exception as e:
             db_conn.close_conn()
             logging.exception(e)
@@ -266,6 +270,8 @@ def to_buy_model(user_id, books_id, is_list=True):
             mydb['_id'] = books_id
             mydb['book_num'] = book_num
             mydb['sum_price'] = round(float(mydb['price']) * book_num, 2)
+            if book_num > mydb.get('stock'):
+                return {'error': '{} 没有这么多库存啦～'.format(mydb.get('title'))}
             book_list.append(mydb)
             sum_price = sum_price + round(float(mydb['price']) * book_num, 2)
             sum_book = sum_book + book_num
@@ -289,7 +295,7 @@ def to_buy_model(user_id, books_id, is_list=True):
                    'freight': freight}
             shipping_time = datetime.now() + timedelta(days=3)
             db_conn.close_conn()
-            return book_list, books_price, pay, shipping_time, addr
+            return {'book_list': book_list, 'books_price': books_price, 'pay': pay, 'shipping_time': shipping_time, 'addr': addr}
         except Exception as e:
             db_conn.close_conn()
             print('========get_buy=========:', e)
@@ -317,7 +323,10 @@ def edit_cart_num(user_id, book_id, count=0, method='delete'):
     sql = 'delete from cart  where book_num=%s and user_id=%s and book_id=%s and is_effe=1'
     if method == 'adds':
         sql = 'update cart set book_num=%s where user_id=%s and book_id=%s and is_effe=1'
-        count = count + 1
+        if count + 1 >= get_book(book_id).get('stock'):
+            count = count
+        else:
+            count = count + 1
     elif method == 'reduces':
         sql = 'update  cart set book_num=%s where user_id=%s and book_id=%s and is_effe=1'
         count = count - 1
@@ -349,6 +358,7 @@ def get_user_cart(user_id):
 def add_card_model(user_id, book_id, num):
     """添加到购物车"""
     try:
+        stock = int(get_book(book_id).get('stock'))  # 获取库存
         db = ToConn()
         # 查处用户的购物车是否有添加的物品
         sql = 'select * from cart where book_id=%s and user_id=%s and is_effe=1'
@@ -356,12 +366,16 @@ def add_card_model(user_id, book_id, num):
         # 执行完查询后链接自动关闭了，所以要重新创建一个新的链接
         db2 = ToConn()
         if get_db:
+            if int(get_db.get('book_num')) + num > stock:
+                return {'error': '没有这么多库存啦～'}
             # 购物车已有则将数量加入数据库
             sql = 'update cart set book_num=book_num+%s where book_id=%s and user_id=%s'
             to_db = db2.to_db(sql, (int(num), book_id, user_id))
             to_db.commit()
             db2.to_close()
         else:
+            if num > stock:
+                return {'error': '没有这么多库存啦～'}
             # 否则添加新的物品
             sql = 'insert into cart(user_id, book_id, book_num) values (%s,%s,%s)'
             to_db = db2.to_db(sql, (user_id, book_id, num))

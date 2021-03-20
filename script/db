@@ -62,7 +62,7 @@ alter table admin
 --****************************** mongodb 数据库信息 ******************************************************************--
 -- 数据库名：products
 -- 集合：books,images,order,address
-数据库导出：mongodump -d bookstore -o /home/caisi/PycharmProjects/BookStore/script/data/
+数据库导出：mongodump -d bookstore -o /home/caisi/PycharmProjects/BookStore/script/data/mongo/init/
 数据库导入（未测试）：mongorestore -h localhost --authenticationDatabase admin -u root -p root -d bookstore --dir $WORKSPACE/bookstores
 ******books集合 保存图书信息******
 books{
@@ -75,7 +75,13 @@ books{
     title       图书标题名
     subheading  简介
     author      作者
+    ISBM        国际标准书号
     is_off_shelf    已下架
+    stock       库存
+    type        类型
+    category    种类
+    hits        点击量
+    sales       销量
 }
 ******images集合 保存图片数据******
 images{
@@ -95,6 +101,7 @@ order{
     exp_status      快递状态：初始状态 0，待发货 1，待收货 2，已收货 3，退货-商家待收货 4，退货-商家已收货 5
     user_id         订单用户id
     create_time     订单创建时间
+    logistics: []   物流信息
     books[
         book_num    图书数量
         book_id     books集合中的图书id
@@ -123,10 +130,11 @@ address{
 
 ******admin 保存管理员信息******
 admin{
-        'email': email,
-        'password': generate_password_hash(password),
-        'is_effective': 1,
-        'last_signIn_time': 0,
-        'create_time': get_now(),
-        'sign_count': 0
+        'email': email, # 邮箱
+        'password': generate_password_hash(password),   # 加密密码
+        'is_effective': 1,  # 有效
+        'last_signIn_time': 0,  # 最近登录时间
+        'create_time': get_now(),   # 创建时间戳
+        'sign_count': 0,    # 登录次数
+        'auth': ['book_admin', 'order_admin'],  # 权限列表
 }

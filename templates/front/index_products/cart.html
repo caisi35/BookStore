@@ -40,36 +40,44 @@
                             </thead>
                             <tbody>
                             {% for book in books %}
-                                    <tr>
-                                        <td>
-                                            <div>
-                                                <input class="dan_select check" type="checkbox" name="checkbox1"
-                                                       value="layer1"
-                                                       onclick="singleSelect2parent('checkbox_v1', 'checkbox1')">
-                                                <input type="hidden" name="book_id" value={{ book['_id'] }}>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="book_img left"><img src={{ book['img_url'] }}></div>
-                                            <div class="title"><a
-                                                    href="{{ url_for('products.product', id=book['_id']) }}">{{ book.title }}</a>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span class="price">{{ book.price }}</span><span>￥</span>
-                                        </td>
-                                        <td class="content">
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <input class="dan_select check" type="checkbox" name="checkbox1"
+                                                   value="layer1"
+                                                   onclick="singleSelect2parent('checkbox_v1', 'checkbox1')">
+                                            <input type="hidden" name="book_id" value={{ book['_id'] }}>
+                                            {% if book.is_off_shelf %}
+                                                <span class="danger">已下架</span>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="book_img left"><img src={{ book['img_url'] }}></div>
+                                        <div class="title">
+                                            {% if book.is_off_shelf %}
+                                                <h3 class="danger">已下架</h3>
+                                                <span>{{ book.title }}</span>
+                                            {% else %}
+                                                <a href="{{ url_for('products.product', id=book['_id']) }}">{{ book.title }}</a>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="price">{{ book.price }}</span><span>￥</span>
+                                    </td>
+                                    <td class="content">
                                         <span>
                                              <input type="button" value="-" class="reduces">
                                              <span class="span"> {{ book.book_num }} </span>
                                              <input type="button" value="+" class="adds">
                                              <input type="hidden" name="book_id" value={{ book['_id'] }}>
                                         </span>
-                                        </td>
-                                        <td>
-                                            <span class="prices">{{ book.sum_price }}</span><span>￥</span>
-                                        </td>
-                                    </tr>
+                                    </td>
+                                    <td>
+                                        <span class="prices">{{ book.sum_price }}</span><span>￥</span>
+                                    </td>
+                                </tr>
                             {% endfor %}
                             </tbody>
                         </table>

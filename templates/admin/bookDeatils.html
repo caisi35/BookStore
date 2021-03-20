@@ -25,6 +25,7 @@
             <p>简介：{{ book.subheading }}</p>
             <p>售价：{{ book.price }}</p>
             <p>定价：{{ book.price_m }}</p>
+            <p>库存：{{ book.stock | int }}</p>
             <p>出版社：{{ book.press }}</p>
             <p>出版日期：{{ book.pub_time }}</p>
             <p>封面链接：{{ book.img_url }}</p>

@@ -24,12 +24,17 @@
                 </div>
                 <div class="price"><h1>￥{{ book.price }}</h1></div>
                 <div class="price_m"><span>定价：</span><span class="old">￥{{ book.price_m }}</span></div>
+                <div class="price_m">库存: <span id="stock">{{ book.stock | int }}</span></div>
+                {% for message in get_flashed_messages() %}
+                    <div class="alert alert-danger"><b>{{ message }}</b></div>
+                {% endfor %}
             </div>
             <div class="button">
                 <form method="get" action="/product/add_to_cart">
                     <div class="left">
                         <input class="book_num left" id="cut" type="button" value="-" onclick="reductionOf(this)">
                         <input class="book-num left" name="num" id="num" type="text" value="1"
+                               oninput="if(value>{{ book.stock }})value={{ book.stock }}"
                                onblur="checkNumber(this)">
                         <input class="book_num" type="button" id="add" value="+" onclick="add(this)">
                         <input type="hidden" name="book_id" value={{ book['_id'] }}>
@@ -69,8 +74,8 @@
             <div class="text-center">
                 <h3>用户评论</h3>
             </div>
-{#            <hr>#}
-            <div >
+            {#            <hr>#}
+            <div>
                 <span class="col-md-2 col-md-offset-1">全部：{{ total }}</span>
                 <span class="col-md-2">好评：{{ evaluates_details.get('praise') }}</span>
                 <span class="col-md-2">中评：{{ evaluates_details.get('mid') }}</span>
@@ -95,7 +100,7 @@
                                     </div>
                                     <div class="evaluate-img">
                                         {% if evaluate.img_path %}
-                                        <img src="{{ evaluate.img_path }}" alt="评论图片" title="评论图片">
+                                            <img src="{{ evaluate.img_path }}" alt="评论图片" title="评论图片">
                                         {% endif %}
                                     </div>
                                     <br>
@@ -125,58 +130,60 @@
 
 {% block footer %}
     {{ super() }}
-{#返回顶部控件#}
-<div id="to_top">
-    <a href="javascript:;" id="to_top_btn"></a>
-</div>
-{#隐藏登录控件#}
-<div>
-    <div class="mypop" style="display: none">
-        <div class="graybox"></div>
-        <div class="popbox">
-            <div class="poptop">
-                <h3>登 录</h3>
-                <a href="#" class="close"></a>
-            </div>
-            {#            <form role="form" method="post" action="{{ url_for('user_login_register.index_login') }}">#}
-            {#            错误信息flash #}
-            <span id="message"></span>
-            <div class="popcon">
-                <div>
-                    <div class="group">
-                        {#                    失去焦点：onBlur="if(value==''){value='请输入密码'}"获取焦点：onFocus="if(value=='请输入密码') {value=''}"#}
-                        <input type="tel" placeholder="请输入您的手机号码" name="username" pattern="[0-9]{11}"
-                               id="login_username"
-                                {#                               onkeyup="this.value=this.value.replace(/^\s+|\s+$/g,'')"#}
-                               required autofocus maxlength="11" minlength="11">
-                        <i class="fa fa-user"></i>
-                    </div>
-                    <div class="group">
-                        <input type="password" name="password" required placeholder="请输入您的密码" id="login_password">
-                        <i class="fa fa-lock"></i>
-                    </div>
+    {#返回顶部控件#}
+    <div id="to_top">
+        <a href="javascript:;" id="to_top_btn"></a>
+    </div>
+    {#隐藏登录控件#}
+    <div>
+        <div class="mypop" style="display: none">
+            <div class="graybox"></div>
+            <div class="popbox">
+                <div class="poptop">
+                    <h3>登 录</h3>
+                    <a href="#" class="close"></a>
                 </div>
-                <div class="remember clearfix">
-{#                    <div class="remember-con">#}
-{#                        <input type="checkbox" id="input1" class="inputbox">#}
-{#                        <label for="input1">记住密码</label>#}
-{##}
-{#                    </div>#}
-                    <div class="remember-con">
-                        <a href="{{ url_for('building.building') }}" class="code"><i class="fa fa-question-circle"></i>忘记密码</a>
-                        <a href="{{ url_for('user_login_register.register') }}"><i class="fa fa-question-circle"></i>去注册</a>&nbsp;
-                        <a href="mailto:caisi1735@163.com"><i class="fa fa-question-circle"></i>Email to Admin</a>
+                {#            <form role="form" method="post" action="{{ url_for('user_login_register.index_login') }}">#}
+                {#            错误信息flash #}
+                <span id="message"></span>
+                <div class="popcon">
+                    <div>
+                        <div class="group">
+                            {#                    失去焦点：onBlur="if(value==''){value='请输入密码'}"获取焦点：onFocus="if(value=='请输入密码') {value=''}"#}
+                            <input type="tel" placeholder="请输入您的手机号码" name="username" pattern="[0-9]{11}"
+                                   id="login_username"
+                                    {#                               onkeyup="this.value=this.value.replace(/^\s+|\s+$/g,'')"#}
+                                   required autofocus maxlength="11" minlength="11">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <div class="group">
+                            <input type="password" name="password" required placeholder="请输入您的密码" id="login_password">
+                            <i class="fa fa-lock"></i>
+                        </div>
+                    </div>
+                    <div class="remember clearfix">
+                        {#                    <div class="remember-con">#}
+                        {#                        <input type="checkbox" id="input1" class="inputbox">#}
+                        {#                        <label for="input1">记住密码</label>#}
+                        {##}
+                        {#                    </div>#}
+                        <div class="remember-con">
+                            <a href="{{ url_for('building.building') }}" class="code"><i
+                                    class="fa fa-question-circle"></i>忘记密码</a>
+                            <a href="{{ url_for('user_login_register.register') }}"><i
+                                    class="fa fa-question-circle"></i>去注册</a>&nbsp;
+                            <a href="mailto:caisi1735@163.com"><i class="fa fa-question-circle"></i>Email to Admin</a>
 
+                        </div>
                     </div>
                 </div>
+                <div class="divbtn clearfix">
+                    <a class="btn" id="cancel" href="#">取消</a>
+                    {#                <a href="{{ url_for('building.building') }}" class="btn ok" onclick="index_login()">登陆</a>#}
+                    <button type="submit" class="btn ok" id="index_login">登陆</button>
+                </div>
+                {#            </form>#}
             </div>
-            <div class="divbtn clearfix">
-                <a class="btn" id="cancel" href="#">取消</a>
-                {#                <a href="{{ url_for('building.building') }}" class="btn ok" onclick="index_login()">登陆</a>#}
-                <button type="submit" class="btn ok" id="index_login">登陆</button>
-            </div>
-            {#            </form>#}
         </div>
     </div>
-</div>
 {% endblock %}

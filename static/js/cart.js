@@ -70,13 +70,17 @@ $(function () {
         $(this).click(function () {
             //1.改变数量
             var count = parseFloat($(this).parents("tr").find(".span").html());
+            var count_1 = count;
             var book_id = $(this).parents("span").find("input[name='book_id']").val();
             count = adds(count, 'adds', book_id = book_id);
+            if (count_1 === count){
+                alert('没有这么多库存啦～')
+            }
             $(this).parent("span").find(".span").html(count);
             //2.改小计
             var price = parseFloat($(this).parents("tr").find(".price").html());
             var money = (price * count).toFixed(2);
-            console.log(price);
+            // console.log(price);
             $(this).parents("tr").find(".prices").html(money);
             //3.改总价
             total();

@@ -10,6 +10,8 @@ Use Docker-compose to build Flask project. have build mysql, mongo and nginx.
 - server running in port: 80  
 `curl http://localhost/`
 
+administrators: order_admin@163.com/book_admin@163.com/admin@163.com, the Password: 12345678
+
 - The docker version is:
 ```cmd
 PS D:\graduation-design\BookStore> docker -v

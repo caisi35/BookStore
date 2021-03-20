@@ -25,6 +25,7 @@ from views_front.user import login_required
 from utils import (
     Logger
 )
+
 bp = Blueprint('products', __name__)
 logger = Logger('products.log')
 
@@ -52,7 +53,7 @@ def product(id):
     return render_template('front/index_products/product.html',
                            book=book,
                            book_type_list=book_type_list,
-                           evaluates= evaluates,
+                           evaluates=evaluates,
                            total=total,
                            evaluates_details=evaluates_details
                            )
@@ -65,9 +66,12 @@ def add_to_cart():
     user_id = session.get('user_id')
     num = request.args.get('num', 0, type=int)
     book_id = request.args.get('book_id')
-    add_card_model(user_id, book_id, num)
+    result = add_card_model(user_id, book_id, num)
     book = get_book(book_id)
     book_type_list = choice_book_type()
+    if isinstance(result, dict) and result.get('error'):  # 库存不足
+        flash(result.get('error'))
+        return redirect(url_for('products.product', id=book_id))
     return render_template('front/index_products/add_cart_success.html',
                            book=book,
                            num=num,
@@ -100,19 +104,23 @@ def add_numbers():
     else:
         book_id = request.form.get('book_id', '', type=str)
     user_id = session.get('user_id')
-    count = edit_cart_num(user_id, book_id, input_count, method)
-    logging.info('%s change cart num from %s to %s.', user_id, input_count, count)
-    return jsonify(result=count)
+    try:
+        result = edit_cart_num(user_id, book_id, input_count, method)
+    except AttributeError as e:
+        logging.exception('ADD_NUMBERS -> EDIT_CART_NUM [Eception]:%s', e)
+        result = input_count
+    logging.info('%s change cart num from %s to %s.', user_id, input_count, result)
+    return jsonify(result=result)
 
 
-@bp.route('/count_buy', methods=('GET', 'POST'))
-@login_required
-def count_buy():
-    """购物车下单结算"""
-    books = request.form.getlist('data[]')
-    user_id = session.get('user_id')
-    books = from_cart_buy(books, user_id)
-    return jsonify(result=books)
+# @bp.route('/count_buy', methods=('GET', 'POST'))
+# @login_required
+# def count_buy():
+#     """购物车下单结算"""
+#     books = request.form.getlist('data[]')
+#     user_id = session.get('user_id')
+#     books = from_cart_buy(books, user_id)
+#     return jsonify(result=books)
 
 
 @bp.route('/buy_list', methods=('GET', 'POST'))
@@ -124,18 +132,31 @@ def buy():
         book_id = request.args.get('book_id')
         user_id = session.get('user_id')
         if 'buy_now' in request.url:
-            book_list, books_price, pay, shipping_time, addr = to_buy_model(user_id, book_id, is_list=False)
+            result = to_buy_model(user_id, book_id, is_list=False)
         else:
-            book_list, books_price, pay, shipping_time, addr = to_buy_model(user_id, book_id)
+            result = to_buy_model(user_id, book_id)
         logging.info('%s buy %s', user_id, book_id)
+        if 'error' in result:
+            raise ValueError
         return render_template('front/settle_pay/settle_from_list.html',
-                               books=book_list,
-                               books_price=books_price,
-                               pay=pay,
-                               addr=addr,
-                               shipping_time=shipping_time)
+                               books=result.get('book_list'),
+                               books_price=result.get('books_price'),
+                               pay=result.get('pay'),
+                               addr=result.get('addr'),
+                               shipping_time=result.get('shipping_time'),
+                               )
+    except ValueError:
+        flash(result.get('error'))
+        logging.error('buy find error: %s', result.get('error'))
+        if 'buy_now' in request.url:
+            return redirect(url_for('products.product', id=book_id))
+        return redirect(url_for('products.cart'))
+    except TypeError as e:
+        flash('有已经下架了的图书？请删除后重试吧～')
+        logging.error('buy find error: %s', e)
+        return redirect(url_for('products.cart'))
     except Exception as e:
-        flash('有已下架图书？请删除后重试～')
+        flash('出现错误了？请稍后重试～')
         logging.error('buy find error: %s', e)
         return redirect(url_for('products.cart'))
 
