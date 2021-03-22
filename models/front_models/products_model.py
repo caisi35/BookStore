@@ -22,7 +22,7 @@ from utils import (
 # Logger('./products_model.log')
 
 
-def get_evaluate(book_id):
+def get_evaluate(book_id, page=0, page_size=10):
     """获取评论信息"""
     mydb = ToMongo()
     evaluates = mydb.get_col('evaluate').find_one({'_id': ObjectId(book_id)})
@@ -30,6 +30,11 @@ def get_evaluate(book_id):
     star_dict = {'praise': 0, 'negative': 0, 'mid': 0}
     try:
         eval_comment = evaluates.get('comment')
+        if page:
+            page = page - 1
+            eval_comment = eval_comment[page * page_size:page * page_size + page_size]
+        else:
+            eval_comment = eval_comment[page * page_size:page * page_size + page_size]
     except AttributeError:
         return [], 0, star_dict
     for evaluate in eval_comment:
@@ -52,14 +57,14 @@ def get_evaluate(book_id):
 def get_evaluates_details(db, id, star_dict):
     r = db.get_col('evaluate').find_one({'_id': ObjectId(id)})
     for i in r.get('comment'):
-        print(i)
+        # print(i)
         if i.get('star') in [4, 5]:
             star_dict['praise'] += 1
         elif i.get('star') in [1, 2]:
             star_dict['negative'] += 1
         else:
             star_dict['mid'] += 1
-    print(star_dict)
+    # print(star_dict)
     return star_dict
 
 
@@ -67,7 +72,11 @@ def get_user_avatar(user_id):
     """获取评论用户的头像"""
     mydb = ToConn()
     user_info = mydb.get_db('select avatar from users where id=%s', (user_id,)).fetchone()
-    return user_info.get('avatar')
+    try:
+        avatar = user_info.get('avatar')
+    except AttributeError:
+        avatar = ''
+    return avatar
 
 
 def search_book_model(word, page, page_size):

@@ -1,6 +1,13 @@
 {% extends 'front/index_products/base_index_products.html' %}
 {% block title %}图书详情{% endblock %}
 
+{% block css %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pagination.css') }}">
+    <script src="{{ url_for('static', filename='js/pagination.js') }}"></script>
+
+{% endblock %}
+
 {% block main %}
     <div class="container product">
         <div class="col-md-4 column left">
@@ -64,17 +71,15 @@
             <div class="desc_img">
                 <img src="{{ book.img_url }}" alt="{{ book.title }}" title="{{ book.title }}">
             </div>
-            <div>
+            <div {% if 'product_page' in request.referrer %}id="moreMerchant"{% endif %}>
                 <p>{{ book.subheading }}</p>
             </div>
             <hr>
         </div>
-
-        <div class="col-md-offset-2 col-md-10 column">
+        <div class="col-md-offset-2 col-md-10 column" >
             <div class="text-center">
                 <h3>用户评论</h3>
             </div>
-            {#            <hr>#}
             <div>
                 <span class="col-md-2 col-md-offset-1">全部：{{ total }}</span>
                 <span class="col-md-2">好评：{{ evaluates_details.get('praise') }}</span>
@@ -120,8 +125,38 @@
                         </li>
                     {% endfor %}
                 </ul>
+                <div id="pages" class="col-md-12">0
+                </div>
             </div>
         </div>
+
+        <script>
+            new Pagination({
+                element: '#pages',
+                type: 1,
+                pageIndex: {{ active_page }},   //默认活动页
+                pageSize: {{ page_size }},	//一页数量
+                pageCount: {{ page_count }},   //显示页数
+                total: {{ total }},      //总数
+                jumper: true,
+                singlePageHide: false,
+                prevText: '上一页',
+                nextText: '下一页',
+                disabled: false,
+                currentChange: function (index) {
+                    {#console.log(index);#}
+                    //https://blog.csdn.net/pengShuai007/article/details/86528992
+                    var a = document.createElement('a');
+                    a.setAttribute('href', '/product_page?id={{ book["_id"] | string }}&page='+index);
+                    // 防止反复添加
+                    if (document.getElementById('startTelMedicine')) {
+                        document.body.removeChild(document.getElementById('startTelMedicine'));
+                    }
+                    document.body.appendChild(a);
+                    a.click();
+                }
+            });
+        </script>
         <div class="col-md-12">
             <hr class="description-hr">
         </div>
