@@ -66,7 +66,7 @@ def evaluate_model(user_id, user_name, request, book_ids):
 
 
 def to_evaluate(order_no, star, context, book_ids):
-    user_id = 5
+    user_id = random.choice([i for i in range(1, 100)])
     user_name = 'test'
 
     value = {'order_no': order_no,
@@ -85,4 +85,4 @@ if __name__ == '__main__':
         to_evaluate('202103052207612453',
                     star,
                     'test{}- star{}'.format(i, star),
-                    book_ids=['5ee96be4360d930a489db21a'])
+                    book_ids=['5ee96c03360d930a489db23a', '5ee96c23360d930a489db25c'])

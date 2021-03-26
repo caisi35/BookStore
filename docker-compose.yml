@@ -35,14 +35,12 @@ services:
 
   web:
     restart: always
-    environment:
-      - TZ=Asia/Shanghai
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
       - .:/code
-      # - /etc/localtime:/etc/localtime
+      # - /etc/localtime:/etc/localtime  # 时区
     expose:
       - 8000
     links:

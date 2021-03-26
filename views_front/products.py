@@ -48,14 +48,42 @@ def index():
 def product(id):
     """展示product图书详情页"""
     book = get_book(id)
-    evaluates, total, evaluates_details = get_evaluate(id)
+    page_size = 10
+    page_count = 5
+    evaluates, total, evaluates_details = get_evaluate(id, page_size=page_size)
     book_type_list = choice_book_type()
     return render_template('front/index_products/product.html',
                            book=book,
                            book_type_list=book_type_list,
                            evaluates=evaluates,
                            total=total,
-                           evaluates_details=evaluates_details
+                           evaluates_details=evaluates_details,
+                           active_page=0,
+                           page_count=page_count,
+                           page_size=page_size,
+                           )
+
+
+@bp.route('/product_page', methods=('GET', 'POST'))
+def product_page():
+    """展示product图书详情页"""
+    id = request.args.get('id')
+    page = request.args.get('page', 0, int)
+    book = get_book(id)
+    page_size = 10
+    page_count = 5
+    if page:
+        evaluates, total, evaluates_details = get_evaluate(id, page, page_size)
+    book_type_list = choice_book_type()
+    return render_template('front/index_products/product.html',
+                           book=book,
+                           book_type_list=book_type_list,
+                           evaluates=evaluates,
+                           total=total,
+                           evaluates_details=evaluates_details,
+                           active_page=page,
+                           page_count=page_count,
+                           page_size=page_size,
                            )
 
 

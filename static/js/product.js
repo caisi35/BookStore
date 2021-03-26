@@ -20,3 +20,6 @@ num_jian.onclick = function () {
 
 };
 
+$(function () {
+    window.location.hash = "#moreMerchant";
+});
