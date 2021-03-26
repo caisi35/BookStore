@@ -32,6 +32,20 @@
                         </li>
                     </ul>
                 </div>
+                <div class="col-md-12 column recommend_user_book" ng-controller="recommend_user">
+                    <div class="text-center"><p>推荐</p></div>
+                    <ul>
+                        <li ng-repeat="book in recommend_book">
+                            <a href="/product%3F{{ '{{book.id}}' }}" class="text-center">
+                                <img src="{{ '{{book.img}}' }}" title="{{ '{{book.title}}' }}"
+                                     alt="{{ '{{book.title}}' }}">
+                                <p>{{ '{{book.title}}' }}</p>
+                                <p>{{ '{{book.author}}' }}</p>
+                            </a>
+                            <hr>
+                        </li>
+                    </ul>
+                </div>
             </div>
             {% block main_right %}
                 <div class="col-md-10 column right">

@@ -14,12 +14,55 @@ from utils import (
     create_orders,
     format_time_second
 )
-from utils import (
-    Logger
+from recommend import (
+    get_data,
+    getRecommendations,
 )
 
 
 # Logger('./products_model.log')
+def get_recommend_book_model(id=None):
+    try:
+        book = getRecommendations(get_data(), id)
+        print(book + 'aassa')
+    except Exception as e:
+        print(str(e)+'22222222222222')
+    skip = str(time.time()).split('.')[-1][:4]
+    conn = ToMongo()
+    result = conn.get_col('books').find().skip(int(skip)).limit(3)
+    book = []
+    for b in result:
+        id = str(b.get('_id'))
+        img = b.get('img_url')
+        title = b.get('title')
+        author = b.get('author')
+        book.append({'img': img,
+                     'id': id,
+                     'title': title,
+                     'author': author})
+    return book
+
+
+def get_recommend_user_book_model(id=None):
+    try:
+        book = getRecommendations(get_data(), id)
+        print(book + 'aassa')
+    except Exception as e:
+        print(str(e)+'22222222222222')
+    skip = str(time.time()).split('.')[-1][:4]
+    conn = ToMongo()
+    result = conn.get_col('books').find().skip(int(skip)).limit(2)
+    book = []
+    for b in result:
+        id = str(b.get('_id'))
+        img = b.get('img_url')
+        title = b.get('title')
+        author = b.get('author')
+        book.append({'img': img,
+                     'id': id,
+                     'title': title,
+                     'author': author})
+    return book
 
 
 def get_evaluate(book_id, page=0, page_size=10):
@@ -432,5 +475,5 @@ def index_model():
 
 
 if __name__ == '__main__':
-    print(get_evaluate('5ee97dc6360d930a489dc564'))
+    print(get_recommend_book_model(''))
     # print(get_user_avatar(5))

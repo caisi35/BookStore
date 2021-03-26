@@ -35,6 +35,8 @@ from .products_model import (
     get_order_info,
     search_book_model,
     get_evaluate,
+    get_recommend_book_model,
+    get_recommend_user_book_model,
 )
 
 from .orders_model import (

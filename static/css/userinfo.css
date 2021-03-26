@@ -688,3 +688,11 @@ input.dan_select, input.checkOnly {
     margin-top: -3px;
     margin-bottom: 1px;
 }
+
+.recommend_user_book img{
+    width: 130px;
+}
+
+.recommend_user_book {
+    border: solid 1px;
+}

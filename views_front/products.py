@@ -12,7 +12,7 @@ from models.front_models import (
     add_card_model,
     get_user_cart,
     edit_cart_num,
-    from_cart_buy,
+    get_recommend_book_model,
     to_buy_model,
     update_addr,
     delete_addr,
@@ -20,10 +20,12 @@ from models.front_models import (
     pay_model,
     search_book_model,
     get_evaluate,
+    get_recommend_user_book_model,
 )
 from views_front.user import login_required
 from utils import (
-    Logger
+    Logger,
+    get_dir_files,
 )
 
 bp = Blueprint('products', __name__)
@@ -35,12 +37,14 @@ def index():
     """主页"""
     books, new_books, book_top, book_top2 = index_model()
     book_type_list = choice_book_type()
+    banner_images = get_dir_files('static/images/banner')
     return render_template('front/index_products/index.html',
                            books=books,
                            new_books=new_books,
                            book_top=book_top,
                            book_top2=book_top2,
                            book_type_list=book_type_list,
+                           banner_images=banner_images,
                            )
 
 
@@ -85,6 +89,24 @@ def product_page():
                            page_count=page_count,
                            page_size=page_size,
                            )
+
+
+@bp.route('/recommend_product/<string:id>')
+def recommend_user(id=None):
+    book_list = get_recommend_book_model(id)
+    resp = jsonify(book_list)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
+
+
+@bp.route('/recommend_user')
+@login_required
+def recommend_product():
+    user_id = session.get('user_id')
+    book_list = get_recommend_user_book_model(user_id)
+    resp = jsonify(book_list)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 
 @bp.route('/product/add_to_cart', methods=['GET'])

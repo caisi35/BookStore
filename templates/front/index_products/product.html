@@ -44,7 +44,7 @@
                                oninput="if(value>{{ book.stock }})value={{ book.stock }}"
                                onblur="checkNumber(this)">
                         <input class="book_num" type="button" id="add" value="+" onclick="add(this)">
-                        <input type="hidden" name="book_id" value={{ book['_id'] }}>
+                        <input type="hidden" name="book_id" value={{ book['_id'] }} id="book_id" >
                     </div>
                     <div class="cart left">
                         <button type="submit" id="calculate"
@@ -63,8 +63,18 @@
             <hr class="description-hr">
         </div>
 
-        <div class="col-md-2 column">
-
+        <div class="col-md-2 column recommend_book" ng-controller="recommend_product" ng-init="id:{{ book._id }}">
+            <div class="text-center"><p>推荐</p></div>
+            <ul>
+                <li ng-repeat="book in recommend_book">
+                    <a href="/product%3F{{ '{{book.id}}' }}">
+                        <img src="{{ '{{book.img}}' }}" title="{{ '{{book.title}}' }}" alt="{{ '{{book.title}}' }}">
+                        <p>{{ '{{book.title}}' }}</p>
+                        <p>{{ '{{book.author}}' }}</p>
+                    </a>
+                    <hr>
+                </li>
+            </ul>
         </div>
         <div class="col-md-10 column description">
             <h3>详情</h3>
@@ -76,7 +86,7 @@
             </div>
             <hr>
         </div>
-        <div class="col-md-offset-2 col-md-10 column" >
+        <div class="col-md-10 column">
             <div class="text-center">
                 <h3>用户评论</h3>
             </div>
@@ -147,7 +157,7 @@
                     {#console.log(index);#}
                     //https://blog.csdn.net/pengShuai007/article/details/86528992
                     var a = document.createElement('a');
-                    a.setAttribute('href', '/product_page?id={{ book["_id"] | string }}&page='+index);
+                    a.setAttribute('href', '/product_page?id={{ book["_id"] | string }}&page=' + index);
                     // 防止反复添加
                     if (document.getElementById('startTelMedicine')) {
                         document.body.removeChild(document.getElementById('startTelMedicine'));

@@ -219,3 +219,11 @@ button#calculate:hover {
     /*height: 200px;*/
     border: 1px solid #8fd19e;
 }
+
+.recommend_book img{
+    width: 150px;
+}
+
+.recommend_book{
+    border: solid 1px;
+}
