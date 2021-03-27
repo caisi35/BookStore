@@ -20,3 +20,4 @@ from .decorator_domain import allow_cross_domain
 
 from .get_dir import get_dir_files
 
+from .to_email import mail
