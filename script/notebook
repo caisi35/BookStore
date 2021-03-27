@@ -6,3 +6,6 @@
 
 - MongoDB 所有文档插入字段
 > db.getCollection('books').update({}, {$set:{'stock': 99}}, {'multi': true})
+
+- 后台运行python
+> nohup python3 -u crawl_spider.py > out.log 2>&1 &

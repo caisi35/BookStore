@@ -2,13 +2,13 @@ import logging
 import requests
 from bs4 import BeautifulSoup
 import time
-from models import ToMongo
+import pymongo
 from utils import mail
 
 HEADER = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
                         " AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36"}
 LOGGER = logging.basicConfig(filename='dangdangbook3_bs4.log', level=logging.INFO)
-CONN = ToMongo()
+CONN = pymongo.MongoClient(host='mongo', port=27017, username='root', password='root').get_database('bookstore')
 
 
 def get_category_url(category_url):
@@ -162,7 +162,7 @@ def get_a_page_book(second_type_url):
         for book_60_url in book_first_page_60_urls.values():
             book_info_dict = get_book_detail(book_60_url)
             # 数据库操作
-            CONN.get_col('book2').insert(book_info_dict)
+            CONN.get_collection('book2').insert(book_info_dict)
             time.sleep(.1)
 
         # 有下一页

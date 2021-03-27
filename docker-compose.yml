@@ -16,6 +16,8 @@ services:
     build: 
       context: .
       dockerfile: mongo-dockerfile
+    volumes:
+      - ./script/data/mongo:/data/db
     environment:
       MONGO_INITDB_DATABASE: bookstore
       MONGO_INITDB_ROOT_USERNAME: root
