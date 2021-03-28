@@ -18,7 +18,7 @@ services:
       dockerfile: mongo-dockerfile
     privileged: true
     volumes:
-      - ./script/data/mongo:/data/db
+      - /home/caisi/mongo:/data/db
     environment:
       MONGO_INITDB_DATABASE: bookstore
       MONGO_INITDB_ROOT_USERNAME: root
