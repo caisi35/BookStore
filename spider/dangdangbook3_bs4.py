@@ -108,8 +108,8 @@ def get_book_detail(book_detail_url):
     h = BeautifulSoup(request.text, features="lxml")
     product_main_div = h.find('div', {'class': 'product_main'})
 
-    title = product_main_div.find('h1')['title']
-    subheading = product_main_div.find('h2').find('span', {'class': 'head_title_name'})['title'].strip()
+    title = h.find('h1')['title']
+    subheading = h.find('h2').find('span', {'class': 'head_title_name'})['title'].strip()
     messbox_info_div = product_main_div.find_all('div', {'class': 'messbox_info'})
     for t1_span in messbox_info_div:
         author = t1_span.find('span', {'id': 'author'}).find('a').text.strip()
@@ -169,9 +169,7 @@ def get_book_detail(book_detail_url):
                   'is_off_shelf': 0,
                   }
     except Exception as e:
-        logging.exception('值缺失{}：{}'.format(book_detail_url, str(e)))
-        print("\n---------------get_book_detail-------"
-              "------------{}\n{}\n---------------------------------".format(book_detail_url, str(e)))
+        logging.exception('\n[get_book_detail]:值缺失{}：{}'.format(book_detail_url, e))
         raise KeyError('值缺失{}：{}'.format(book_detail_url, str(e)))
     return result
 
@@ -181,18 +179,14 @@ def get_a_page_book(second_type_url):
         book_first_page_60_urls, next_page_url = get_category_page_url(second_type_url)
     except Exception as e:
         logging.exception(
-            "\n\n-----------------get_category_page_url-----"
-            "------------{}\n{}\n---------------------------------".format(e, second_type_url))
-        print("\n\n---------------get_category_page_url-------------------{}\n{}\n---------------------------------"
-              .format(e, second_type_url))
+            "\n[get_category_page_url]:{}\n{}\n---------------------------------".format(second_type_url, e))
         return
     # 循环获取图书
     for book_60_url in book_first_page_60_urls.values():
         try:
             book_info_dict = get_book_detail(book_60_url)
         except Exception as e:
-            print("\n\n---------------get_book_detail-------------------{}\n{}\n\n---------------------------------"
-                  .format(e, second_type_url))
+            logging.exception("\n [get_book_detail]:{}\n{}".format(second_type_url, e))
             return
         # 数据库操作
         CONN.get_collection('book2').insert(book_info_dict)
@@ -214,19 +208,19 @@ def get_all_book_to_db(url='http://category.dangdang.com'):
             get_a_page_book(second_type_url)
         except Exception as e:
             logging.exception(
-                "\n\n---------------get_all_book_to_db-------------------{}\n{}\n\n---------------------------------"
-                    .format(e, second_type_url))
-            print(
-                "\n\n---------------get_all_book_to_db-------------------{}\n{}\n\n---------------------------------"
-                    .format(e, second_type_url))
+                "\n[get_all_book_to_db]:{}\n{}\n".format(second_type_url, e))
     return '运行结束'
 
 
 if __name__ == '__main__':
     try:
         r = get_all_book_to_db()
+        content = """
+        运行结束了！快去看看有多少吧！
+        """
     except Exception as e:
-        logging.exception('错误：{}'.format(str(e)))
+        logging.exception('错误：{}'.format(e))
         mail('爬虫反馈', '错误：{}'.format(str(e)))
         r = '错误'
-    mail(title=r, content=r)
+        content = e
+    mail(title=r, content=content)
