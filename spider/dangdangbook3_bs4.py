@@ -13,7 +13,7 @@ my_user = 'caisi1735@163.com'  # 收件人邮箱账号，我这边发送给自�
 
 HEADER = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
                         " AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36"}
-LOGGER = logging.basicConfig(filename='dangdangbook3_bs4.log', level=logging.INFO)
+logging.basicConfig(filename='./dangdangbook3_bs4.log', level=logging.INFO)
 CONN = pymongo.MongoClient(host='mongo', port=27017, username='root', password='root').get_database('bookstore')
 
 
@@ -21,8 +21,8 @@ def mail(title='', content=''):
     ret = True
     try:
         msg = MIMEText(content, 'plain', 'utf-8')
-        msg['From'] = formataddr(["Caisi", my_sender])  # 括号里的对应发件人邮箱昵称、发件人邮箱账号
-        msg['To'] = formataddr(["To 163", my_user])  # 括号里的对应收件人邮箱昵称、收件人邮箱账号
+        msg['From'] = formataddr(("Caisi", my_sender))  # 括号里的对应发件人邮箱昵称、发件人邮箱账号
+        msg['To'] = formataddr(("To 163", my_user))  # 括号里的对应收件人邮箱昵称、收件人邮箱账号
         msg['Subject'] = title  # 邮件的主题，也可以说是标题
 
         server = smtplib.SMTP("smtp.139.com", 25)  # 发件人邮箱中的SMTP服务器，端口是25
@@ -37,12 +37,6 @@ def mail(title='', content=''):
 
 def get_category_url(category_url):
     """获取category_url分类页：分类URL"""
-    # [ < div class ="classify_kind" > < div class ="classify_kind_name" name="cat_2" >
-    # < a href="http://category.dangdang.com/cp01.01.00.00.00.00.html" target="_blank" > 青春文学 < / a >
-    # < / div > < ul class ="classify_kind_detail" > < li name="cat_3" >
-    # < a href="http://category.dangdang.com/cp01.01.13.00.00.00.html" target="_blank" > 影视写真
-    # < / a > < / li >
-
     request = requests.get(category_url, headers=HEADER)
     html = BeautifulSoup(request.text, features="lxml")
     div_floor_1 = html.find('div', {'id': 'floor_1'})
@@ -85,6 +79,7 @@ def get_category_page_url(page_url):
     获取图书首页60个的url 和 下一页的URL
     """
     request = requests.get(page_url, headers=HEADER)
+    time.sleep(.1)
     h = BeautifulSoup(request.text, features="lxml")
     search_nature_rg_div = h.find('div', {'id': 'search_nature_rg'})
     lis = search_nature_rg_div.find_all('li')  # 60个
@@ -109,6 +104,7 @@ def get_category_page_url(page_url):
 def get_book_detail(book_detail_url):
     """获取图书信息"""
     request = requests.get(book_detail_url, headers=HEADER)
+    time.sleep(.1)
     h = BeautifulSoup(request.text, features="lxml")
     product_main_div = h.find('div', {'class': 'product_main'})
 
@@ -174,6 +170,8 @@ def get_book_detail(book_detail_url):
                   }
     except Exception as e:
         logging.exception('值缺失{}：{}'.format(book_detail_url, str(e)))
+        print("\n---------------get_book_detail-------"
+              "------------{}\n{}\n---------------------------------".format(book_detail_url, str(e)))
         raise KeyError('值缺失{}：{}'.format(book_detail_url, str(e)))
     return result
 
@@ -181,23 +179,28 @@ def get_book_detail(book_detail_url):
 def get_a_page_book(second_type_url):
     try:
         book_first_page_60_urls, next_page_url = get_category_page_url(second_type_url)
-
-        # 循环获取图书
-        for book_60_url in book_first_page_60_urls.values():
-            book_info_dict = get_book_detail(book_60_url)
-            # 数据库操作
-            CONN.get_collection('book2').insert(book_info_dict)
-            time.sleep(.1)
-
-        # 有下一页
-        # print(next_page_url)
-        if next_page_url:
-            return get_a_page_book(next_page_url)
     except Exception as e:
-        logging.exception("""\n\n----------------------------------{}\n{}\n\n---------------------------------"""
-                          .format(e, second_type_url))
-        print("""\n\n----------------------------------{}\n{}\n\n---------------------------------"""
+        logging.exception(
+            "\n\n-----------------get_category_page_url-----"
+            "------------{}\n{}\n---------------------------------".format(e, second_type_url))
+        print("\n\n---------------get_category_page_url-------------------{}\n{}\n---------------------------------"
               .format(e, second_type_url))
+        return
+    # 循环获取图书
+    for book_60_url in book_first_page_60_urls.values():
+        try:
+            book_info_dict = get_book_detail(book_60_url)
+        except Exception as e:
+            print("\n\n---------------get_book_detail-------------------{}\n{}\n\n---------------------------------"
+                  .format(e, second_type_url))
+            return
+        # 数据库操作
+        CONN.get_collection('book2').insert(book_info_dict)
+        time.sleep(.1)
+
+    # 有下一页
+    if next_page_url:
+        return get_a_page_book(next_page_url)
 
 
 def get_all_book_to_db(url='http://category.dangdang.com'):
@@ -210,20 +213,16 @@ def get_all_book_to_db(url='http://category.dangdang.com'):
         try:
             get_a_page_book(second_type_url)
         except Exception as e:
-            logging.exception("""\n\n----------------------------------{}\n{}\n\n---------------------------------"""
-                              .format(e, second_type_url))
-            print("""\n\n----------------------------------{}\n{}\n\n---------------------------------"""
-                  .format(e, second_type_url))
+            logging.exception(
+                "\n\n---------------get_all_book_to_db-------------------{}\n{}\n\n---------------------------------"
+                    .format(e, second_type_url))
+            print(
+                "\n\n---------------get_all_book_to_db-------------------{}\n{}\n\n---------------------------------"
+                    .format(e, second_type_url))
     return '运行结束'
 
 
 if __name__ == '__main__':
-    # print(get_category_url('http://category.dangdang.com'))
-    # ina = 'http://img3m7.ddimg.cn/60/4/29151897-2_x_6.jpg'
-    # print(ina.replace('_x_', '_w_'))
-    # for k, v in get_book_detail('http://product.dangdang.com/29151897.html').items():
-    #     # print('{10.}:{}'.format(k, str(v)))
-    #     print(k, v)
     try:
         r = get_all_book_to_db()
     except Exception as e:
