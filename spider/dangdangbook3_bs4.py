@@ -195,6 +195,8 @@ def get_a_page_book(second_type_url):
     # 有下一页
     if next_page_url:
         return get_a_page_book(next_page_url)
+    else:
+        return
 
 
 def get_all_book_to_db(url='http://category.dangdang.com'):
@@ -213,6 +215,9 @@ def get_all_book_to_db(url='http://category.dangdang.com'):
 
 
 if __name__ == '__main__':
+    print(get_category_page_url('http://category.dangdang.com/pg2-cp01.69.06.00.00.00.html'))
+    print(get_category_page_url('http://category.dangdang.com/cp01.69.06.00.00.00.html'))
+    exit()
     try:
         r = get_all_book_to_db()
         content = """
