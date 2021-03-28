@@ -16,6 +16,7 @@ services:
     build: 
       context: .
       dockerfile: mongo-dockerfile
+    privileged: true
     volumes:
       - ./script/data/mongo:/data/db
     environment:
