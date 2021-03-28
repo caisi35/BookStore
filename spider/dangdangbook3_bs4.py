@@ -215,14 +215,12 @@ def get_all_book_to_db(url='http://category.dangdang.com'):
 
 
 if __name__ == '__main__':
-    print(get_category_page_url('http://category.dangdang.com/pg2-cp01.69.06.00.00.00.html'))
-    print(get_category_page_url('http://category.dangdang.com/cp01.69.06.00.00.00.html'))
-    exit()
     try:
         r = get_all_book_to_db()
         content = """
         运行结束了！快去看看有多少吧！
         """
+        logging.info('运行结束了！快去看看有多少吧！')
     except Exception as e:
         logging.exception('错误：{}'.format(e))
         mail('爬虫反馈', '错误：{}'.format(str(e)))
