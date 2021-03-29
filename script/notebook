@@ -9,3 +9,6 @@
 
 - 后台运行python
 > nohup python3 -u crawl_spider.py > out.log 2>&1 &
+
+MongoDB数据库备份脚本
+> mongodump -h localhost --authenticationDatabase admin -u root -p root -d bookstore -o /data/db/

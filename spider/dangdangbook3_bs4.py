@@ -197,7 +197,7 @@ def get_a_page_book(second_type_url):
             # 数据库操作
             if not CONN.get_collection('book2').find_one({'title': book_info_dict['title']}):
                 result = CONN.get_collection('book2').insert(book_info_dict)
-                print(result)
+                # print(result)
                 time.sleep(.1)
 
     # 有下一页
