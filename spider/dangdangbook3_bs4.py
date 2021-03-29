@@ -1,18 +1,10 @@
 import time
 import logging
-import smtplib
-from email.mime.text import MIMEText
-from email.utils import formataddr
-
 import requests
 from bs4 import BeautifulSoup
 
-# from models import ToMongo
 import pymongo
 
-my_sender = 'caisi-huang@139.com'  # 发件人邮箱账号
-my_pass = 'Asdf17135'  # 发件人邮箱密码
-my_user = 'caisi1735@163.com'  # 收件人邮箱账号，我这边发送给自己
 
 HEADER = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
                         " AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36",
@@ -20,24 +12,6 @@ HEADER = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
           }
 logging.basicConfig(filename='./dangdangbook3_bs4.log', level=logging.INFO)
 CONN = pymongo.MongoClient(host='mongo', port=27017, username='root', password='root').get_database('bookstore')
-
-
-def mail(title='', content=''):
-    ret = True
-    try:
-        msg = MIMEText(content, 'plain', 'utf-8')
-        msg['From'] = formataddr(("Caisi", my_sender))  # 括号里的对应发件人邮箱昵称、发件人邮箱账号
-        msg['To'] = formataddr(("To 163", my_user))  # 括号里的对应收件人邮箱昵称、收件人邮箱账号
-        msg['Subject'] = title  # 邮件的主题，也可以说是标题
-
-        server = smtplib.SMTP("smtp.139.com", 25)  # 发件人邮箱中的SMTP服务器，端口是25
-        server.login(my_sender, my_pass)  # 括号中对应的是发件人邮箱账号、邮箱密码
-        server.sendmail(my_sender, [my_user, ], msg.as_string())  # 括号中对应的是发件人邮箱账号、收件人邮箱账号、发送邮件
-        server.quit()  # 关闭连接
-    except Exception as e:  # 如果 try 中的语句没有执行，则会执行下面的 ret=False
-        ret = False
-        logging.exception(e)
-    return ret
 
 
 def get_category_url(category_url):
@@ -84,7 +58,7 @@ def get_category_page_url(page_url):
     获取图书首页60个的url 和 下一页的URL
     """
     request = requests.get(page_url, headers=HEADER)
-    time.sleep(1)
+    time.sleep(.1)
     h = BeautifulSoup(request.text, features="lxml")
     search_nature_rg_div = h.find('div', {'id': 'search_nature_rg'})
     lis = search_nature_rg_div.find_all('li')  # 60个
@@ -109,7 +83,7 @@ def get_category_page_url(page_url):
 def get_book_detail(book_detail_url):
     """获取图书信息"""
     request = requests.get(book_detail_url, headers=HEADER)
-    time.sleep(1)
+    time.sleep(.1)
     h = BeautifulSoup(request.text, features="lxml")
     product_main_div = h.find('div', {'class': 'product_main'})
 
@@ -193,7 +167,7 @@ def get_a_page_book(second_type_url):
                 book_info_dict = get_book_detail(book_60_url)
             except Exception as e:
                 logging.exception("\n [get_book_detail]:{}\n{}".format(second_type_url, e))
-                return
+                continue
             # 数据库操作
             if not CONN.get_collection('book2').find_one({'title': book_info_dict['title']}):
                 result = CONN.get_collection('book2').insert(book_info_dict)
@@ -219,21 +193,13 @@ def get_all_book_to_db(url='http://category.dangdang.com'):
         except Exception as e:
             logging.exception(
                 "\n[get_all_book_to_db]:{}\n{}\n".format(second_type_url, e))
-    return '运行结束'
 
 
 if __name__ == '__main__':
     try:
-        r = get_all_book_to_db()
-        content = """
-        运行结束了！快去看看有多少吧！
-        """
+        get_all_book_to_db()
         logging.info('运行结束了！快去看看有多少吧！')
     except Exception as e:
         logging.exception('错误：{}'.format(e))
-        mail('爬虫反馈', '错误：{}'.format(str(e)))
         r = '错误'
         content = e
-
-    # CONN.close_conn()
-    mail(title=r, content=content)

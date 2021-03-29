@@ -1,18 +1,10 @@
 import time
 import logging
-import smtplib
-from email.mime.text import MIMEText
-from email.utils import formataddr
-
 import requests
 from bs4 import BeautifulSoup
 
-from utils import Logger
 from models import ToMongo
 
-my_sender = 'caisi-huang@139.com'  # 发件人邮箱账号
-my_pass = 'Asdf17135'  # 发件人邮箱密码
-my_user = 'caisi1735@163.com'  # 收件人邮箱账号，我这边发送给自己
 
 HEADER = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
                         " AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36",
@@ -23,24 +15,6 @@ logging.basicConfig(filename='bs4_local.log',
                     format='%(asctime)s %(filename)s %(levelname)s %(message)s',
                     datefmt='%a %d %b %Y %H:%M:%S',)
 CONN = ToMongo()
-
-
-def mail(title='', content=''):
-    ret = True
-    try:
-        msg = MIMEText(content, 'plain', 'utf-8')
-        msg['From'] = formataddr(("Caisi", my_sender))  # 括号里的对应发件人邮箱昵称、发件人邮箱账号
-        msg['To'] = formataddr(("To 163", my_user))  # 括号里的对应收件人邮箱昵称、收件人邮箱账号
-        msg['Subject'] = title  # 邮件的主题，也可以说是标题
-
-        server = smtplib.SMTP("smtp.139.com", 25)  # 发件人邮箱中的SMTP服务器，端口是25
-        server.login(my_sender, my_pass)  # 括号中对应的是发件人邮箱账号、邮箱密码
-        server.sendmail(my_sender, [my_user, ], msg.as_string())  # 括号中对应的是发件人邮箱账号、收件人邮箱账号、发送邮件
-        server.quit()  # 关闭连接
-    except Exception as e:  # 如果 try 中的语句没有执行，则会执行下面的 ret=False
-        ret = False
-        logging.exception(e)
-    return ret
 
 
 def get_category_url(category_url):
@@ -227,16 +201,14 @@ def get_all_book_to_db(url='http://category.dangdang.com'):
 
 if __name__ == '__main__':
     try:
-        r = get_all_book_to_db()
+        # r = get_all_book_to_db()
         content = """
         运行结束了！快去看看有多少吧！
         """
         logging.info('运行结束了！快去看看有多少吧！')
     except Exception as e:
         logging.exception('错误：{}'.format(e))
-        mail('爬虫反馈', '错误：{}'.format(str(e)))
         r = '错误'
         content = e
 
     CONN.close_conn()
-    mail(title=r, content=content)
