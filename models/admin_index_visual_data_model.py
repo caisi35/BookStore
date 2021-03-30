@@ -8,7 +8,87 @@ from models.db import (
 from utils import (
     get_30_day_before_timestamp,
     format_m_d,
+    get_dawn_timestamp,
+    get_now,
+
 )
+
+
+def get_sales_month():
+    """获取访问量"""
+    db_conn = ToMongo()
+    col = db_conn.get_col('order')
+    # 获取29天的时间差
+    date = (datetime.datetime.now() - datetime.timedelta(days=29))
+    # 查询大于时间差的数据
+    before_30_day = get_30_day_before_timestamp()
+    data = list(col.find({'create_time': {'$gte': before_30_day}}))
+
+    # https://blog.csdn.net/qq_42184799/article/details/86311804
+    # collections.OrderedDict()字典按插入顺序排序
+    day_list = collections.OrderedDict()
+    # 获取时间列表['04-25', '04-26', '04-27', '04-28']
+    for i in range(0, 30):
+        day = date.strftime("%m-%d")
+        day_list[day] = 0
+        date = date + datetime.timedelta(days=1)
+
+    for d in data:
+        d_farmat = format_m_d(d['create_time']) # 03-30
+
+        if d_farmat in day_list:
+            day_list[d_farmat] = day_list[d_farmat] + d['amount']
+
+    x = []
+    y = []
+    for k, v in day_list.items():
+        x.append(k)
+        y.append(v)
+    db_conn.close_conn()
+
+    return x, y
+
+
+def get_scales_order_data():
+    """获取后台数据可视化的销售量和订单数据"""
+    result = {}
+    conn = ToMongo()
+
+    day_order = conn.get_col('order').find({'$and': [
+        {'create_time': {'$gte': get_dawn_timestamp()}},
+        {'create_time': {'$lte': get_now()}},
+        {'orders_status': {'$in': [1, 2, 3, 4]}}
+    ]}).count()
+
+    total_order = conn.get_col('order').find({'orders_status': {'$in': [1, 2, 3, 4]}}).count()
+
+    pipeline = [
+        {'$match': {'orders_status': {'$in': [1, 2, 3, 4]},
+                    'create_time': {'$gte': get_dawn_timestamp(), '$lte': get_now()},
+                    }},
+         {'$group': {'_id': "", 'sum': {'$sum': '$amount'}}},
+    ]
+    day_amount_resp = list(conn.get_col('order').aggregate(pipeline))
+    day_amount = .0
+    if day_amount_resp:
+        day_amount = day_amount_resp[0]['sum']
+
+    pipe = [
+        {'$match': {'orders_status': {'$in': [1, 2, 3, 4]}}},
+        {'$group': {'_id': "", 'sum': {'$sum': '$amount'}}}
+    ]
+    total_amount = .0
+    total_amount_resp = list(conn.get_col('order').aggregate(pipe))
+    if total_amount_resp:
+        total_amount = total_amount_resp[0]['sum']
+
+    result.update({'day_order': day_order,
+                   'total_order': total_order,
+                   'day_amount': round(day_amount, 2),
+                   'total_amount': round(total_amount, 2),
+                   })
+
+    return result
 
 
 def get_sales_data():
@@ -141,3 +221,6 @@ def get_keyword():
         value.append(v)
     return key, value
 
+
+if __name__ == '__main__':
+    get_sales()

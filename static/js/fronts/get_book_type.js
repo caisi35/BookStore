@@ -7,6 +7,12 @@ app.controller('Hello', function ($scope, $http) {
     });
 });
 
+app.controller('all_types', function ($scope, $http) {
+    $http.get($SCRIPT_ROOT + '/get_book_all_type').then(function (response) {
+        $scope.all_types = response.data;
+        // console.log($scope.all_types)
+    });
+});
 
 app.controller('Order', function ($scope, $http) {
     $http.get($SCRIPT_ROOT + '/orders/get_order_badge').then(function (response) {
@@ -27,6 +33,20 @@ app.controller('recommend_product', function ($scope, $http) {
 app.controller('recommend_user', function ($scope, $http) {
     $http.get($SCRIPT_ROOT + '/recommend_user').then(function (response) {
         $scope.recommend_book = response.data;
-         console.log($scope.recommend_book);
+         // console.log($scope.recommend_book);
+    })
+});
+
+app.controller('recommend_order', function ($scope, $http) {
+    $http.get($SCRIPT_ROOT + '/orders/order_for_recommend').then(function (response) {
+        $scope.recommend_order = response.data;
+         // console.log($scope.recommend_order);
+    })
+});
+
+app.controller('recommend_cart', function ($scope, $http) {
+    $http.get($SCRIPT_ROOT + '/product/add_to_cart/recommend_for_cart').then(function (response) {
+        $scope.recommend_cart = response.data;
+         console.log($scope.recommend_cart);
     })
 });

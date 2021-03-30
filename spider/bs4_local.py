@@ -1,19 +1,18 @@
 import time
 import logging
+from threading import Thread
 import requests
 from bs4 import BeautifulSoup
 
 from models import ToMongo
 
-
-HEADER = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-                        " AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36",
-          "Cookie": "__permanent_id=20200530161717538410061904844671000; MDD_channelId=70000; MDD_fromPlatform=307; permanent_key=202012292300021582203594208f2c3f; ddoy=email=B172C76F2361CC9CD7F0%40qq_user.com&nickname=Caisi&validatedflag=0&agree_date=1; MDD_username=134****0145; MDD_custId=F9PLb6HbgKUsqY6KKA/Y2A%3D%3D; _jzqco=%7C%7C%7C%7C%7C1.906321371.1616203344617.1616203344617.1616203344617.1616203344617.1616203344617.0.0.0.1.1; dangdang.com=email=QjE3MkM3NkYyMzYxQ0M5Q0Q3RjBAcXFfdXNlci5jb20=&nickname=Q2Fpc2k=&display_id=5795980493976&customerid=wptIUOGVbX4y8FQdFsqIuA==&viptype=&show_name=134%2A%2A%2A%2A0145; dest_area=country_id%3D9000%26province_id%3D145%26city_id%3D14511%26district_id%3D1451101%26town_id%3D145110108; order_follow_source=-%7C-O-123%7C%2311%7C%23login_third_qq%7C%230%7C%23; ddscreen=2; __dd_token_id=2021032821270118321621082071dc9d; alipay_request_from=https://login.dangdang.com/signin.aspx?returnurl=http%253A%252F%252Fproduct.dangdang.com%252F29204813.html; login.dangdang.com=.AYH=2021032821270103015499029&.ASPXAUTH=KNGa04c5vkeU+ORTFzjvmvlLFQSEz5/6KORz1tYp3d0IUcMvY00G/w==; sessionID=pc_5a2b5595480297786714c403736fcc533e8c3aeef490419a5c403a160fe57c4c; cart_id=4000000006370175667; cart_items_count=2; pos_6_start=1616940426769; pos_6_end=1616940426986; LOGIN_TIME=1616975490910; __rpm=mix_65152...1616975497520%7C...1616975501766; __visit_id=20210329111943129406992481688352049; __out_refer=; __trace_id=20210329111955939197958637903451091"
+HEADER = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36",
+          "Cookie": "__permanent_id=20200530161717538410061904844671000; MDD_channelId=70000; MDD_fromPlatform=307; permanent_key=202012292300021582203594208f2c3f; ddoy=email=B172C76F2361CC9CD7F0%40qq_user.com&nickname=Caisi&validatedflag=0&agree_date=1; MDD_username=134****0145; MDD_custId=F9PLb6HbgKUsqY6KKA/Y2A%3D%3D; _jzqco=%7C%7C%7C%7C%7C1.906321371.1616203344617.1616203344617.1616203344617.1616203344617.1616203344617.0.0.0.1.1; dangdang.com=email=QjE3MkM3NkYyMzYxQ0M5Q0Q3RjBAcXFfdXNlci5jb20=&nickname=Q2Fpc2k=&display_id=5795980493976&customerid=wptIUOGVbX4y8FQdFsqIuA==&viptype=&show_name=134%2A%2A%2A%2A0145; order_follow_source=-%7C-O-123%7C%2311%7C%23login_third_qq%7C%230%7C%23; cart_id=4000000006370175667; cart_items_count=2; ddscreen=2; __visit_id=20210330090708761374706661881849873; __out_refer=; __dd_token_id=2021033009071656319515195711d3ec; alipay_request_from=https://login.dangdang.com/signin.aspx?returnurl=http%253A//book.dangdang.com/; login.dangdang.com=.AYH=2021033009071703175151513&.ASPXAUTH=KNGa04c5vkeU+ORTFzjvmvlLFQSEz5/6KORz1tYp3d0IUcMvY00G/w==; sessionID=pc_eb79d9981f9b136c23eb73b69781d7bc50a98023cecbd805a66f9c1095c17980; LOGIN_TIME=1617066452951; __rpm=%7Cmix_65152...1617066472072; search_passback=989eec2e44c98de1497b626000000000fe766600447b6260; __trace_id=20210330091346913372983467876438852; dest_area=country_id%3D9000%26province_id%3D145%26city_id%3D0%26district_id%3D0%26town_id%3D0; pos_9_end=1617066827080; pos_6_end=1617066827167; pos_6_start=1617066833817"
           }
 logging.basicConfig(filename='bs4_local.log',
                     level=logging.INFO,
                     format='%(asctime)s %(filename)s %(levelname)s %(message)s',
-                    datefmt='%a %d %b %Y %H:%M:%S',)
+                    datefmt='%a %d %b %Y %H:%M:%S', )
 CONN = ToMongo()
 
 
@@ -169,7 +168,7 @@ def get_a_page_book(second_type_url):
             try:
                 book_info_dict = get_book_detail(book_60_url)
             except Exception as e:
-                logging.exception("\n [get_book_detail]:{}\n{}".format(second_type_url, e))
+                logging.exception("\n [get_book_detail]:{}\n{}".format(book_60_url, e))
                 continue
             # 数据库操作
             if not CONN.get_col('book2').find_one({'title': book_info_dict['title']}):
@@ -192,7 +191,10 @@ def get_all_book_to_db(url='http://category.dangdang.com'):
     for second_type_name, second_type_url in classify_kind_detail_dict.items():
         # 递归
         try:
-            get_a_page_book(second_type_url)
+            t = Thread(target=get_a_page_book, args=(second_type_url,))
+            t.daemon = True
+            t.run()
+            # get_a_page_book(second_type_url)
         except Exception as e:
             logging.exception(
                 "\n[get_all_book_to_db]:{}\n{}\n".format(second_type_url, e))
@@ -201,7 +203,7 @@ def get_all_book_to_db(url='http://category.dangdang.com'):
 
 if __name__ == '__main__':
     try:
-        # r = get_all_book_to_db()
+        r = get_all_book_to_db()
         content = """
         运行结束了！快去看看有多少吧！
         """
@@ -210,5 +212,5 @@ if __name__ == '__main__':
         logging.exception('错误：{}'.format(e))
         r = '错误'
         content = e
-
+    print(r)
     CONN.close_conn()
