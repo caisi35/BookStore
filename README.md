@@ -22,3 +22,17 @@ Docker version 20.10.2, build 2291f61
 PS D:\graduation-design\BookStore> docker-compose -v
 docker-compose version 1.27.4, build 40524192
 ```
+
+## picture display
+
+![image](https://github.com/caisi35/BookStore/blob/master/static/images/readme_img_link/index_page.png)
+
+![image](https://github.com/caisi35/BookStore/blob/master/static/images/readme_img_link/my_order_page.png)
+
+![image](https://github.com/caisi35/BookStore/blob/master/static/images/readme_img_link/DV1.png)
+
+![image](https://github.com/caisi35/BookStore/blob/master/static/images/readme_img_link/DV2.png)
+
+![image](https://github.com/caisi35/BookStore/blob/master/static/images/readme_img_link/admin_book.png)
+
+![image](https://github.com/caisi35/BookStore/blob/master/static/images/readme_img_link/admin_users.png)
