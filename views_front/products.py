@@ -21,6 +21,7 @@ from models.front_models import (
     search_book_model,
     get_evaluate,
     get_recommend_user_book_model,
+    get_recommend_cart_book_model,
 )
 from views_front.user import login_required
 from utils import (
@@ -127,6 +128,16 @@ def add_to_cart():
                            num=num,
                            book_type_list=book_type_list,
                            )
+
+
+@bp.route('/product/add_to_cart/recommend_for_cart')
+@login_required
+def recommend_for_cart():
+    user_id = session.get('user_id')
+    book_list = get_recommend_cart_book_model(user_id)
+    resp = jsonify(book_list)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 
 @bp.route('/cart', methods=('GET', 'POST'))

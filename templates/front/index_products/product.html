@@ -79,14 +79,20 @@
         <div class="col-md-10 column description">
             <h3>详情</h3>
             <div class="desc_img">
+            {% if book.img_urls %}
+                {% for img in book.img_urls %}
+                <img src="{{ img }}" alt="{{ book.title }}" title="{{ book.title }}">
+                {% endfor %}
+            {% else %}
                 <img src="{{ book.img_url }}" alt="{{ book.title }}" title="{{ book.title }}">
+            {% endif %}
             </div>
-            <div {% if 'product_page' in request.referrer %}id="moreMerchant"{% endif %}>
+            <div {% if request and 'product_page' in request | string %}id="moreMerchant"{% endif %}>
                 <p>{{ book.subheading }}</p>
             </div>
             <hr>
-        </div>
-        <div class="col-md-10 column">
+
+        <div class="col-md-12 column">
             <div class="text-center">
                 <h3>用户评论</h3>
             </div>
@@ -139,7 +145,7 @@
                 </div>
             </div>
         </div>
-
+</div>
         <script>
             new Pagination({
                 element: '#pages',

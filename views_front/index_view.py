@@ -18,6 +18,9 @@ bp = Blueprint('index_view', __name__)
 @bp.route('/get_nav_data')
 def get_nav_data():
     input_book_type = request.values.get('book_type')
+    word = request.values.get('word')
+    if word:
+        input_book_type = word
     page = request.values.get('page', 1, type=int)
     page_size = request.values.get('page_size', 15, type=int)
     books, count = get_like_books(input_book_type, page, page_size, True)
@@ -35,14 +38,20 @@ def get_nav_data():
                            )
 
 
-# @bp.route('/get_book')
-# def get_book():
-#     return render_template('../demo/demo_html/angularjs.html')
-
-
 @bp.route('/get_book_type')
 def get_book_type():
     book_type_list = choice_book_type()
+    # 解决跨域问题：https://blog.csdn.net/weixin_42902669/article/details/90728697
+    resp = jsonify(book_type_list)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    # resp.headers['"Access-Control-Allow-Methods"'] = '"PUT,POST,GET,DELETE,OPTIONS"'
+    return resp
+
+
+@bp.route('/get_book_all_type')
+def get_book_all_type():
+    book_type_list = choice_book_type(all=True)
+    book_type_list = sorted(book_type_list, reverse=True)
     # 解决跨域问题：https://blog.csdn.net/weixin_42902669/article/details/90728697
     resp = jsonify(book_type_list)
     resp.headers['Access-Control-Allow-Origin'] = '*'

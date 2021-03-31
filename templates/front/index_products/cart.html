@@ -95,16 +95,33 @@
                     <div class="btn pay_btn right"><a href="#" type="button" onclick="to_buy()">结算</a></div>
                 </div>
             {% else %}
-                <tr>
-                    <td>
-                        <div class="cart_em left">
-                            <h3 class="left">您的购物车为空！</h3>
-                            <div class="to_products  btn">
-                                <a type="button" href="{{ url_for('products.index') }}">去添加购物</a>
+                <hr>
+                <div class="recommend_book text-center col-md-2" ng-controller="recommend_cart">
+                    <div class="text-center"><p>推荐</p></div>
+                    <ul>
+                        <li ng-repeat="book in recommend_cart">
+                            <a href="/product%3F{{ '{{book.id}}' }}">
+                                <img src="{{ '{{book.img}}' }}" title="{{ '{{book.title}}' }}"
+                                     alt="{{ '{{book.title}}' }}">
+                                <p>{{ '{{book.title}}' }}</p>
+                                <p>{{ '{{book.author}}' }}</p>
+                            </a>
+                            <hr>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-offset-3">
+                    <tr>
+                        <td>
+                            <div class="cart_em left">
+                                <h3 class="left">您的购物车为空！</h3>
+                                <div class="to_products  btn">
+                                    <a type="button" href="{{ url_for('products.index') }}">去添加购物</a>
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
+                </div>
             {% endif %}
         </div>
         <div class="col-md-12">

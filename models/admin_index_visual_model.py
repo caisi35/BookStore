@@ -3,6 +3,7 @@ from pyecharts import (
     Scatter,
     Pie,
     Bar,
+    Line,
 )
 
 from .admin_index_visual_data_model import (
@@ -11,8 +12,17 @@ from .admin_index_visual_data_model import (
     get_price,
     get_hits_data,
     get_sales_data,
+    get_sales_month,
 )
 
+
+def line_sales_month():
+    line = Line('销售额', width='100%', title_pos='center')
+    x, y = get_sales_month()
+    dic = {'xaxis_rotate': '45', 'is_toolbox_show': True, 'mark_point': ['max', 'min'], 'mark_line': ['average'],
+           'xaxis_name': '日期','yaxis_name': '销售额/￥', 'is_smooth': True, 'is_fill': True}
+    line.add('', x, y, **dic)
+    return line
 
 
 def keyword_wordcloud():
@@ -42,10 +52,10 @@ def visits_pie_rose():
 
 def visits_scatter():
     """访问量散点图Scatter plot"""
-    scatter = Scatter('访问量', width='100%')
+    scatter = Scatter('访问量', width='100%', title_pos='center')
     x, y = get_visits()
     # 坐标轴默认为数值轴，通过xaxis_type='category'修改
-    scatter.add('', x_axis=x, y_axis=y, xaxis_type='category',
+    scatter.add('', x_axis=x, y_axis=y, xaxis_type='category', mark_line=['average'],
                 is_visualmap=True, visual_type='size', visual_range_size=[10, 60],
                 mark_point=['max', 'min'])
     return scatter
@@ -56,7 +66,7 @@ def inte_sales_stack():
     bar = Bar(title='价格与销量关系图', subtitle='x轴为图书价格区间', height=400, width=500, )
     book, sales, x = get_price()
     dic = {'xaxis_rotate': '45', 'is_toolbox_show': False, 'is_stack': True, 'legend_orient': 'vertical',
-           'legend_pos': '70%', 'xaxis_name': '价格区间/元', 'xaxis_name_gap': '47'}
+           'legend_pos': '70%', 'xaxis_name': '价格区间/元', 'xaxis_name_gap': '47', 'mark_line': ['average'],}
     bar.add('图书种类', x, book, **dic)
     bar.add('图书销量', x, sales, **dic)
     return bar
@@ -70,12 +80,12 @@ def hits_bar():
     """
     bar = Bar(title='点击量TOP 10', height=400, width=500)
     data_x, data_y = get_hits_data()
-    bar.add('', data_x, data_y, xaxis_rotate=45, is_xaxis_show=False, is_toolbox_show=False)
+    bar.add('', data_x, data_y, xaxis_rotate=45, is_xaxis_show=False, is_toolbox_show=False, mark_line=['average'],)
     return bar
 
 
 def sales_bar():
     bar = Bar(title='销售TOP 10', height=400, width=500)
     data_x, data_y = get_sales_data()
-    bar.add('', data_x, data_y, xaxis_rotate=45, is_xaxis_show=False, is_toolbox_show=False)
+    bar.add('', data_x, data_y, xaxis_rotate=45, is_xaxis_show=False, is_toolbox_show=False, mark_line=['average'],)
     return bar

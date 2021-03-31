@@ -13,6 +13,8 @@ from models.front_models import (
     evaluate_model,
     update_status,
     update_status_user_id,
+    get_recommend_order_book_model,
+
 )
 from utils import (
     Logger,
@@ -62,22 +64,32 @@ def orderDetails():
         return render_template('front/orders_list/orderDetails.html',
                                order_details=order_details)
     except Exception as e:
-        print('============orderDetails============', e)
-        return redirect(url_for('userinfo'))
+        logging.exception('============orderDetails============\n{}'.format(e))
+        return redirect(url_for('orders.get_orders'))
 
 
-@bp.route('/deleteOrders', methods=('GET', 'POST'))
+@bp.route('/order_for_recommend')
 @login_required
-def deleteOrders():
-    """选中删除订单"""
-    try:
-        orders_no = request.values.getlist('orders_no[]')
-        user_id = session.get('user_id')
-        rel = delete_orders_model(user_id, orders_no)
-        return jsonify(rel)
-    except Exception as e:
-        print('============deleteOrder============', e)
-        return redirect(url_for('userinfo.orders'))
+def order_for_recommend():
+    user_id = session.get('user_id')
+    book_list = get_recommend_order_book_model(user_id)
+    resp = jsonify(book_list)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
+
+
+# @bp.route('/deleteOrders', methods=('GET', 'POST'))
+# @login_required
+# def deleteOrders():
+#     """选中删除订单"""
+#     try:
+#         orders_no = request.values.getlist('orders_no[]')
+#         user_id = session.get('user_id')
+#         rel = delete_orders_model(user_id, orders_no)
+#         return jsonify(rel)
+#     except Exception as e:
+#         print('============deleteOrder============', e)
+#         return redirect(url_for('userinfo.orders'))
 
 
 @bp.route('/deleteOrder', methods=('GET', 'POST'))

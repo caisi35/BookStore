@@ -10,58 +10,74 @@
 {% endblock %}
 
 {% block main %}
-    <div class="container search_list">
-        <ul>
-            {% for book in books %}
-                <li class="left">
-                    <div class="container product">
-                        <div class="col-md-4 column left">
-                            <a href="{{ url_for('products.product', id=book['_id']) }}">
-                                <img alt="{{ book.title }}" src="{{ book.img_url }}" title="{{ book.title }}"/>
-                            </a>
-                        </div>
-                        <div class="col-md-8 column left">
-                            <div class="book_detail">
-                                <div class="title"><h1><a
-                                        href="{{ url_for('products.product', id=book['_id']) }}">{{ book.title }}</a>
-                                </h1>
+    <div class="container-fluid search_list" ng-controller="all_types">
+        <hr>
+        <div class="col-md-12">
+            <div class="col-md-1 col-md-offset-1 text-center" style="border: solid 1px">
+                <h4>图书分类</h4>
+                <ul>
+                    <li ng-repeat="type in all_types">
+                        <a href="/{{ def_url }}?word={{ '{{type}}' }}">{{ '{{type}}' }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-10">
+                <ul>
+                    {% for book in books %}
+                        <li class="left">
+                            <div class="container product">
+                                <div class="col-md-4 column left">
+                                    <a href="{{ url_for('products.product', id=book['_id']) }}">
+                                        <img alt="{{ book.title }}" src="{{ book.img_url }}" title="{{ book.title }}"/>
+                                    </a>
                                 </div>
-                                <div class="subheading"><p>{{ book.subheading }}</p></div>
-                                <div class="author author_a left">
-                                    <span>作者：</span>
-                                    <a href="{{ url_for('products.search', word=book['author']) }}">{{ book.author }}</a>
-                                </div>
-                                <div class="press author_a left">
-                                    <span>出版社：</span>
-                                    <a href="{{ url_for('products.search', word=book['press']) }}">{{ book.press }}</a>
-                                </div>
-                                <div class="pub_time left"><span>{% if '出版' in book.pub_time %}
-                                    {{ book.pub_time }}{% else %}出版时间：{{ book.pub_time }}{% endif %}</span></div>
-                                <div class="price">
-                                    <h1>￥{{ book.price }}</h1>
-                                    <div class="search_btn right">
-                                        <form method="get" action="{{ url_for('products.add_to_cart') }}">
-                                            <input type="hidden" name="book_id" value={{ book['_id'] }}>
-                                            <input type="hidden" name="num" value=1>
-                                            <div class="cart left">
-                                                <button type="submit" id="calculate"
-                                                        class="btn btn-default left">加入购物车
-                                                </button>
+                                <div class="col-md-8 column left">
+                                    <div class="book_detail">
+                                        <div class="title"><h2><a
+                                                href="{{ url_for('products.product', id=book['_id']) }}">{{ book.title }}</a>
+                                        </h2>
+                                        </div>
+                                        <div class="subheading"><p>{{ book.subheading }}</p></div>
+                                        <div class="author author_a left">
+                                            <span>作者：</span>
+                                            <a href="{{ url_for('products.search', word=book['author']) }}">{{ book.author }}</a>
+                                        </div>
+                                        <div class="press author_a left">
+                                            <span>出版社：</span>
+                                            <a href="{{ url_for('products.search', word=book['press']) }}">{{ book.press }}</a>
+                                        </div>
+                                        <div class="pub_time left"><span>{% if '出版' in book.pub_time %}
+                                            {{ book.pub_time }}{% else %}出版时间：{{ book.pub_time }}{% endif %}</span>
+                                        </div>
+                                        <div class="price">
+                                            <h1>￥{{ book.price }}</h1>
+                                            <div class="search_btn right">
+                                                <form method="get" action="{{ url_for('products.add_to_cart') }}">
+                                                    <input type="hidden" name="book_id" value={{ book['_id'] }}>
+                                                    <input type="hidden" name="num" value=1>
+                                                    <div class="cart left">
+                                                        <button type="submit" id="calculate"
+                                                                class="btn btn-default left">加入购物车
+                                                        </button>
+                                                    </div>
+                                                </form>
                                             </div>
-                                        </form>
+                                        </div>
+                                        <div class="price_m "><span>定价：</span><span
+                                                class="old">￥{{ book.price_m }}</span>
+                                        </div>
+
                                     </div>
                                 </div>
-                                <div class="price_m "><span>定价：</span><span class="old">￥{{ book.price_m }}</span></div>
-
                             </div>
-                        </div>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div id="pages">
 
-    </div>
-    <div id="pages">
+                </div>
+            </div>
+        </div>
     </div>
     <script>
         new Pagination({
@@ -90,4 +106,7 @@
             }
         });
     </script>
+    <div id="to_top">
+        <a href="javascript:;" id="to_top_btn"></a>
+    </div>
 {% endblock %}

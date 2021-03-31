@@ -9,7 +9,13 @@ from .admin_index_visual_model import (
     visits_scatter,
     inte_sales_stack,
     hits_bar,
-    sales_bar
+    sales_bar,
+    line_sales_month,
+)
+
+from .admin_index_visual_data_model import (
+    get_scales_order_data,
+    get_sales_month,
 )
 
 from .book_admin_model import (
@@ -48,5 +54,4 @@ from .admin_login_model import (
     admin_login_model,
     clear_user_count,
     admin_register,
-
 )

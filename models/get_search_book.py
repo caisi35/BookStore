@@ -7,8 +7,8 @@ def get_like_books(word, page, page_size, book_type=None):
     book_list = []
     mycol = mydb.get_col('books')
     if book_type:
-        books = mycol.find({'type': word}).sort('hits', -1).skip(page * page_size).limit(page_size)
-        count = mycol.find({'type': word}).count()
+        books = mycol.find({'first_type': word}).sort('hits', -1).skip(page * page_size).limit(page_size)
+        count = mycol.find({'first_type': word}).count()
     else:
         query = [{'press': {"$regex": word}},
                  {'title': {"$regex": word}},

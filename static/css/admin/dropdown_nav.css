@@ -3,51 +3,90 @@
 /*www.htmleaf.com/jQuery/Menu-Navigation/201610124098.html*/
 /*-------------------------------*/
 .sidebar-nav li {
-  display: inline-block;
-  line-height: 20px;
-  position: relative;
-  width: 100%;
+    display: inline-block;
+    line-height: 20px;
+    position: relative;
+    width: 100%;
 }
 
 /*.sidebar-nav li:before {*/
-  /*background-color: #428bca;*/
-  /*content: '';*/
-  /*height: 100%;*/
-  /*left: 0;*/
-  /*position: absolute;*/
-  /*top: 0;*/
-  /*-webkit-transition: width 0.2s ease-in;*/
-  /*transition: width 0.2s ease-in;*/
-  /*width: 3px;*/
-  /*z-index: -1;*/
+/*background-color: #428bca;*/
+/*content: '';*/
+/*height: 100%;*/
+/*left: 0;*/
+/*position: absolute;*/
+/*top: 0;*/
+/*-webkit-transition: width 0.2s ease-in;*/
+/*transition: width 0.2s ease-in;*/
+/*width: 3px;*/
+/*z-index: -1;*/
 /*}*/
 
 .sidebar-nav li:hover:before {
-  -webkit-transition: width 0.2s ease-in;
-  transition: width 0.2s ease-in;
-  width: 100%;
-      background-color: #428bca;
+    -webkit-transition: width 0.2s ease-in;
+    transition: width 0.2s ease-in;
+    width: 100%;
+    background-color: #428bca;
 
 }
+
 .sidebar-nav ul li a {
-  color: #337ab7;
-  display: block;
-  padding: 10px 15px 10px 30px;
-  text-decoration: none;
+    color: #337ab7;
+    display: block;
+    padding: 10px 15px 10px 30px;
+    text-decoration: none;
 }
 
 .sidebar-nav li.open:hover before {
-  -webkit-transition: width 0.2s ease-in;
-  transition: width 0.2s ease-in;
-  width: 100%;
+    -webkit-transition: width 0.2s ease-in;
+    transition: width 0.2s ease-in;
+    width: 100%;
 }
+
 .sidebar-nav .dropdown-menu {
-  /*background-color: #428bca;*/
-  border-radius: 0;
-  border: none;
-  box-shadow: none;
-  margin: 0;
-  padding: 0;
-  position: relative;
-  width: 100%;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    width: 100%;
+}
+
+.dv-top div {
+    border-radius: 10px;
+    margin-right: 15px;
+    background-image: linear-gradient(245deg, #7A88FF, #7AFFAF);
+}
+
+.github-corner:hover
+.octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+
+@keyframes octocat-wave {
+    0%, 100% {
+        transform: rotate(0)
+    }
+    20%, 60% {
+        transform: rotate(-25deg)
+    }
+    40%, 80% {
+        transform: rotate(10deg)
+    }
+}
+
+@media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+        animation: none
+    }
+
+    .github-corner
+    .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+    }
+}
+
+#navbar {
+    margin-right: 100px;
 }

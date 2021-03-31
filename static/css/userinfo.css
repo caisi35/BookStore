@@ -689,10 +689,10 @@ input.dan_select, input.checkOnly {
     margin-bottom: 1px;
 }
 
-.recommend_user_book img{
+.recommend_user_book,.recommend img{
     width: 130px;
 }
 
-.recommend_user_book {
+.recommend_user_book,.recommend {
     border: solid 1px;
 }

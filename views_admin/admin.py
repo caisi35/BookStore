@@ -13,6 +13,8 @@ from models import (
     inte_sales_stack,
     hits_bar,
     sales_bar,
+    get_scales_order_data,
+    line_sales_month,
 )
 from utils import Logger
 
@@ -27,18 +29,21 @@ REMOTE_HOST = "/static/js/assets/js"
 def admin():
     """后台管理主页"""
     try:
+        line_sales = line_sales_month()
         visitsscatter = visits_scatter()
         visits_pie = visits_pie_rose()
         bar = hits_bar()
         sales = sales_bar()
         inte_sales_bar = inte_sales_stack()
         kw_wc = keyword_wordcloud()
+        scales_order_data = get_scales_order_data()
     except Exception as e:
         traceback.print_exc()
         logging.exception('admin index DV [Exception]:%s', e)
         return 'Error:' + str(e)
     return render_template('admin/indexBase.html',
                            page_active="index",
+                           line_sales=line_sales.render_embed(),
                            myvisitsscatter=visitsscatter.render_embed(),
                            myvisits_pie=visits_pie.render_embed(),
                            myhitsbar=bar.render_embed(),
@@ -48,5 +53,6 @@ def admin():
                            mykw_wc=kw_wc.render_embed(),
                            script_list_kw_wc=kw_wc.get_js_dependencies(),
                            host=REMOTE_HOST,
+                           scales_order_data=scales_order_data,
                            )
 
