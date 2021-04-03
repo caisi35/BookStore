@@ -53,7 +53,7 @@ window.onload = function () {
         // 取出li标签
         var li = titles[i];
         li.id = i;
-        console.log(li);
+        // console.log(li);
         // 监听鼠标的移动
         li.onmousemove = function(){
             for(var j=0; j<titles.length; j++){

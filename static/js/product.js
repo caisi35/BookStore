@@ -41,7 +41,10 @@ function to_collection(book_id) {
                 span_id.setAttribute('class', 'glyphicon glyphicon-star')
             },
             error: function (e) {
-                alert("收藏失败，请稍后再试～");
+                if (e.responseText.indexOf('登录')) {
+                    window.location.href = $SCRIPT_ROOT + '/user_login_register/login';
+                }
+                // alert("收藏失败，请稍后再试～");
             }
         });
     } else {
@@ -55,8 +58,10 @@ function to_collection(book_id) {
                 span_id = document.getElementById('star');
                 span_id.setAttribute('class', 'glyphicon glyphicon-star-emptyglyphicon glyphicon-star-empty')
             },
-            error: function (e) {
-                alert("收藏失败，请稍后再试～");
+            error: function (data) {
+                if (e.responseText.indexOf('登录')) {
+                    window.location.href = $SCRIPT_ROOT + '/user_login_register/login';
+                }
             }
         });
     }
