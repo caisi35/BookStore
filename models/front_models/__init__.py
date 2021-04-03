@@ -17,6 +17,11 @@ from .userinf_model import (
     edit_userinfo_model,
     upload_avatar_model,
     change_pwd_model,
+    get_user_collections,
+    to_delete_collection,
+    get_history_model,
+    clear_history_model,
+
 )
 
 from .products_model import (
@@ -37,6 +42,9 @@ from .products_model import (
     get_evaluate,
     get_recommend_book_model,
     get_recommend_user_book_model,
+    to_collection_model,
+    is_collection_model,
+    add_history,
 )
 
 from .orders_model import (

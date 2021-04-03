@@ -12,12 +12,57 @@ from models import (
 
 from utils import (
     create_orders,
-    format_time_second
+    format_time_second,
+    get_now
 )
 from recommend import (
     get_data,
     getRecommendations,
 )
+
+
+def add_history(user_id, book_id):
+    conn = ToMongo()
+    query = {'_id': str(user_id), 'book_ids': {'$nin': [book_id]}}
+    ret = conn.update('history',
+                      query,
+                      {'$push': {'book_ids': book_id}})
+    conn.close_conn()
+    return ret.modified_count
+
+
+def is_collection_model(user_id, book_id):
+    """获取用户是否收藏该商品"""
+    result = False
+    conn = ToMongo()
+    ret = conn.get_col('collection').find_one({'_id': str(user_id), 'book_ids.book_id': {'$in': [book_id]}})
+    conn.close_conn()
+    if ret:
+        result = True
+    return result
+
+
+def to_collection_model(user_id, book_id, is_clear=False):
+    """添加、取消收藏"""
+    conn = ToMongo()
+    if is_clear:
+        result = False
+        query = {'_id': str(user_id), 'book_ids.book_id': {'$in': [book_id]}}
+        ret = conn.update('collection',
+                          query,
+                          {'$pull': {'book_ids': {'book_id': book_id}}})
+        if ret.modified_count:
+            result = True
+    else:
+        result = False
+        query = {'_id': str(user_id), 'book_ids.book_id': {'$nin': [book_id]}}
+        ret = conn.update('collection',
+                          query,
+                          {'$push': {'book_ids': {'book_id': book_id, 'create_time': get_now()}}})
+        if ret.modified_count:
+            result = True
+    conn.close_conn()
+    return result
 
 
 # Logger('./products_model.log')
@@ -26,7 +71,7 @@ def get_recommend_book_model(id=None):
         book = getRecommendations(get_data(), id)
         print(book + 'aassa')
     except Exception as e:
-        print(str(e)+'22222222222222')
+        print(str(e) + '22222222222222')
     skip = str(time.time()).split('.')[-1][:4]
     conn = ToMongo()
     result = conn.get_col('books').find().skip(int(skip)).limit(3)
@@ -48,7 +93,7 @@ def get_recommend_user_book_model(id=None):
         book = getRecommendations(get_data(), id)
         print(book + 'aassa')
     except Exception as e:
-        print(str(e)+'22222222222222')
+        print(str(e) + '22222222222222')
     skip = str(time.time()).split('.')[-1][:4]
     conn = ToMongo()
     result = conn.get_col('books').find().skip(int(skip)).limit(2)
@@ -305,7 +350,8 @@ def to_buy_model(user_id, books_id, is_list=True):
                    'freight': freight}
             shipping_time = datetime.now() + timedelta(days=3)
             db_conn.close_conn()
-            return {'book_list': book_list, 'books_price': books_price, 'pay': pay, 'shipping_time': shipping_time, 'addr': addr}
+            return {'book_list': book_list, 'books_price': books_price, 'pay': pay, 'shipping_time': shipping_time,
+                    'addr': addr}
         except Exception as e:
             db_conn.close_conn()
             logging.exception(e)
@@ -347,7 +393,8 @@ def to_buy_model(user_id, books_id, is_list=True):
                    'freight': freight}
             shipping_time = datetime.now() + timedelta(days=3)
             db_conn.close_conn()
-            return {'book_list': book_list, 'books_price': books_price, 'pay': pay, 'shipping_time': shipping_time, 'addr': addr}
+            return {'book_list': book_list, 'books_price': books_price, 'pay': pay, 'shipping_time': shipping_time,
+                    'addr': addr}
         except Exception as e:
             db_conn.close_conn()
             print('========get_buy=========:', e)

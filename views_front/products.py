@@ -22,6 +22,9 @@ from models.front_models import (
     get_evaluate,
     get_recommend_user_book_model,
     get_recommend_cart_book_model,
+    to_collection_model,
+    is_collection_model,
+    add_history,
 )
 from views_front.user import login_required
 from utils import (
@@ -57,6 +60,14 @@ def product(id):
     page_count = 5
     evaluates, total, evaluates_details = get_evaluate(id, page_size=page_size)
     book_type_list = choice_book_type()
+    user_id = session.get('user_id')
+    is_collection = False
+    if user_id:
+        try:
+            add_history(user_id, id)
+            is_collection = is_collection_model(user_id, id)
+        except Exception as e:
+            logging.exception('[product]:[%s]\n[%s]' % (user_id, e))
     return render_template('front/index_products/product.html',
                            book=book,
                            book_type_list=book_type_list,
@@ -66,6 +77,7 @@ def product(id):
                            active_page=0,
                            page_count=page_count,
                            page_size=page_size,
+                           is_collection=is_collection,
                            )
 
 
@@ -80,6 +92,14 @@ def product_page():
     if page:
         evaluates, total, evaluates_details = get_evaluate(id, page, page_size)
     book_type_list = choice_book_type()
+    user_id = session.get('user_id')
+    is_collection = False
+    if user_id:
+        try:
+            add_history(user_id, id)
+            is_collection = is_collection_model(user_id, id)
+        except Exception as e:
+            logging.exception('[product]:[%s]\n[%s]' % (user_id, e))
     return render_template('front/index_products/product.html',
                            book=book,
                            book_type_list=book_type_list,
@@ -89,6 +109,7 @@ def product_page():
                            active_page=page,
                            page_count=page_count,
                            page_size=page_size,
+                           is_collection=is_collection,
                            )
 
 
@@ -138,6 +159,32 @@ def recommend_for_cart():
     resp = jsonify(book_list)
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
+
+
+@bp.route('/to_collection', methods=['POST'])
+@login_required
+def to_collection():
+    user_id = session.get('user_id')
+    book_id = request.form.get('book_id')
+    try:
+        result = to_collection_model(user_id, book_id)
+    except Exception as e:
+        logging.exception('[to_collection][%s]:[%s]:\n[%s]' % (user_id, book_id, e))
+        return abort(500)
+    return jsonify(result)
+
+
+@bp.route('/clear_collection', methods=['POST'])
+@login_required
+def clear_collection():
+    user_id = session.get('user_id')
+    book_id = request.form.get('book_id')
+    try:
+        result = to_collection_model(user_id, book_id, is_clear=True)
+    except Exception as e:
+        logging.exception('[to_collection][%s]:[%s]:\n[%s]' % (user_id, book_id, e))
+        return abort(500)
+    return jsonify(result)
 
 
 @bp.route('/cart', methods=('GET', 'POST'))

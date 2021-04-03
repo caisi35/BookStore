@@ -12,11 +12,11 @@
 {% block title %}我{% endblock %}
 
 {% block main %}
-    <div class="container">
+    <div class="container-fluid">
         <hr>
         <div class="row clearfix col-md-12">
             <div class="col-md-2">
-                <div class="info-list ">
+                <div class="info-list col-md-10 col-md-offset-1">
                     <ul class="list-unstyled ">
                         <li {% if active_nav == 'me' %}class="active"{% endif %}>
                             <a href="{{ url_for('userinfo.userinfo') }}"> 我 </a>
@@ -30,9 +30,15 @@
                         <li {% if active_nav == 'address' %}class="active"{% endif %}>
                             <a href="{{ url_for('userinfo.address') }}">收货人信息</a>
                         </li>
+                        <li {% if active_nav == 'collection' %}class="active"{% endif %}>
+                            <a href="{{ url_for('userinfo.collection') }}">我的收藏</a>
+                        </li>
+                        <li {% if active_nav == 'history' %}class="active"{% endif %}>
+                            <a href="{{ url_for('userinfo.get_history') }}">浏览历史</a>
+                        </li>
                     </ul>
                 </div>
-                <div class="col-md-12 column recommend" ng-controller="recommend_user">
+                <div class="col-md-10 col-md-offset-1 recommend text-center" ng-controller="recommend_user">
                     <div class="text-center"><p>推荐</p></div>
                     <ul>
                         <li ng-repeat="book in recommend_book">

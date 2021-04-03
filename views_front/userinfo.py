@@ -1,6 +1,6 @@
 import logging
 from flask import (
-    Blueprint, flash, redirect, render_template, request, url_for, session, jsonify
+    Blueprint, flash, redirect, render_template, request, url_for, session, jsonify, abort
 )
 from views_front.user import login_required
 from views_front.products import get_user
@@ -15,6 +15,10 @@ from models.front_models import (
     set_default_addr_model,
     edit_addr_model,
     get_addr_info,
+    get_user_collections,
+    to_delete_collection,
+    get_history_model,
+    clear_history_model,
 )
 from utils import Logger
 
@@ -34,6 +38,63 @@ def userinfo():
     except Exception as e:
         print('============userinfo============', e)
         return redirect(request.referrer)
+
+
+@bp.route('/get_history')
+@login_required
+def get_history():
+    user_id = session.get('user_id')
+    try:
+        items = get_history_model(user_id)
+    except Exception as e:
+        logging.exception('[get_history]:[%s]\n[%s]' % (user_id, e))
+        return abort(500)
+    return render_template('front/user_info_manage/history.html',
+                           items=items,
+                           active_nav='history')
+
+
+@bp.route('/clear_history')
+@login_required
+def clear_history():
+    user_id = session.get('user_id')
+    try:
+        result = clear_history_model(user_id)
+    except Exception as e:
+        logging.exception('[clear_history]:[%s]\n[%s]' % (user_id, e))
+        flash('出错了，请稍后再试～')
+        return abort(500)
+    if not result:
+        flash('出错了，请稍后再试～')
+    return redirect(url_for('userinfo.get_history'))
+
+
+@bp.route('/collection')
+@login_required
+def collection():
+    user_id = session.get('user_id')
+
+    try:
+        collections = get_user_collections(user_id)
+    except Exception as e:
+        logging.exception('[collection exception][%s]:\n[%s]' % (user_id, e))
+        return abort(500)
+    return render_template('front/user_info_manage/collection.html',
+                           collections=collections,
+                           active_nav='collection',)
+
+
+@bp.route('/delete_collection', methods=['POST'])
+@login_required
+def delete_collection():
+    ids = request.form.getlist('collection_ids[]')
+    user_id = session.get('user_id')
+    rel = False
+    try:
+        rel = to_delete_collection(user_id, ids)
+    except Exception as e:
+        logging.exception('[delete_collection]:[%s]\n[%s]' % (user_id, e))
+    return jsonify(rel)
 
 
 @bp.route('/info', methods=('GET', 'POST'))

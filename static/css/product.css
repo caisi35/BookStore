@@ -227,3 +227,7 @@ button#calculate:hover {
 .recommend_book{
     border: solid 1px;
 }
+
+.glyphicon-star{
+    color: yellow;
+}

@@ -1,0 +1,90 @@
+{% extends 'front/user_info_manage/base_user_info.html' %}
+
+{% block title %}我的收藏{% endblock %}
+
+{% block css %}
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/userinfo_in_head.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/fronts/deleteOrder.js') }}"></script>
+{% endblock %}
+
+{% block main_right %}
+    <div class="orders-content col-md-10" ng-controller="Order">
+        {% for message in get_flashed_messages() %}
+            <div class="flash"><b>{{ message }}</b></div>
+        {% endfor %}
+        <div class="col-md-12">
+            <table class="table table-hover" id="table">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="checkOnly" name="checkbox_v1" value="version1"
+                               onclick="allSelect('checkbox_v1', 'checkbox1')"><span> 全选</span></th>
+                    <th class="content">
+                        商品名称
+                    </th>
+                    <th class="content">
+                        单价
+                    </th>
+                    <th class="content">
+                        收藏时间
+                    </th>
+                    <th class="content col-md-1">
+
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for book in collections %}
+                    <tr>
+                        <td>
+                            <div>
+                                <input class="dan_select check" type="checkbox" name="checkbox1"
+                                       value="layer1"
+                                       onclick="singleSelect2parent('checkbox_v1', 'checkbox1')">
+                                <input type="hidden" name="book_id" value={{ book['_id'] }}>
+                                {% if book.is_off_shelf %}
+                                    <span class="danger">已下架</span>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="book_img left"><img src={{ book['img_url'] }}></div>
+                            <div class="title">
+                                {% if book.is_off_shelf %}
+                                    <h3 class="danger">已下架</h3>
+                                    <span>{{ book.title }}</span>
+                                {% else %}
+                                    <a href="{{ url_for('products.product', id=book['_id']) }}">{{ book.title }}</a>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td>
+                            <span class="price">{{ book.price }}</span><span>￥</span>
+                        </td>
+                        <td class="col-md-1">
+                            {{ book.collection_time }}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('products.add_to_cart', num=1, book_id=book._id) }}"><span
+                                    class="glyphicon glyphicon-shopping-cart"></span></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if collections %}
+            <div class="col-md-1">
+                <a href="#" class="btn button btn-danger delete-collection" type="button">删除</a>
+            </div>
+        {% else %}
+            <div class="text-center"><h3>您还没有收藏有商品～</h3></div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/fronts/my_orders_check.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/fronts/collection.js') }}"></script>
+{% endblock %}

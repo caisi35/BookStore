@@ -130,7 +130,7 @@ class ToMongo:
         try:
             mycol = self.mydb[col]
             if is_one:
-                result = mycol.update_one(query, new)
+                result = mycol.update_one(query, new, upsert=True)
             else:
                 result = mycol.update_many(query, new)
             return result

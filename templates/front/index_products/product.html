@@ -36,7 +36,7 @@
                     <div class="alert alert-danger"><b>{{ message }}</b></div>
                 {% endfor %}
             </div>
-            <div class="button">
+            <div class="button col-md-12">
                 <form method="get" action="/product/add_to_cart">
                     <div class="left">
                         <input class="book_num left" id="cut" type="button" value="-" onclick="reductionOf(this)">
@@ -55,6 +55,17 @@
                         <a type="button" href="{{ url_for('products.buy', book_id=book['_id']) }}"
                            id="buy-now" class="btn btn-default left">立即购买(1)</a>
                     </div>
+                    <div>
+                        <a class="btn btn-default" onclick="to_collection(book_id='{{ book['_id'] }}')">
+                            {% if is_collection %}
+                            <span id="star" class="glyphicon glyphicon-star"></span>
+                            {% else %}
+                            <span id="star" class="glyphicon glyphicon-star-emptyglyphicon glyphicon-star-empty"></span>
+                            {% endif %}
+                            收藏商品
+                        </a>
+                    </div>
+
                 </form>
             </div>
         </div>

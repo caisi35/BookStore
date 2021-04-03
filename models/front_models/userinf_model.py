@@ -1,6 +1,60 @@
+from bson import ObjectId
 from werkzeug.utils import secure_filename
-from werkzeug.security import check_password_hash, generate_password_hash
-from models import ToConn
+from werkzeug.security import generate_password_hash
+from models import ToConn, ToMongo
+
+from utils import format_time_second
+
+
+def clear_history_model(user_id):
+    conn = ToMongo()
+    result = False
+    query = {'_id': str(user_id)}
+    ret = conn.update('history',
+                      query,
+                      {'$set': {'book_ids': []}})
+    if ret.modified_count:
+        result = True
+    conn.close_conn()
+    return result
+
+
+def get_history_model(user_id):
+    conn = ToMongo()
+    ret = conn.get_col('history').find_one({'_id': str(user_id)})
+    result = []
+    for id in ret.get('book_ids'):
+        book = conn.get_col('books').find_one({'_id': ObjectId(id)})
+        result.append(book)
+    conn.close_conn()
+    return result
+
+
+def to_delete_collection(user_id, ids):
+    conn = ToMongo()
+    result = False
+    query = {'_id': str(user_id)}
+    ret = conn.update('collection',
+                      query,
+                      {'$pull': {'book_ids': {'book_id': {'$in': ids}}}})
+    if ret.modified_count:
+        result = True
+    conn.close_conn()
+    return result
+
+
+def get_user_collections(user_id):
+    conn = ToMongo()
+    ret = conn.get_col('collection').find_one({'_id': str(user_id)})
+    result = []
+    for info in ret.get('book_ids'):
+        id = info.get('book_id')
+        book = conn.get_col('books').find_one({'_id': ObjectId(id)})
+        collection_time = info.get('create_time')
+        book.update({'collection_time': format_time_second(collection_time)})
+        result.append(book)
+    conn.close_conn()
+    return result
 
 
 def change_pwd_model(user_id, new_pw):
