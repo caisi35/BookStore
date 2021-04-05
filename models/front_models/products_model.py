@@ -18,10 +18,13 @@ from utils import (
 from recommend import (
     get_data,
     getRecommendations,
+    recommend as recommend_for_tags,
+    get_visual_info,
 )
 
 
 def add_history(user_id, book_id):
+    """添加浏览历史"""
     conn = ToMongo()
     query = {'_id': str(user_id), 'book_ids': {'$nin': [book_id]}}
     ret = conn.update('history',
@@ -66,48 +69,40 @@ def to_collection_model(user_id, book_id, is_clear=False):
 
 
 # Logger('./products_model.log')
-def get_recommend_book_model(id=None):
+def get_recommend_book_model(id=None, num=3):
+    """根据图书内容推荐"""
     try:
         book = getRecommendations(get_data(), id)
-        print(book + 'aassa')
     except Exception as e:
-        print(str(e) + '22222222222222')
-    skip = str(time.time()).split('.')[-1][:4]
-    conn = ToMongo()
-    result = conn.get_col('books').find().skip(int(skip)).limit(3)
-    book = []
-    for b in result:
-        id = str(b.get('_id'))
-        img = b.get('img_url')
-        title = b.get('title')
-        author = b.get('author')
-        book.append({'img': img,
-                     'id': id,
-                     'title': title,
-                     'author': author})
-    return book
+        # 系统冷启动
+        book = None
+    book_list = []
+
+    if book:
+        ret = get_visual_info(book)
+        book_list.extend(ret)
+    if len(book_list) < num:
+        book = recommend_for_tags(id, num=num-len(book_list))
+        ret = get_visual_info(book)
+        book_list.extend(ret)
+    return book_list
 
 
-def get_recommend_user_book_model(id=None):
+def get_recommend_user_book_model(id=None, num=2):
     try:
         book = getRecommendations(get_data(), id)
-        print(book + 'aassa')
     except Exception as e:
-        print(str(e) + '22222222222222')
-    skip = str(time.time()).split('.')[-1][:4]
-    conn = ToMongo()
-    result = conn.get_col('books').find().skip(int(skip)).limit(2)
-    book = []
-    for b in result:
-        id = str(b.get('_id'))
-        img = b.get('img_url')
-        title = b.get('title')
-        author = b.get('author')
-        book.append({'img': img,
-                     'id': id,
-                     'title': title,
-                     'author': author})
-    return book
+        book = None
+    book_list = []
+
+    if book:
+        ret = get_visual_info(book)
+        book_list.extend(ret)
+    if len(book_list) < num:
+        book = recommend_for_tags(user_id=id, num=num-len(book_list))
+        ret = get_visual_info(book)
+        book_list.extend(ret)
+    return book_list
 
 
 def get_evaluate(book_id, page=0, page_size=10):

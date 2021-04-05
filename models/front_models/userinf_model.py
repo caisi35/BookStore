@@ -5,8 +5,11 @@ from models import ToConn, ToMongo
 
 from utils import format_time_second
 
+HISTORY = 20  # 展示记录数
+
 
 def clear_history_model(user_id):
+    """清除浏览记录"""
     conn = ToMongo()
     result = False
     query = {'_id': str(user_id)}
@@ -20,10 +23,12 @@ def clear_history_model(user_id):
 
 
 def get_history_model(user_id):
+    """获取浏览记录"""
     conn = ToMongo()
     ret = conn.get_col('history').find_one({'_id': str(user_id)})
+    book_ids = ret.get('book_ids')
     result = []
-    for id in ret.get('book_ids'):
+    for id in book_ids[-HISTORY:]:
         book = conn.get_col('books').find_one({'_id': ObjectId(id)})
         result.append(book)
     conn.close_conn()
@@ -70,7 +75,7 @@ def change_pwd_model(user_id, new_pw):
         to_exec.close()
     else:
         # 失败，回滚
-        rel =False
+        rel = False
         to_exec.rollback()
         to_exec.close()
     conn.to_close()

@@ -1,6 +1,20 @@
 from models import ToMongo
 
 
+def get_visual_info(book_list):
+    result = []
+    for b in book_list:
+        id = str(b.get('_id'))
+        img = b.get('img_url')
+        title = b.get('title')
+        author = b.get('author')
+        result.append({'img': img,
+                          'id': id,
+                          'title': title,
+                          'author': author})
+    return result
+
+
 def get_data():
     try:
         my_conn = ToMongo()
