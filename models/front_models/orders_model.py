@@ -1,15 +1,19 @@
 from bson.objectid import ObjectId
 from werkzeug.utils import secure_filename
 
-from utils import format_time_second, ORDER_EFFECTIVE_TIME, get_now
+from utils import (
+    format_time_second,
+    ORDER_EFFECTIVE_TIME,
+    get_now,
+    check_img_suffix,
+)
 from models import (
     ToMongo,
 )
 
 from models import get_book_for_id
 
-
-AUTO_RECEIVE = 15*60*60*24
+AUTO_RECEIVE = 15 * 60 * 60 * 24
 
 
 def get_badge_model(user_id):
@@ -203,11 +207,14 @@ def save_img(order_no, img):
     """保存用户评论上传的图片"""
     s_img = secure_filename(img.filename)
     img_suffix = s_img.split('.')[-1]
-    # 用户id+时间戳+后缀
-    filepath = './static/images/evaluate/' + order_no + '.' + str(img_suffix)
-    # filename = filepath.split('/')[-1]
-    img.save(filepath)
-    return filepath
+    if check_img_suffix(img_suffix):
+        # 用户id+时间戳+后缀
+        filepath = './static/images/evaluate/' + order_no + '.' + str(img_suffix)
+        # filename = filepath.split('/')[-1]
+        img.save(filepath)
+        return filepath
+    else:
+        raise TypeError('image suffix error')
 
 
 def get_book_id(order_no):

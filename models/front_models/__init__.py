@@ -4,6 +4,10 @@ from .user_events_model import (
     add_visits,
 )
 
+from .index_models import (
+    index_model,
+)
+
 from .address_model import (
     get_user_addr_info,
     get_addr_list_model,
@@ -25,7 +29,6 @@ from .userinf_model import (
 )
 
 from .products_model import (
-    index_model,
     get_book,
     get_user,
     add_card_model,

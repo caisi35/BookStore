@@ -1,4 +1,8 @@
 # 公共模块
+from .check import (
+    check_img_suffix,
+)
+
 from .time_model import (
     get_now,
     get_before_day,

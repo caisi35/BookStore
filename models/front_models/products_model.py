@@ -504,17 +504,6 @@ def get_book(id, query_off_shelf=True):
     return book
 
 
-def index_model():
-    """主页内容"""
-    mydb = ToMongo()
-    # 轮播
-    random_time = int(str(time.time())[-3:])
-    books = list(mydb.get_col('books').find({'is_off_shelf': 0}).skip(random_time).limit(15))
-    new_books = list(mydb.get_col('books').find({'is_off_shelf': 0}).skip(random_time).limit(12))
-    book_top = list(mydb.get_col('books').find({'is_off_shelf': 0}).sort("pub_time", -1).limit(5))
-    book_top2 = list(mydb.get_col('books').find({'is_off_shelf': 0}).sort("sales", -1).limit(5))
-    mydb.close_conn()
-    return books, new_books, book_top, book_top2
 
 
 if __name__ == '__main__':

@@ -8,7 +8,9 @@ from models import ToMongo
 
 HEADER = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36",
           "Cookie":
-'__permanent_id=20200407140949670150821382601373490; MDD_channelId=70000; MDD_fromPlatform=307; producthistoryid=26918687%2C26921715%2C23761145%2C28522755%2C28529343%2C25223949%2C25066760%2C25060153%2C28507618%2C24175371; permanent_key=2020041220492885766069876648db03; dangdang.com=email=QjE3MkM3NkYyMzYxQ0M5Q0Q3RjBAcXFfdXNlci5jb20=&nickname=Q2Fpc2k=&display_id=5795980493976&customerid=wptIUOGVbX4y8FQdFsqIuA==&viptype=&show_name=134%2A%2A%2A%2A0145; ddoy=email=B172C76F2361CC9CD7F0%40qq_user.com&nickname=Caisi&validatedflag=0&agree_date=1; LOGIN_TIME=1617589198527; cto_bundle=4l9fiV9KNzdkcWRaJTJCRndHSlBMTFBCbGV6aTl2Wk1NcG9XYWg5SkphcldWSiUyQldxNVJCN2ZUUndySyUyRm9OWnoyU3FWZDExeGNsTVJSejdvUFBENlNEejF6cWVTS1I0b3RVaTRpdm5wZWp2bmdSQUtMcFI0d213d2tFMG5pNlNVaUxTb3h0TGhWZHg4QyUyQkFsenJCSzZ2d1h5N09tYTd4Y1R5ZCUyRk9uSzY4NUtRdGNTSzg0JTNE; dest_area=country_id%3D9000%26province_id%3D145%26city_id%3D14511%26district_id%3D1451101%26town_id%3D145110108; secret_key=eeb2cd770f27797682722c28f1723261; __visit_id=20210405101944233379483171559469013; __out_refer=; __trace_id=20210405102014623200832524605987673; __dd_token_id=20210405101944833026637963796510; alipay_request_from=https://login.dangdang.com/signin.aspx?returnurl=http%253A%252F%252Fproduct.dangdang.com%252F28518072.html; login.dangdang.com=.AYH=2021040510194504459319145&.ASPXAUTH=KNGa04c5vkeU+ORTFzjvmvlLFQSEz5/6KORz1tYp3d0IUcMvY00G/w==; __rpm=%7Clogin_page.login_password_div..1617589188591; sessionID=pc_dac295cd97cc42761f53fc9e1cc60dcbffae11bf58b5b174ca2fe19e84a0f266; order_follow_source=-%7C-O-123%7C%2311%7C%23login_third_qq%7C%230%7C%23; ddscreen=2; pos_6_start=1617589198715; pos_6_end=1617589198737'          }
+'ddscreen=2; dest_area=country_id%3D9000%26province_id%3D111%26city_id%20%3D0%26district_id%3D0%26town_id%3D0; __permanent_id=20210407093124692211914694880966486; __rpm=%7Cmix_65152.403754%2C5294.3.1617759085978; secret_key=c4133a17d798d88fefae7302c086f8c9; __visit_id=20210407102703899112755253490753220; __out_refer=; __trace_id=20210407102703900109050708490941408; pos_6_start=1617762424393; pos_6_end=1617762424404'
+          }
+
 logging.basicConfig(filename='bs4_local.log',
                     level=logging.INFO,
                     format='%(asctime)s %(filename)s %(levelname)s %(message)s',
@@ -173,8 +175,7 @@ def get_a_page_book(second_type_url):
             # 数据库操作
             if not CONN.get_col('books').find_one({'title': book_info_dict['title']}):
                 result = CONN.get_col('books').insert(book_info_dict)
-                print(result)
-
+                print(result, book_60_url)
     # 有下一页
     if next_page_url:
         print(next_page_url)
@@ -187,17 +188,17 @@ def get_a_page_book(second_type_url):
 def get_all_book_to_db(url='http://category.dangdang.com'):
     # 二分类URLs:{'影视写真': 'http://category.dangdang.com/cp01.01.13.00.00.00.html',...}
     classify_kind_detail_dict = get_category_url(url)
-
     # 循环获取二分类
     for second_type_name, second_type_url in classify_kind_detail_dict.items():
         # 递归
+        if CONN.get_col('books').find_one({'second_type': second_type_name}):
+            continue
         try:
-            print(second_type_name)
             t = Thread(target=get_a_page_book, args=(second_type_url,))
             # t.daemon = True
-            # t.start()
+            t.start()
             # t.join()
-            t.run()
+            # t.run()
             # get_a_page_book(second_type_url)
         except Exception as e:
             logging.exception(

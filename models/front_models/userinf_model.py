@@ -3,7 +3,10 @@ from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash
 from models import ToConn, ToMongo
 
-from utils import format_time_second
+from utils import (
+    format_time_second,
+    check_img_suffix,
+)
 
 HISTORY = 20  # 展示记录数
 
@@ -87,22 +90,25 @@ def upload_avatar_model(user_id, img):
     s_img = secure_filename(img.filename)
     img_suffix = s_img.split('.')[-1]
     # 随机文件名+后缀
-    filepath = './static/images/avatar/' + str(user_id) + '.' + str(img_suffix)
-    filename = filepath.split('/')[-1]
-    img.save(filepath)
-    conn = ToConn()
-    to_exec = conn.to_execute()
-    cur = to_exec.cursor()
-    result = cur.execute('update users set avatar=%s where id=%s', (filename, user_id))
-    if result:
-        to_exec.commit()
-        to_exec.close()
+    if check_img_suffix(img_suffix):
+        filepath = './static/images/avatar/' + str(user_id) + '.' + str(img_suffix)
+        filename = filepath.split('/')[-1]
+        img.save(filepath)
+        conn = ToConn()
+        to_exec = conn.to_execute()
+        cur = to_exec.cursor()
+        result = cur.execute('update users set avatar=%s where id=%s', (filename, user_id))
+        if result:
+            to_exec.commit()
+            to_exec.close()
+        else:
+            rel = False
+            to_exec.rollback()
+            to_exec.close()
+        conn.to_close()
+        return rel
     else:
-        rel = False
-        to_exec.rollback()
-        to_exec.close()
-    conn.to_close()
-    return rel
+        return False
 
 
 def edit_userinfo_model(user_id, request):
