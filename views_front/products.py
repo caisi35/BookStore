@@ -25,6 +25,7 @@ from models.front_models import (
     to_collection_model,
     is_collection_model,
     add_history,
+    add_hits_cf,
 )
 from views_front.user import login_required
 from utils import (
@@ -64,6 +65,7 @@ def product(id):
     is_collection = False
     if user_id:
         try:
+            add_hits_cf(user_id, id)
             add_history(user_id, id)
             is_collection = is_collection_model(user_id, id)
         except Exception as e:
@@ -96,6 +98,7 @@ def product_page():
     is_collection = False
     if user_id:
         try:
+            add_hits_cf(user_id, id)
             add_history(user_id, id)
             is_collection = is_collection_model(user_id, id)
         except Exception as e:

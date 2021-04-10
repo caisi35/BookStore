@@ -20,6 +20,7 @@ from recommend import (
     getRecommendations,
     recommend as recommend_for_tags,
     get_visual_info,
+    item_cf,
 )
 
 
@@ -38,7 +39,7 @@ def is_collection_model(user_id, book_id):
     """获取用户是否收藏该商品"""
     result = False
     conn = ToMongo()
-    ret = conn.get_col('collection').find_one({'_id': str(user_id), 'book_ids.book_id': {'$in': [book_id]}})
+    ret = conn.get_col('favorites').find_one({'_id': str(user_id), 'book_ids.book_id': {'$in': [book_id]}})
     conn.close_conn()
     if ret:
         result = True
@@ -51,7 +52,7 @@ def to_collection_model(user_id, book_id, is_clear=False):
     if is_clear:
         result = False
         query = {'_id': str(user_id), 'book_ids.book_id': {'$in': [book_id]}}
-        ret = conn.update('collection',
+        ret = conn.update('favorites',
                           query,
                           {'$pull': {'book_ids': {'book_id': book_id}}})
         if ret.modified_count:
@@ -59,7 +60,7 @@ def to_collection_model(user_id, book_id, is_clear=False):
     else:
         result = False
         query = {'_id': str(user_id), 'book_ids.book_id': {'$nin': [book_id]}}
-        ret = conn.update('collection',
+        ret = conn.update('favorites',
                           query,
                           {'$push': {'book_ids': {'book_id': book_id, 'create_time': get_now()}}})
         if ret.modified_count:
@@ -76,9 +77,15 @@ def get_recommend_book_model(id=None, num=3):
     except Exception as e:
         # 系统冷启动
         book = None
+
     book_list = []
 
     if book:
+        ret = get_visual_info(book)
+        book_list.extend(ret)
+    else:
+        # 基于用户点击行为的 item-cf 推荐
+        book = item_cf(id, num)
         ret = get_visual_info(book)
         book_list.extend(ret)
     if len(book_list) < num:
@@ -504,7 +511,10 @@ def get_book(id, query_off_shelf=True):
     return book
 
 
-
+def add_hits_cf(user_id, book_id):
+    conn = ToMongo()
+    result = conn.update('hits_data', {'_id': str(user_id),'book_ids': {'$nin': [book_id]}}, {'$push': {'book_ids': book_id}})
+    conn.close_conn()
 
 if __name__ == '__main__':
     print(get_recommend_book_model(''))

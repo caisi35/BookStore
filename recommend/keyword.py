@@ -24,7 +24,7 @@ def get_user_text(id):
     user = ToConn().get_db('select hobbies,introduce,identity,age from users where id=%s', (id, )).fetchone()
     text = ''
     for k, u in user.items():
-        text = text + '。' + u
+        text = text + '。' + str(u)
 
     return text
 

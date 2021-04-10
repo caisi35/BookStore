@@ -11,3 +11,7 @@ from .recommend import (
 from .keyword import (
     recommend,
 )
+
+from .recommend_cf import (
+    item_cf,
+)

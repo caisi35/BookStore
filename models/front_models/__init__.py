@@ -48,6 +48,7 @@ from .products_model import (
     to_collection_model,
     is_collection_model,
     add_history,
+    add_hits_cf,
 )
 
 from .orders_model import (
