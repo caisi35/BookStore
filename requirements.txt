@@ -8,4 +8,4 @@ Flask==1.1.2
 beautifulsoup4==4.8.2
 uwsgi
 pyecharts-snapshot==0.2.0
-jieba==0.4.1
+jieba==0.4
