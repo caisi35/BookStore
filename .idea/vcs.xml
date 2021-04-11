@@ -2,6 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/demo/bootstrap-switch" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/static/assets" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/static/js/assets" vcs="Git" />
   </component>
