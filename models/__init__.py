@@ -1,6 +1,7 @@
 from .order_admin_model import (
     orders_query_model,
     order_handle_model,
+    get_order,
 )
 
 from .admin_index_visual_model import (

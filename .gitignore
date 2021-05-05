@@ -139,3 +139,5 @@ models/db.py
 ./models/db.py
 
 conf/db_config.py
+db_config.py
+*.log.*

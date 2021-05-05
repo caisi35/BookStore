@@ -23,6 +23,7 @@ def get_before_day():
 
 
 def format_time_second(input_time):
+    """格式化时间戳：xxxx-xx-xx xx:xx:xx"""
     timeArray = time.localtime(input_time)
     out_time = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
     return out_time

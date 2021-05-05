@@ -85,9 +85,13 @@ def get_recommend_book_model(id=None, num=3):
         book_list.extend(ret)
     else:
         # 基于用户点击行为的 item-cf 推荐
-        book = item_cf(id, num)
-        ret = get_visual_info(book)
-        book_list.extend(ret)
+        try:
+            book = item_cf(id, num)
+            ret = get_visual_info(book)
+            book_list.extend(ret)
+        except KeyError:
+            # 没有登录的异常情况
+            pass
     if len(book_list) < num:
         book = recommend_for_tags(id, num=num-len(book_list))
         ret = get_visual_info(book)

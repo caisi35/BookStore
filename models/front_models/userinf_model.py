@@ -42,7 +42,7 @@ def to_delete_collection(user_id, ids):
     conn = ToMongo()
     result = False
     query = {'_id': str(user_id)}
-    ret = conn.update('collection',
+    ret = conn.update('favorites',
                       query,
                       {'$pull': {'book_ids': {'book_id': {'$in': ids}}}})
     if ret.modified_count:
@@ -53,15 +53,16 @@ def to_delete_collection(user_id, ids):
 
 def get_user_collections(user_id):
     conn = ToMongo()
-    ret = conn.get_col('collection').find_one({'_id': str(user_id)})
+    ret = conn.get_col('favorites').find_one({'_id': str(user_id)})
     result = []
-    for info in ret.get('book_ids'):
-        id = info.get('book_id')
-        book = conn.get_col('books').find_one({'_id': ObjectId(id)})
-        collection_time = info.get('create_time')
-        book.update({'collection_time': format_time_second(collection_time)})
-        result.append(book)
-    conn.close_conn()
+    if ret:
+        for info in ret.get('book_ids'):
+            id = info.get('book_id')
+            book = conn.get_col('books').find_one({'_id': ObjectId(id)})
+            collection_time = info.get('create_time')
+            book.update({'collection_time': format_time_second(collection_time)})
+            result.append(book)
+        conn.close_conn()
     return result
 
 

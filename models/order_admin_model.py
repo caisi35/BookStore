@@ -3,7 +3,24 @@ from models.db import ToMongo
 from utils.time_model import (
     get_before_day,
     get_now,
+    format_time_second,
 )
+
+
+def get_order(order_no):
+    """获取订单详情"""
+    conn = ToMongo()
+    order = conn.get_col('order').find_one({'order_no': order_no})
+    books = order.get('books')
+    new_books = []
+    for book in books:
+        book_info = conn.get_col('books').find_one({'_id': ObjectId(book.get('book_id'))})
+        book_num = book.get('book_num')
+        new_books.append({'book': book_info, 'book_num': book_num})
+    order['create_time'] = format_time_second(order.get('create_time'))
+    order['books'] = new_books
+    conn.close_conn()
+    return order
 
 
 def orders_query_model(page, page_size, order_status):
@@ -55,12 +72,12 @@ def order_handle_model(order_no, status, msg):
         # 确认已发货
         uptate_status_inc(order_no, 1, msg)
     elif status == 2:
-        # 后台为查看订单详情
+        # 后台为查看订单详情, 2=待收货
         uptate_status_inc(order_no, 2, msg)
     elif status == 3:
-        # 后台为查看订单详情
+        # 后台为查看订单详情， 3=待评价
         uptate_status_inc(order_no, 3, msg)
-    elif status == 6:
+    elif status == 6:   # 6=退款
         handle_refund(order_no, 6, msg)
 
 
