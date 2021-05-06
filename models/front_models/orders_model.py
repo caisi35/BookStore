@@ -17,6 +17,7 @@ AUTO_RECEIVE = 15 * 60 * 60 * 24
 
 
 def get_badge_model(user_id):
+    """获取用户订单的徽章数"""
     status = [[0], [1], [2], [3]]
     badge = {}
     for s in status:
@@ -25,6 +26,7 @@ def get_badge_model(user_id):
 
 
 def format_logistics(logistics):
+    """格式化物流信息"""
     lit = []
     for logi in logistics:
         create_time = format_time_second(logi.get('create_time'))
@@ -171,19 +173,40 @@ def get_user_orders_model(user_id, orders_status):
 
 def update_status_to_5():
     """将过期订单，状态更新为失效"""
+    mydb = ToMongo()
     query = {'orders_status': 0,
              'create_time': {'$lt': get_now() - ORDER_EFFECTIVE_TIME},
              }
+    # 恢复库存
+    orders = mydb.get_col('order').find(query)
+    for order in orders:
+        order_no = order.get('order_no')
+        query = {'order_no': order_no}
+        restore_stock(query, mydb)
+    # 更新订单状态
     new = {'$set': {'orders_status': 5}}
-    mydb = ToMongo()
     result = mydb.update('order', query, new, is_one=False)
     mydb.close_conn()
     return result.modified_count
 
 
+def restore_stock(query, mydb):
+    """恢复库存"""
+    order = mydb.get_col('order').find_one(query)
+    rel = []
+    for book in order.get('books'):
+        re = mydb.update('books', {'_id': ObjectId(book.get('book_id'))}, {'$inc': {'stock': book.get('book_num')}})
+        rel.append({book.get('book_id'): re})
+    return rel
+
+
 def cancel_model(order_no, user_id):
     """用户取消订单"""
     mydb = ToMongo()
+    # 还原物品库存
+    query = {'order_no': order_no, 'user_id': user_id}
+    restore_stock(query, mydb)
+    # 更改订单状态
     query = {'order_no': order_no,
              'user_id': user_id}
     new = {'$set': {'orders_status': 5}}

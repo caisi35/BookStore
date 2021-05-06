@@ -62,6 +62,7 @@ from .orders_model import (
     update_status,
     update_status_user_id,
     get_book_id,
+    restore_stock,
 )
 
 from .recommend_model import (

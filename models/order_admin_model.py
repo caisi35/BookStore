@@ -5,6 +5,7 @@ from utils.time_model import (
     get_now,
     format_time_second,
 )
+from models.front_models import restore_stock
 
 
 def get_order(order_no):
@@ -82,7 +83,12 @@ def order_handle_model(order_no, status, msg):
 
 
 def handle_refund(order_no, status, msg):
+    """退款"""
     conn = ToMongo()
+    # 还原库存
+    query = {'order_no': order_no}
+    restore_stock(query, conn)
+    # 更新订单状态
     result = conn.update('order', {'order_no': order_no, 'orders_status': status}, {"$set": {'orders_status': 5}})
     if result.modified_count:
         pass

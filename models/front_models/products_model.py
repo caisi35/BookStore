@@ -259,9 +259,12 @@ def to_pay_model(user_id, amount, book_ids, addr_id):
             conn.rollback()  # 事务回滚
         else:
             conn.commit()  # 事务提交
-            # 销量加1
-            for book_id in book_ids:
-                db_conn.update('books', {'_id': ObjectId(book_id)}, {'$inc': {'sales': 1}})
+
+            for book in books:
+                # 销量加
+                db_conn.update('books', {'_id': ObjectId(book.get('book_id'))}, {'$inc': {'sales': book.get('book_num')}})
+                # 库存减
+                db_conn.update('books', {'_id': ObjectId(book.get('book_id'))}, {'$inc': {'stock': -book.get('book_num')}})
         db.to_close()
     db_conn.close_conn()
     return order_no
@@ -341,14 +344,14 @@ def to_buy_model(user_id, books_id, is_list=True):
                 db = ToConn()
                 sql = 'select book_num from cart where user_id=%s and book_id=%s and is_effe=1'
                 book_num = db.get_db(sql, (user_id, book_id)).fetchone()
-                mydb = get_book(book_id)
-                mydb['_id'] = book_id
-                mydb['book_num'] = int(book_num['book_num'])
-                mydb['sum_price'] = round(float(mydb['price']) * float(book_num['book_num']), 2)
-                if int(book_num.get('book_num')) > mydb.get('stock'):
-                    return {'error': '{} 没有这么多库存啦～'.format(mydb.get('title'))}
-                book_list.append(mydb)
-                sum_price = sum_price + round(float(mydb['price']) * float(book_num['book_num']), 2)
+                book = get_book(book_id)
+                book['_id'] = book_id
+                book['book_num'] = int(book_num['book_num'])
+                book['sum_price'] = round(float(book['price']) * float(book_num['book_num']), 2)
+                if int(book_num.get('book_num')) > book.get('stock'):
+                    return {'error': '{} 没有这么多库存啦～'.format(book.get('title'))}
+                book_list.append(book)
+                sum_price = sum_price + round(float(book['price']) * float(book_num['book_num']), 2)
                 sum_book = sum_book + int(book_num['book_num'])
             books_price = {'sum_price': sum_price, 'freight': freight, 'package': package,
                            'sum': round(sum_price + freight - discount, 2), 'discount': discount}
@@ -370,14 +373,14 @@ def to_buy_model(user_id, books_id, is_list=True):
             package = 1
             discount = 1.01
             sum_book = 0
-            mydb = get_book(books_id)
-            mydb['_id'] = books_id
-            mydb['book_num'] = book_num
-            mydb['sum_price'] = round(float(mydb['price']) * book_num, 2)
-            if book_num > mydb.get('stock'):
-                return {'error': '{} 没有这么多库存啦～'.format(mydb.get('title'))}
-            book_list.append(mydb)
-            sum_price = sum_price + round(float(mydb['price']) * book_num, 2)
+            book = get_book(books_id)
+            book['_id'] = books_id
+            book['book_num'] = book_num
+            book['sum_price'] = round(float(book['price']) * book_num, 2)
+            if book_num > book.get('stock'):
+                return {'error': '{} 没有这么多库存啦～'.format(book.get('title'))}
+            book_list.append(book)
+            sum_price = sum_price + round(float(book['price']) * book_num, 2)
             sum_book = sum_book + book_num
             user = get_user(user_id)
             addr = {}
