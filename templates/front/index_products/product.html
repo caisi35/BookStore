@@ -44,7 +44,7 @@
                                oninput="if(value>{{ book.stock }})value={{ book.stock }}"
                                onblur="checkNumber(this)">
                         <input class="book_num" type="button" id="add" value="+" onclick="add(this)">
-                        <input type="hidden" name="book_id" value={{ book['_id'] }} id="book_id" >
+                        <input type="hidden" name="book_id" value={{ book['_id'] }} id="book_id">
                     </div>
                     <div class="cart left">
                         <button type="submit" id="calculate"
@@ -58,9 +58,10 @@
                     <div>
                         <a class="btn btn-default" onclick="to_collection(book_id='{{ book['_id'] }}')">
                             {% if is_collection %}
-                            <span id="star" class="glyphicon glyphicon-star"></span>
+                                <span id="star" class="glyphicon glyphicon-star"></span>
                             {% else %}
-                            <span id="star" class="glyphicon glyphicon-star-emptyglyphicon glyphicon-star-empty"></span>
+                                <span id="star"
+                                      class="glyphicon glyphicon-star-emptyglyphicon glyphicon-star-empty"></span>
                             {% endif %}
                             收藏商品
                         </a>
@@ -90,73 +91,73 @@
         <div class="col-md-10 column description">
             <h3>详情</h3>
             <div class="desc_img">
-            {% if book.img_urls %}
-                {% for img in book.img_urls %}
-                <img src="{{ img }}" alt="{{ book.title }}" title="{{ book.title }}">
-                {% endfor %}
-            {% else %}
-                <img src="{{ book.img_url }}" alt="{{ book.title }}" title="{{ book.title }}">
-            {% endif %}
+                {% if book.img_urls %}
+                    {% for img in book.img_urls %}
+                        <img src="{{ img }}" alt="{{ book.title }}" title="{{ book.title }}">
+                    {% endfor %}
+                {% else %}
+                    <img src="{{ book.img_url }}" alt="{{ book.title }}" title="{{ book.title }}">
+                {% endif %}
             </div>
             <div {% if request and 'product_page' in request | string %}id="moreMerchant"{% endif %}>
                 <p>{{ book.subheading }}</p>
             </div>
             <hr>
 
-        <div class="col-md-12 column">
-            <div class="text-center">
-                <h3>用户评论</h3>
-            </div>
-            <div>
-                <span class="col-md-2 col-md-offset-1">全部：{{ total }}</span>
-                <span class="col-md-2">好评：{{ evaluates_details.get('praise') }}</span>
-                <span class="col-md-2">中评：{{ evaluates_details.get('mid') }}</span>
-                <span class="col-md-2">差评：{{ evaluates_details.get('negative') }}</span>
-            </div>
-            <div class="col-md-12">
-                <ul>
-                    {% for evaluate in evaluates %}
-                        <li>
-                            <div class="col-md-12 evaluate">
-                                <div class="col-md-10">
-                                    <br>
-                                    <div>
-                                        <div class="score left">
-                                            <span class="current" style="width: {{ evaluate.star * 20 }}%;"></span>
+            <div class="col-md-12 column">
+                <div class="text-center">
+                    <h3>用户评论</h3>
+                </div>
+                <div>
+                    <span class="col-md-2 col-md-offset-1">全部：{{ total }}</span>
+                    <span class="col-md-2">好评：{{ evaluates_details.get('praise') }}</span>
+                    <span class="col-md-2">中评：{{ evaluates_details.get('mid') }}</span>
+                    <span class="col-md-2">差评：{{ evaluates_details.get('negative') }}</span>
+                </div>
+                <div class="col-md-12">
+                    <ul>
+                        {% for evaluate in evaluates %}
+                            <li>
+                                <div class="col-md-12 evaluate">
+                                    <div class="col-md-10">
+                                        <br>
+                                        <div>
+                                            <div class="score left">
+                                                <span class="current" style="width: {{ evaluate.star * 20 }}%;"></span>
+                                            </div>
+                                            <em class="score-em">{{ evaluate.star }} 星</em>
                                         </div>
-                                        <em class="score-em">{{ evaluate.star }} 星</em>
+                                        <br>
+                                        <div class="evaluate-content">
+                                            <p>{{ evaluate.context }}</p>
+                                        </div>
+                                        <div class="evaluate-img">
+                                            {% if evaluate.img_path %}
+                                                <img src="{{ evaluate.img_path }}" alt="评论图片" title="评论图片">
+                                            {% endif %}
+                                        </div>
+                                        <br>
+                                        <div class="create-time">
+                                            <span>{{ evaluate.create_time }}</span>
+                                        </div>
+                                        <br>
                                     </div>
-                                    <br>
-                                    <div class="evaluate-content">
-                                        <p>{{ evaluate.context }}</p>
+                                    <div class="col-md-2 text-center">
+                                        <br>
+                                        <div class="img-user"><img src="{{ evaluate.avatar }}" alt="用户头像" title="用户头像">
+                                        </div>
+                                        <br>
+                                        <span>{{ evaluate.user_name }}</span>
                                     </div>
-                                    <div class="evaluate-img">
-                                        {% if evaluate.img_path %}
-                                            <img src="{{ evaluate.img_path }}" alt="评论图片" title="评论图片">
-                                        {% endif %}
-                                    </div>
-                                    <br>
-                                    <div class="create-time">
-                                        <span>{{ evaluate.create_time }}</span>
-                                    </div>
-                                    <br>
                                 </div>
-                                <div class="col-md-2 text-center">
-                                    <br>
-                                    <div class="img-user"><img src="{{ evaluate.avatar }}" alt="用户头像" title="用户头像">
-                                    </div>
-                                    <br>
-                                    <span>{{ evaluate.user_name }}</span>
-                                </div>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-                <div id="pages" class="col-md-12">0
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div id="pages" class="col-md-12">0
+                    </div>
                 </div>
             </div>
         </div>
-</div>
         <script>
             new Pagination({
                 element: '#pages',

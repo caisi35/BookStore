@@ -97,6 +97,7 @@
                 //https://blog.csdn.net/pengShuai007/article/details/86528992
                 var a = document.createElement('a');
                 a.setAttribute('href', '/{{ def_url }}?word={{key_word}}&page=' + index);
+                a.setAttribute('id', 'startTelMedicine');
                 // 防止反复添加
                 if (document.getElementById('startTelMedicine')) {
                     document.body.removeChild(document.getElementById('startTelMedicine'));

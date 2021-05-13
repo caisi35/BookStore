@@ -328,7 +328,7 @@ def pay():
 def search():
     """搜索功能"""
     word = request.values.get('word')
-    page = request.values.get('page', 0, type=int)
+    page = request.values.get('page', 1, type=int)
     page_size = request.values.get('page_size', 15, type=int)
     try:
         books, count = search_book_model(word, page, page_size)

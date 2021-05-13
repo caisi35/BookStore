@@ -213,7 +213,7 @@
 <script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
 <script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-<script src="{{ url_for('static',filename='js/ionic.bundle.min.js') }}"></script>
+{#<script src="{{ url_for('static',filename='js/ionic.bundle.min.js') }}"></script>  <!-- 导致翻页click失效 -->#}
 <script src="{{ url_for('static', filename='js/admin/admin_account.js') }}"></script>
 
 {% block js_bottom %}

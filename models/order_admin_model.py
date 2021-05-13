@@ -5,7 +5,16 @@ from utils.time_model import (
     get_now,
     format_time_second,
 )
-from models.front_models import restore_stock
+
+
+def restore_stock(query, mydb):
+    """恢复库存"""
+    order = mydb.get_col('order').find_one(query)
+    rel = []
+    for book in order.get('books'):
+        re = mydb.update('books', {'_id': ObjectId(book.get('book_id'))}, {'$inc': {'stock': book.get('book_num')}})
+        rel.append({book.get('book_id'): re})
+    return rel
 
 
 def get_order(order_no):

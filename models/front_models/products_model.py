@@ -183,7 +183,7 @@ def search_book_model(word, page, page_size):
         books, count = get_like_books(word, page, page_size)
     # 如果输入为空，则显示点击量前十的
     else:
-        books = db_conn.get_col('books').find({'is_off_shelf': 0}).sort('hits', -1).skip(page * page_size).limit(
+        books = db_conn.get_col('books').find({'is_off_shelf': 0}).sort('hits', -1).skip((page - 1) * page_size).limit(
             page_size)
         count = db_conn.get_col('books').find({'is_off_shelf': 0}).count()
     db_conn.close_conn()
