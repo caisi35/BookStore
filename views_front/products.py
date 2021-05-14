@@ -93,6 +93,10 @@ def product_page():
     page_count = 5
     if page:
         evaluates, total, evaluates_details = get_evaluate(id, page, page_size)
+    else:
+        evaluates = []
+        total = 0
+        evaluates_details = {'praise': 0, 'mid': 0, 'negative': 0}
     book_type_list = choice_book_type()
     user_id = session.get('user_id')
     is_collection = False

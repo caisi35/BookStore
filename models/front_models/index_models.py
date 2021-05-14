@@ -9,7 +9,8 @@ def index_model():
     # 轮播
     random_time = int(str(time.time())[-3:])
     books = get_reader_recommend(mydb, random_time)
-    new_books = list(mydb.get_col('books').find({'is_off_shelf': 0}).skip(random_time).limit(12))
+    new_books = list(mydb.get_col('books').find({'is_off_shelf': 0}).sort("create_time", -1)
+                     .sort("hits", -1).limit(12))
     book_top = list(mydb.get_col('books').find({'is_off_shelf': 0}).sort("pub_time", -1).limit(5))
     book_top2 = list(mydb.get_col('books').find({'is_off_shelf': 0}).sort("sales", -1).limit(5))
     mydb.close_conn()

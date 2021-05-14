@@ -32,7 +32,8 @@ def add_history(user_id, book_id):
                       query,
                       {'$push': {'book_ids': book_id}})
     conn.close_conn()
-    return ret.modified_count
+    if ret:
+        return ret.modified_count
 
 
 def is_collection_model(user_id, book_id):
@@ -132,12 +133,15 @@ def get_evaluate(book_id, page=0, page_size=10):
     except AttributeError:
         return [], 0, star_dict
     for evaluate in eval_comment:
-        # print(evaluate)
         dit = {}
         # dit['order_no'] = evaluate['order_no']
         dit['star'] = evaluate['star']
         dit['context'] = evaluate['context']
-        avatar_path = './static/images/avatar/' + get_user_avatar(evaluate['user_id'])
+        user_avatar = get_user_avatar(evaluate['user_id'])
+        if user_avatar:
+            avatar_path = './static/images/avatar/' + user_avatar
+        else:
+            avatar_path = ''
         dit['avatar'] = avatar_path
         dit['user_name'] = evaluate['user_name']
         dit['img_path'] = evaluate['img_path']
@@ -167,7 +171,7 @@ def get_user_avatar(user_id):
     mydb = ToConn()
     user_info = mydb.get_db('select avatar from users where id=%s', (user_id,)).fetchone()
     try:
-        avatar = user_info.get('avatar')
+        avatar = user_info.get('avatar', '')
     except AttributeError:
         avatar = ''
     return avatar
@@ -178,9 +182,13 @@ def search_book_model(word, page, page_size):
     db_conn = ToMongo()
     # 如果输入不为空
     if word:
-        # 添加关键字数据到数据库，用与绘制词云图
-        db_conn.update('keyword', {'_id': 'keyword'}, {'$inc': {word: 1}})
-        books, count = get_like_books(word, page, page_size)
+        first_type = db_conn.get_col('books').find().distinct('first_type')
+        if word in first_type:
+            books, count = get_like_books(word, page, page_size, book_type=True)
+        else:
+            # 添加关键字数据到数据库，用与绘制词云图
+            db_conn.update('keyword', {'_id': 'keyword'}, {'$inc': {word: 1}})
+            books, count = get_like_books(word, page, page_size)
     # 如果输入为空，则显示点击量前十的
     else:
         books = db_conn.get_col('books').find({'is_off_shelf': 0}).sort('hits', -1).skip((page - 1) * page_size).limit(
@@ -333,12 +341,12 @@ def to_buy_model(user_id, books_id, is_list=True):
             else:
                 address = db_conn.get_col('address').find({'_id': ObjectId(user['address_default'])})
                 for a in address:
-                    addr['name'] = a['name']
-                    addr['tel'] = a['tel']
-                    addr['province'] = a['province']
-                    addr['city'] = a['city']
-                    addr['district'] = a['district']
-                    addr['details'] = a['details']
+                    addr['name'] = a.get('name')
+                    addr['tel'] = a.get('tel')
+                    addr['province'] = a.get('province')
+                    addr['city'] = a.get('city')
+                    addr['district'] = a.get('district', '')
+                    addr['details'] = a.get('details', '')
                     addr['_id'] = user['address_default']
             for book_id in book_id_list:
                 db = ToConn()
@@ -389,12 +397,12 @@ def to_buy_model(user_id, books_id, is_list=True):
             else:
                 address = db_conn.get_col('address').find({'_id': ObjectId(user['address_default'])})
                 for a in address:
-                    addr['name'] = a['name']
-                    addr['tel'] = a['tel']
-                    addr['province'] = a['province']
-                    addr['city'] = a['city']
-                    addr['district'] = a['district']
-                    addr['details'] = a['details']
+                    addr['name'] = a.get('name')
+                    addr['tel'] = a.get('tel')
+                    addr['province'] = a.get('province')
+                    addr['city'] = a.get('city')
+                    addr['district'] = a.get('district', '')
+                    addr['details'] = a.get('details', '')
                     addr['_id'] = user['address_default']
             books_price = {'sum_price': sum_price, 'freight': freight, 'package': package,
                            'sum': round(sum_price + freight - discount, 2), 'discount': discount}
@@ -457,8 +465,12 @@ def get_user_cart(user_id):
     for book_id in result:
         book_num = book_id.get('book_num')
         b1 = get_book(book_id.get('book_id'), False)
-        b1['book_num'] = book_num
-        b1['sum_price'] = round((int(book_num) * float(b1.get('price'))), 2)
+        try:
+            # 下架图书{'hits': 14, '_id': ObjectId('5e927b251771c616ff7455ad')}抛出异常
+            b1['book_num'] = book_num
+            b1['sum_price'] = round((int(book_num) * b1.get('price')), 2)
+        except TypeError:
+            pass
         books.append(b1)
     return books
 
@@ -522,6 +534,7 @@ def add_hits_cf(user_id, book_id):
     conn = ToMongo()
     result = conn.update('hits_data', {'_id': str(user_id),'book_ids': {'$nin': [book_id]}}, {'$push': {'book_ids': book_id}})
     conn.close_conn()
+
 
 if __name__ == '__main__':
     print(get_recommend_book_model(''))

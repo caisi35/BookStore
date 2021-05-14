@@ -52,6 +52,7 @@ def topMatches(prefs, person, n=5, similarity=sim_pearson):
 
 
 def getRecommendations(prefs, person, similarity=sim_pearson):
+    """基于用户评分的相识度推荐"""
     totals = {}
     simSums = {}
 
@@ -61,9 +62,7 @@ def getRecommendations(prefs, person, similarity=sim_pearson):
 
         sim = similarity(prefs, person, other)
         if sim < 0:
-            #             print('\nSIM < 0:', other)
             continue
-        #         print(sim)
 
         for item in prefs[other]:
             if item not in prefs[person] or prefs[person][item] == 0:  # 没有评过分的
@@ -72,9 +71,6 @@ def getRecommendations(prefs, person, similarity=sim_pearson):
 
                 simSums.setdefault(item, 0)
                 simSums[item] += sim
-    #             print(item, '|\n', prefs[person], '|\n', prefs[person][item], '\n')
-    # print("\n {} ".format(totals))
-    # print(" {} \n".format(simSums))
 
     rankings = [(total / simSums[item], item) for item, total in totals.items()]
     rankings.sort()

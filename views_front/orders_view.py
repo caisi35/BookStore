@@ -126,7 +126,7 @@ def refund():
     user_id = session.get('user_id')
     result = refund_model(order_no, user_id)
     if result:
-        flash('错误，请重试！')
+        flash('申请成功，请等待管理员审核...')
     return redirect(request.referrer)
 
 

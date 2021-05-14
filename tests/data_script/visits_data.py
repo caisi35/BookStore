@@ -1,3 +1,8 @@
+"""
+
+用户访问量测试
+
+"""
 import random
 
 from models import ToMongo
@@ -11,6 +16,7 @@ def get_users(user_id_list, total):
     for i in range(1, total):
         lit.append(random.choice(user_id_list))
     return lit
+
 
 if __name__ == '__main__':
     # delete 'visits' collections

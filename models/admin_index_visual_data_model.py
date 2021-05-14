@@ -22,7 +22,7 @@ def get_sales_month():
     date = (datetime.datetime.now() - datetime.timedelta(days=29))
     # 查询大于时间差的数据
     before_30_day = get_30_day_before_timestamp()
-    data = list(col.find({'create_time': {'$gte': before_30_day}}))
+    data = list(col.find({'create_time': {'$gte': before_30_day}, 'orders_status': {'$in': [1, 2, 3, 4]}}))
 
     # https://blog.csdn.net/qq_42184799/article/details/86311804
     # collections.OrderedDict()字典按插入顺序排序
@@ -51,19 +51,23 @@ def get_sales_month():
 
 def get_scales_order_data():
     """获取后台数据可视化的销售量和订单数据"""
+    STATUS = [1, 2, 3, 4]
     result = {}
     conn = ToMongo()
 
+    # 今日订单
     day_order = conn.get_col('order').find({'$and': [
         {'create_time': {'$gte': get_dawn_timestamp()}},
         {'create_time': {'$lte': get_now()}},
-        {'orders_status': {'$in': [1, 2, 3, 4]}}
+        {'orders_status': {'$in': STATUS}}
     ]}).count()
 
-    total_order = conn.get_col('order').find({'orders_status': {'$in': [1, 2, 3, 4]}}).count()
+    # 累计订单
+    total_order = conn.get_col('order').find({'orders_status': {'$in': STATUS}}).count()
 
+    # 今日销售额
     pipeline = [
-        {'$match': {'orders_status': {'$in': [1, 2, 3, 4]},
+        {'$match': {'orders_status': {'$in': STATUS},
                     'create_time': {'$gte': get_dawn_timestamp(), '$lte': get_now()},
                     }},
          {'$group': {'_id': "", 'sum': {'$sum': '$amount'}}},
@@ -73,8 +77,9 @@ def get_scales_order_data():
     if day_amount_resp:
         day_amount = day_amount_resp[0]['sum']
 
+    # 累计销售额
     pipe = [
-        {'$match': {'orders_status': {'$in': [1, 2, 3, 4]}}},
+        {'$match': {'orders_status': {'$in': STATUS}}},
         {'$group': {'_id': "", 'sum': {'$sum': '$amount'}}}
     ]
     total_amount = .0
@@ -110,6 +115,7 @@ def get_hits_data():
     data_x = []
     data_y = []
     for i in data:
+        print(i)
         data_x.append(i['title'])
         data_y.append(i['hits'])
     return data_x, data_y

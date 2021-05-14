@@ -64,6 +64,7 @@ def orders_query_model(page, page_size, order_status):
     order_list = list(order)
     books = []
     for order in order_list:
+        order['create_time'] = format_time_second(order.get('create_time'))
         for book in order.get('books'):
             id = book.get('book_id')
             book_num = book.get('book_num')

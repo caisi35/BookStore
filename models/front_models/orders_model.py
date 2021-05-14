@@ -223,7 +223,8 @@ def refund_model(order_no, user_id):
     new = {'$set': {'orders_status': 6}}
     rel = mydb.update('order', query, new)
     mydb.close_conn()
-    return rel.modified_count
+    if rel and rel.modified_count:
+        return rel.modified_count
 
 
 def save_img(order_no, img):
@@ -251,10 +252,20 @@ def get_book_id(order_no):
     return book_ids
 
 
+def get_order_status(order_no):
+    mydb = ToMongo()
+    order = mydb.get_col('order').find_one({'order_no': order_no})
+    order_status = order.get('orders_status')
+    return order_status
+
+
 def evaluate_model(user_id, user_name, request):
     """用户评论模型"""
     rlt = {}
     order_no = request.form.get('order_no')
+    if int(get_order_status(order_no)) == 4:
+        rlt['error'] = '已评论！'
+        return rlt
     star = int(request.form.get('star'))
     context = request.form.get('context')
     anonymous = request.form.get('anonymous')
@@ -270,26 +281,30 @@ def evaluate_model(user_id, user_name, request):
     book_ids = get_book_id(order_no)
     if anonymous:
         user_name = user_name[0] + '**'
+    elif user_name is None:
+        user_name = '***'
     else:
         user_name = user_name[0] + '*' + user_name[-1]
     id_list = []
     mydb = ToMongo()
     for book_id in book_ids:
-        value = {'$addToSet':
-                     {'comment':
-                          {'order_no': order_no,
-                           'star': star,
-                           'context': context,
-                           'user_id': user_id,
-                           'user_name': user_name,
-                           'img_path': img_path,
-                           'create_time': create_time
-                           }
-                      }
-                 }
-        result = mydb.update('evaluate', {'_id': ObjectId(book_id)}, value)
-        if result.modified_count:
-            id_list.append(result.modified_count)
+        evaluates = mydb.get_col('evaluate').find_one({'_id': ObjectId(book_id)})
+        if evaluates:
+            value = {'$addToSet':
+                         {'comment':
+                              {'order_no': order_no,
+                               'star': star,
+                               'context': context,
+                               'user_id': user_id,
+                               'user_name': user_name,
+                               'img_path': img_path,
+                               'create_time': create_time
+                               }
+                          }
+                     }
+            result = mydb.update('evaluate', {'_id': ObjectId(book_id)}, value)
+            if result and result.modified_count:
+                id_list.append(result.modified_count)
         else:
             # 无评论时，直接插入
             rel = mydb.insert('evaluate',
@@ -306,8 +321,8 @@ def evaluate_model(user_id, user_name, request):
                                         }
                                    ]
                                })
-            id_list.append(rel.inserted_id)
-        # print(id_list)
+            if rel:
+                id_list.append(rel.inserted_id)
     if len(id_list) != len(book_ids):
         # print(id_list)
         rlt['error'] = '评论失败，请重试！'
