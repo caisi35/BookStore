@@ -248,8 +248,10 @@ def buy():
         user_id = session.get('user_id')
         if 'buy_now' in request.url:
             result = to_buy_model(user_id, book_id, is_list=False)
+            buy_now = True
         else:
             result = to_buy_model(user_id, book_id)
+            buy_now = False
         logging.info('%s buy %s', user_id, book_id)
         if 'error' in result:
             raise ValueError
@@ -259,6 +261,7 @@ def buy():
                                pay=result.get('pay'),
                                addr=result.get('addr'),
                                shipping_time=result.get('shipping_time'),
+                               is_buy_now=buy_now,
                                )
     except ValueError:
         flash(result.get('error'))
@@ -302,15 +305,19 @@ def addr_delete():
         print('========addr_delete=========:', e)
 
 
-@bp.route('/to_pay', methods=('GET', 'POST'))
+@bp.route('/to_pay', methods=('POST', ))
 @login_required
 def to_pay():
     """结算页面的去支付方法"""
-    amount = request.form.get('amount_pay', 0.0, float)
     book_ids = request.form.getlist('books[]')
     addr_id = request.form.get('addr_id')
     user_id = session.get('user_id')
-    order_no = to_pay_model(user_id, amount, book_ids, addr_id)
+    is_buy_now = request.form.get('is_buy_now')
+    try:
+        is_buy_now = bool(is_buy_now)
+    except Exception:
+        logging.exception('is_but_now type error!')
+    order_no = to_pay_model(user_id, book_ids, addr_id, is_buy_now)
     return jsonify(result=order_no)
 
 

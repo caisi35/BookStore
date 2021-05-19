@@ -1,14 +1,13 @@
 // 去支付按钮链接
-function to_pay() {
+function to_pay(is_buy_now) {
 
     var addr_id = $('#addr_id').text();
+    console.log(is_buy_now);
     if (addr_id.length === 24) {
-        var amount = document.getElementById("amount_pay");
-        // console.log(amount.innerText);
         $.ajax({
             url: $SCRIPT_ROOT + '/to_pay',
             type: "POST",
-            data: {amount_pay: amount.innerText, books: books_, addr_id: addr_id},
+            data: {books: books_, addr_id: addr_id, is_buy_now: is_buy_now},
             dataType: 'json',
             success: function (data) {
                 var order_no = data.result;

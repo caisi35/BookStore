@@ -223,24 +223,34 @@ def pay_model(order_no):
     return my_orders, images
 
 
-def to_pay_model(user_id, amount, book_ids, addr_id):
+def to_pay_model(user_id, book_ids, addr_id, is_buy_now):
     """去支付"""
+    DISCOUNT = 1.01
     create_time = int(time.time())
     order_no = create_orders()
     books = []
+    amount = .0
     # 获取收货地址,写入订单号详情
     db_conn = ToMongo()
     address = db_conn.get_col('address').find_one(
         {'user_id': user_id, '_id': ObjectId(addr_id)})
     for book_id in book_ids:
-        db = ToConn()
-        sql = 'select book_num from cart where user_id=%s and book_id=%s and is_effe=1'
-        book_num = db.get_db(sql, (user_id, book_id)).fetchone()
-        if book_num:
-            books.append({'book_num': int(book_num['book_num']), 'book_id': book_id})
+        book = get_book(book_id, False)
+        if not is_buy_now:
+            db = ToConn()
+            sql = 'select book_num from cart where user_id=%s and book_id=%s and is_effe=1'
+            book_num = db.get_db(sql, (user_id, book_id)).fetchone()
+            if book_num:
+                books.append({'book_num': int(book_num['book_num']), 'book_id': book_id})
+                amount += (float(book.get('price')) * int(book_num['book_num']))
+            else:
+                books.append({'book_num': 1, 'book_id': book_id})
+                amount += (float(book.get('price')) * 1)
         else:
             books.append({'book_num': 1, 'book_id': book_id})
-    v = {"amount": amount,
+            amount += (float(book.get('price')) * 1)
+
+    v = {"amount": amount-DISCOUNT,
          "books": books,
          "order_no": order_no,
          "is_processed": 0,
@@ -254,7 +264,7 @@ def to_pay_model(user_id, amount, book_ids, addr_id):
          "logistics": [],  # 物流信息
          }
     result = db_conn.insert('order', v)
-    if result:
+    if result and not is_buy_now:
         db = ToConn()
         conn = db.to_execute()
         cursor = conn.cursor()
@@ -274,6 +284,13 @@ def to_pay_model(user_id, amount, book_ids, addr_id):
                 # 库存减
                 db_conn.update('books', {'_id': ObjectId(book.get('book_id'))}, {'$inc': {'stock': -book.get('book_num')}})
         db.to_close()
+    elif is_buy_now:
+        for book in books:
+            # 销量加
+            db_conn.update('books', {'_id': ObjectId(book.get('book_id'))}, {'$inc': {'sales': book.get('book_num')}})
+            # 库存减
+            db_conn.update('books', {'_id': ObjectId(book.get('book_id'))}, {'$inc': {'stock': -book.get('book_num')}})
+
     db_conn.close_conn()
     return order_no
 
