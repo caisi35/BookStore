@@ -30,14 +30,10 @@ bp = Blueprint('userinfo', __name__, url_prefix='/userInfo')
 @login_required
 def userinfo():
     """用户信息页"""
-    try:
-        user = get_user(session.get('user_id'))
-        return render_template('front/user_info_manage/base_user_info.html',
-                               user=user,
-                               active_nav='me')
-    except Exception as e:
-        print('============userinfo============', e)
-        return redirect(request.referrer)
+    user = get_user(session.get('user_id'))
+    return render_template('front/user_info_manage/base_user_info.html',
+                           user=user,
+                           active_nav='me')
 
 
 @bp.route('/get_history')
@@ -116,7 +112,7 @@ def info():
                                user=user_info,
                                active_nav='info')
     except Exception as e:
-        print('============info============', e)
+        logging.exception('info:[%s]', str(e))
         return redirect(url_for('userinfo.userinfo'))
 
 
@@ -134,7 +130,7 @@ def inputAvatar():
                                user=get_user(user_id),
                                active_nav='info')
     except Exception as e:
-        print('============inputAcatar============', e)
+        logging.exception('inputAcatar:[%s]', str(e))
         # 出错，重定向到userinfo页
         return redirect(url_for('userinfo.userinfo'))
 
@@ -160,7 +156,7 @@ def changePW():
         return render_template('front/user_login_register/login.html',
                                next=request.referrer)
     except Exception as e:
-        print('============change_pw============', e)
+        logging.exception('change_pw:[%s]', str(e))
         flash("修改失败，请重试！")
         return redirect(url_for('userinfo.userinfo'))
 
@@ -183,7 +179,7 @@ def address():
                                address_default=address_default,
                                active_nav='address')
     except Exception as e:
-        print('============address============', e)
+        logging.exception('address:[%s]', str(e))
         return redirect(request.referrer)
 
 
@@ -197,7 +193,7 @@ def addressDelete():
         rel = delete_addr_model(user_id, _id)
         return jsonify(rel)
     except Exception as e:
-        print('============addressDelete============', e)
+        logging.exception('addressDelete:[%s]', str(e))
         return jsonify(result=False)
 
 
@@ -212,7 +208,7 @@ def addressDefault():
         logging.info('%s set default address is:%s-[set result:%s]', user_id, _id, rel)
         return jsonify(rel)
     except Exception as e:
-        print('============addressDelete============', e)
+        logging.exception('addressDefault:[%s]', str(e))
     return jsonify(result=False)
 
 
@@ -236,6 +232,6 @@ def address_change():
                                addr=result,
                                active_nav='address')
     except IndexError as e:
-        print('============addressChange IndexError============', e)
+        logging.exception('address_change:[%s]', str(e))
         flash("修改失败，请正确选择地址！")
         return redirect(request.url)

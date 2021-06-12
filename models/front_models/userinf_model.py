@@ -27,10 +27,12 @@ def clear_history_model(user_id):
 
 def get_history_model(user_id):
     """获取浏览记录"""
+    result = []
     conn = ToMongo()
     ret = conn.get_col('history').find_one({'_id': str(user_id)})
+    if not ret:
+        return result
     book_ids = ret.get('book_ids')
-    result = []
     for id in book_ids[-HISTORY:]:
         book = conn.get_col('books').find_one({'_id': ObjectId(id)})
         result.append(book)
@@ -132,10 +134,10 @@ def edit_userinfo_model(user_id, request):
                                introduce, user_id))
     if result:
         to_exec.commit()
-        to_exec.close()
+        # to_exec.close()
     else:
         rel = False
         to_exec.rollback()
-        to_exec.close()
+        # to_exec.close()
     conn.to_close()
     return rel
