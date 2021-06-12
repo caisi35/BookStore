@@ -9,6 +9,9 @@
 {% block main_right %}
     <div class="col-md-9 info">
         <div class="col-md-offset-1">
+            {% for message in get_flashed_messages() %}
+            <div class="flash"><b>{{ message }}</b></div>
+            {% endfor %}
             <div class="avatar left">
                 <img src="{% if user.avatar %}{{ url_for('static', filename='images/avatar/'+user.avatar) }}{% endif %}" id="show"  width="125" height="150" alt="头像">
                 <div class="upload-img select-img text-center"><label for="file" class='upload-select-img'>选择图片</label></div>

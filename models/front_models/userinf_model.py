@@ -1,8 +1,9 @@
 from bson import ObjectId
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash
-from models import ToConn, ToMongo
+import pymysql
 
+from models import ToConn, ToMongo
 from utils import (
     format_time_second,
     check_img_suffix,
@@ -130,8 +131,11 @@ def edit_userinfo_model(user_id, request):
     cur = to_exec.cursor()
     sql = 'update users set name=%s,gender=%s,age=%s,birthday=%s,email=%s,tel=%s,identity=%s,hobbies=%s,' \
           'introduce=%s where id=%s'
-    result = cur.execute(sql, (name, gender, age, birthday, email, tel, identity_select, hobbies,
-                               introduce, user_id))
+    try:
+        result = cur.execute(sql, (name, gender, age, birthday, email, tel, identity_select, hobbies,
+                                   introduce, user_id))
+    except pymysql.err.IntegrityError:
+        result = False
     if result:
         to_exec.commit()
         # to_exec.close()
