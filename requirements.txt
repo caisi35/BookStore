@@ -1,4 +1,4 @@
-Werkzeug==1.0.1
+Werkzeug==2.2.3
 requests==2.23.0
 pymongo==3.10.1
 pyecharts==0.5.11
